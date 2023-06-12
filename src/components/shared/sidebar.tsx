@@ -27,14 +27,14 @@ const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
     },
     {
       key: 4,
-      to: "app/batch",
+      to: "/app/batch",
       path: "batch",
       icon: <PeopleIcon />,
       name: "Batch",
     },
     {
       key: 5,
-      to: "app/bootcamp",
+      to: "/app/bootcamp",
       path: "bootcamp",
       icon: <PeopleIcon />,
       name: "Bootcamp",

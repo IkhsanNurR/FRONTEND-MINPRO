@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { Login } from "@/redux/usersSchema/auth/action/actionReducer";
 import { getCookie } from "cookies-next";
 import * as jwt from "jsonwebtoken";
+import decodeTokenRole from "@/helper/decodeTokenRole";
 
 const Index: MyPage = () => {
   const [form] = Form.useForm();
@@ -29,32 +30,19 @@ const Index: MyPage = () => {
 
   useEffect(() => {
     const token = getCookie("token");
-    if (typeof token === "string") {
-      const decode = jwt.decode(token);
-      if (typeof decode === "object" && decode?.sub) {
-        const role: RoleType = {
-          role: decode.sub as
-            | "Admin"
-            | "Employee"
-            | "Kandidat"
-            | "Talent"
-            | "Trainee"
-            | "Student",
-        };
-        if (
-          role.role === "Student" ||
-          role.role === "Kandidat" ||
-          role.role === "Talent"
-        ) {
-          router.push("/");
-        } else if (
-          role.role === "Admin" ||
-          role.role === "Trainee" ||
-          role.role === "Employee"
-        ) {
-          router.push("/app");
-        }
-      }
+    const decode = decodeTokenRole(token);
+    if (
+      decode?.role === "Student" ||
+      decode?.role === "Kandidat" ||
+      decode?.role === "Talent"
+    ) {
+      router.push("/");
+    } else if (
+      decode?.role === "Admin" ||
+      decode?.role === "Trainee" ||
+      decode?.role === "Employee"
+    ) {
+      router.push("/app");
     }
   }, [onFinish]);
 

@@ -4,25 +4,18 @@ import { MyPage } from "@/components/types";
 import { useDispatch, useSelector } from "react-redux";
 import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
 import { getCookie } from "cookies-next";
-import * as jwt from "jsonwebtoken";
+import decodeTokenName from "@/helper/decodedTokenName";
 
 const Index: MyPage = () => {
-  let { users, refresh } = useSelector(
-    (state: any) => state.userProfileReducers
-  );
+  let { refresh } = useSelector((state: any) => state.userProfileReducers);
 
   const dispatch = useDispatch();
-  const [name, setName] = useState("");
+  const [name, setName] = useState<string | null>(null);
   const token = getCookie("token");
 
   useEffect(() => {
-    if (typeof token === "string") {
-      const decodedToken = jwt.decode(token);
-      if (typeof decodedToken === "object" && decodedToken?.aud) {
-        const nameValue = decodedToken.aud as string;
-        setName(nameValue);
-      }
-    }
+    const decode = decodeTokenName(token);
+    setName(decode);
     if (name) {
       dispatch(GetByNameOrEmail(name));
     }

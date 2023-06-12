@@ -1,14 +1,14 @@
 import { MyPage } from "@/components/types";
 import { getCookie } from "cookies-next";
 import React, { useState, useEffect } from "react";
-import * as jwt from "jsonwebtoken";
 import { useDispatch, useSelector } from "react-redux";
 import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
+import decodeTokenName from "@/helper/decodedTokenName";
 
 const Index: MyPage = () => {
   const token = getCookie("token");
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState<string | null>(null);
   const dispatch = useDispatch();
 
   let { users, refresh } = useSelector(
@@ -16,13 +16,8 @@ const Index: MyPage = () => {
   );
 
   useEffect(() => {
-    if (typeof token === "string") {
-      const decodedToken = jwt.decode(token);
-      if (typeof decodedToken === "object" && decodedToken?.aud) {
-        const nameValue = decodedToken.aud as string;
-        setName(nameValue);
-      }
-    }
+    const decode = decodeTokenName(token);
+    setName(decode);
   }, [token]);
 
   useEffect(() => {

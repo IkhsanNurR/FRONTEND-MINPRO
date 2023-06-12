@@ -7,7 +7,6 @@ import {
   Breadcrumbs,
   Divider,
   IconButton,
-  Link,
   ListItemIcon,
   Menu,
   MenuItem,
@@ -25,12 +24,14 @@ import { CookieValueTypes, deleteCookie, getCookie } from "cookies-next";
 import { useSelector, useDispatch } from "react-redux";
 import * as jwt from "jsonwebtoken";
 import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
+import Link from "next/link";
+import decodeTokenName from "@/helper/decodedTokenName";
 
 const Header = (props: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [haveToken, setHaveToken] = useState<CookieValueTypes>("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState<string | null>(null);
   const token = getCookie("token");
   const dispatch = useDispatch();
   const router = useRouter();
@@ -49,13 +50,8 @@ const Header = (props: any) => {
 
   useEffect(() => {
     setHaveToken(token);
-    if (typeof haveToken === "string") {
-      const decodedToken = jwt.decode(haveToken);
-      if (typeof decodedToken === "object" && decodedToken?.aud) {
-        const nameValue = decodedToken.aud as string;
-        setName(nameValue);
-      }
-    }
+    const decode = decodeTokenName(haveToken);
+    setName(decode);
 
     if (name) {
       dispatch(GetByNameOrEmail(name));
@@ -139,9 +135,11 @@ const Header = (props: any) => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem onClick={handleClose}>
-                <Avatar /> Profile
-              </MenuItem>
+              <Link href="/app/users/setting">
+                <MenuItem>
+                  <Avatar /> Profile
+                </MenuItem>
+              </Link>
               <MenuItem onClick={handleClose}>
                 <LockIcon /> Change Passowrd
               </MenuItem>
