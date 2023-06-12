@@ -1,0 +1,6 @@
+const UserProfileActionType = {
+    GETBYNAMEOREMAIL: "GETBYNAMEOREMAIL",
+    GETBYNAMEOREMAIL_RESPONSE: "GETBYNAMEOREMAIL_RESPONSE",
+}
+
+export default UserProfileActionType

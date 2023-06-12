@@ -1,4 +1,3 @@
-
 import { MyPage } from "@/components/types";
 
 const Home: MyPage = () => {
@@ -7,4 +6,3 @@ const Home: MyPage = () => {
 
 Home.Layout = "User";
 export default Home;
-

@@ -14,21 +14,59 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import HomeIcon from "@mui/icons-material/Home";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { Logout, PersonAdd, Settings } from "@mui/icons-material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { CookieValueTypes, deleteCookie, getCookie } from "cookies-next";
+import { useSelector, useDispatch } from "react-redux";
+import * as jwt from "jsonwebtoken";
+import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
 
 const Header = (props: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [haveToken, setHaveToken] = useState<CookieValueTypes>("");
+  const [name, setName] = useState("");
+  const token = getCookie("token");
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  let { users, refresh } = useSelector(
+    (state: any) => state.userProfileReducers
+  );
+
+  useEffect(() => {
+    setHaveToken(token);
+    if (typeof haveToken === "string") {
+      const decodedToken = jwt.decode(haveToken);
+      if (typeof decodedToken === "object" && decodedToken?.aud) {
+        const nameValue = decodedToken.aud as string;
+        setName(nameValue);
+      }
+    }
+
+    if (name) {
+      dispatch(GetByNameOrEmail(name));
+    }
+  }, [token, name, refresh]);
+
+  const handleLogout = () => {
+    deleteCookie("token");
+    setHaveToken("");
+    setAnchorEl(null);
+    router.push("/signin");
   };
 
   return (
@@ -60,7 +98,9 @@ const Header = (props: any) => {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                  <Avatar sx={{ width: 32, height: 32 }}>
+                    {users.user_name}
+                  </Avatar>
                 </IconButton>
               </Tooltip>
             </Box>
@@ -103,11 +143,11 @@ const Header = (props: any) => {
                 <Avatar /> Profile
               </MenuItem>
               <MenuItem onClick={handleClose}>
-                <Avatar /> My account
+                <LockIcon /> Change Passowrd
               </MenuItem>
               <Divider />
 
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleLogout}>
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>

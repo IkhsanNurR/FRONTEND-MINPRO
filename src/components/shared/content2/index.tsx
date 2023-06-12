@@ -20,20 +20,28 @@ const Content2 = (props: any) => {
       path,
     };
   });
-  
+
   return (
     <div className="mx-5">
-    <Breadcrumbs aria-label="breadcrumb" className="md:-ml-4 -ml-3 mb-2 mt-16 relative">
+      <Breadcrumbs
+        aria-label="breadcrumb"
+        className="md:-ml-4 -ml-3 mb-2 mt-16 relative"
+      >
         {pathObjects.length < 3 ? (
           <div>
-            <HomeIcon fontSize="small" className="-mt-1 mr-1"/>
+            <HomeIcon fontSize="small" className="-mt-1 mr-1" />
             <Link underline="hover" color="inherit" href="/">
               Home
             </Link>
           </div>
         ) : null}
         {(pathObjects || []).map((mn: any) => (
-          <Link underline="hover" color="inherit" href={mn.path}>
+          <Link
+            underline="hover"
+            color="inherit"
+            href={mn.path}
+            key={`${mn.key}`}
+          >
             {mn.route}
           </Link>
         ))}
