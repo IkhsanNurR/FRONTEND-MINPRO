@@ -1,6 +1,6 @@
 import apiMethod from "@/pages/api/UsersSchema/Profile/apiMethod";
 import { call, put } from "redux-saga/effects";
-import {GetByNameOrEmailResponse } from "../action/actionReducer";
+import { GetByNameOrEmailResponse, updateProfileResponse } from "../action/actionReducer";
 
 export function* handleGetByNameOrEmail(action: any): any {
     try {
@@ -15,3 +15,14 @@ export function* handleGetByNameOrEmail(action: any): any {
 }
 
 
+export function* handleUpdateProfile(action: any): any {
+    try {
+        const result = yield call(apiMethod.updateProfile, { data: action.payload, id: action.id })
+        yield put(updateProfileResponse(result.data))
+    } catch (error) {
+        yield put(updateProfileResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}

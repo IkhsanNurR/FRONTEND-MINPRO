@@ -22,7 +22,6 @@ import { Logout, PersonAdd, Settings } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { CookieValueTypes, deleteCookie, getCookie } from "cookies-next";
 import { useSelector, useDispatch } from "react-redux";
-import * as jwt from "jsonwebtoken";
 import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
 import Link from "next/link";
 import decodeTokenName from "@/helper/decodedTokenName";
@@ -95,7 +94,13 @@ const Header = (props: any) => {
                   aria-expanded={open ? "true" : undefined}
                 >
                   <Avatar sx={{ width: 32, height: 32 }}>
-                    {users.user_name}
+                    <Image
+                      alt="image"
+                      src={process.env.imageUser + users.user_photo}
+                      width={100}
+                      height={100}
+                      quality={100}
+                    />
                   </Avatar>
                 </IconButton>
               </Tooltip>

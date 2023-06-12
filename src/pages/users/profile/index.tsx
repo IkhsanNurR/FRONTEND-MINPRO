@@ -18,13 +18,11 @@ const Index: MyPage = () => {
   useEffect(() => {
     const decode = decodeTokenName(token);
     setName(decode);
-  }, [token]);
 
-  useEffect(() => {
     if (name) {
       dispatch(GetByNameOrEmail(name));
     }
-  }, [name, refresh]);
+  }, [token, name, refresh]);
 
   return (
     <div>

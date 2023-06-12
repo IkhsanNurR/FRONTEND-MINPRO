@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { Login } from "@/redux/usersSchema/auth/action/actionReducer";
 import { getCookie } from "cookies-next";
-import * as jwt from "jsonwebtoken";
 import decodeTokenRole from "@/helper/decodeTokenRole";
 
 const Index: MyPage = () => {

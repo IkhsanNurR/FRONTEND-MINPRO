@@ -12,6 +12,8 @@ export default function userProfileReducers(state = initialState, action: any) {
     switch (type) {
         case UserProfileActionType.GETBYNAMEOREMAIL_RESPONSE:
             return { users: payload, refresh: true }
+        case UserProfileActionType.UPDATEPROFILE_RESPONSE:
+            return { users: payload, refresh: false }
         default:
             return state
     }

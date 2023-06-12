@@ -13,3 +13,18 @@ export const GetByNameOrEmailResponse = (payload: any) => {
         payload
     }
 }
+
+export const updateProfile = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.UPDATEPROFILE,
+        payload,
+        id
+    }
+}
+
+export const updateProfileResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.UPDATEPROFILE_RESPONSE,
+        payload
+    }
+}
