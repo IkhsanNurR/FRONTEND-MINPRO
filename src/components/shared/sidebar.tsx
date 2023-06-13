@@ -7,13 +7,30 @@ import PeopleIcon from "@mui/icons-material/People";
 // import logo_honda from "../../images/honda.svg";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import {
+  BusinessCenterRounded,
+  MenuBookRounded,
+  NoteAddRounded,
+  SchoolRounded,
+  Assignment,
+  People,
+  CottageRounded,
+} from "@mui/icons-material";
 
 //prettier-ignore
 const SideBar = forwardRef(({}, ref:LegacyRef<HTMLDivElement>) => {
   const router = useRouter();
-  const listMenu = [
-    { to: "/app", path: "/", icon: <CottageIcon />, name: "Dashboard" },
-    { to: "/app/users", path: "users", icon: <PeopleIcon />, name: "Users" },
+
+    const listMenu = [
+      { to: "/", path: "/", icon: <CottageRounded/>, name: "Dashboard" },
+      { to: "/app/candidat", path: "candidat", icon: <NoteAddRounded />, name: "Candidate" },
+      { to: "/app/batch", path: "batch", icon: <SchoolRounded />, name: "Batch" },
+      { to: "/app/talents", path: "talents", icon: <People />, name: "Talents" },
+      { to: "/app/curriculum", path: "curriculum", icon: <MenuBookRounded />, name: "Curriculum" },
+      { to: "/app/assignment", path: "assignment", icon: <Assignment />, name: "Assignment" },
+      { to: "/app/postinghiring", path: "postinghiring", icon: <BusinessCenterRounded />, name: "Posting Hiring" },
+      { to: "/app/postinghiring", path: "postinghiring", icon: <People />, name: "Posting Hiring" },
+   
   ];
   return (
     <div ref={ref} className="fixed mt-[58px] w-52 h-full bg-white shadow-sm z-30 ">

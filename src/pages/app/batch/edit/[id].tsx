@@ -33,7 +33,8 @@ import {
   reqGetTrainer,
 } from "@/pages/redux/bootcampSchema/action/actionReducer";
 
-const newBatch: MyPage = (props: any) => {
+const EditBatch: MyPage = (props: any) => {
+
   //reducer
   let { bootcamp, message, refresh, status } = useSelector(
     (state: any) => state.bootcampReducer
@@ -42,16 +43,17 @@ const newBatch: MyPage = (props: any) => {
 
   let { progname } = useSelector((state: any) => state.prognameReducer);
 
-  let { trainer } = useSelector((state: any) => state.trainerReducer);
-  console.log("trainernya", trainer);
-  //===============================================================
+  let {trainer} = useSelector((state:any)=> state.trainerReducer);
 
-  //router
+  //===============================================================
+   
+  //Query
   const router = useRouter();
+  const { id } = router.query;
   const dispatch = useDispatch();
 
   const [checked, setChecked] = useState<number[]>([]);
-  //ceklist user
+    //ceklist user
   const cekUser = (index: number) => {
     if (checked.includes(index)) {
       setChecked(checked.filter((item) => item !== index));
@@ -67,7 +69,8 @@ const newBatch: MyPage = (props: any) => {
   useEffect(() => {
     dispatch(reqGetProgName());
     dispatch(reqGetBootcampDaftarApply());
-    dispatch(reqGetTrainer());
+    dispatch(reqGetBootcampById(id));
+    dispatch(reqGetTrainer())
   }, []);
   //===================
 
@@ -79,6 +82,7 @@ const newBatch: MyPage = (props: any) => {
     );
   }, [checked]);
   //================
+
 
   //type form
   type FormValues = {
@@ -92,9 +96,10 @@ const newBatch: MyPage = (props: any) => {
     CoTrainer: string;
     batchTrainees: number[];
     batch_id: number;
-    batch_type: string;
+    batch_type:string;
   };
   //================
+
 
   const {
     register,
@@ -106,13 +111,13 @@ const newBatch: MyPage = (props: any) => {
 
   //submit
   const handleRegistration = async (data: any) => {
-    console.log("data", data);
     const trainerId = data.Trainer?.user_entity_id;
     const coTrainerId = data.CoTrainer?.user_entity_id;
     const trainer = [trainerId, coTrainerId];
     let dataBatch;
     let dataTrainee;
   };
+
 
   //Date
   const [startDate, setStartDate] = useState(null);
@@ -173,27 +178,48 @@ const newBatch: MyPage = (props: any) => {
     { id: 12, bulan: "Desember" },
   ];
 
+  const dataTahun = [
+    { id: 1, tahun: 1999, tahunnya: "1999" },
+    { id: 2, tahun: 2000, tahunnya: "2000" },
+    { id: 3, tahun: 2001, tahunnya: "2001" },
+    { id: 4, tahun: 2002, tahunnya: "2002" },
+    { id: 5, tahun: 2003, tahunnya: "2003" },
+    { id: 6, tahun: 2004, tahunnya: "2004" },
+    { id: 7, tahun: 2005, tahunnya: "2005" },
+  ];
+
   const tahunArray = daftarapply
-    .map((item: any) => parseInt(item.applied_year))
-    .filter(
-      (tahun: any, index: any, array: any) => array.indexOf(tahun) === index
-    )
-    .map((tahun: any) => ({
-      id: tahun,
-      tahun: tahun,
-      tahunnya: tahun.toString(),
-    }));
+  .map((item:any) => parseInt(item.applied_year))
+  .filter((tahun:any, index:any, array:any) => array.indexOf(tahun) === index)
+  .map((tahun:any) => ({
+    id: tahun,
+    tahun: tahun,
+    tahunnya: tahun.toString(),
+  }));
 
   const bulanArray = daftarapply
-    .map((item: any) => parseInt(item.applied_year))
-    .filter(
-      (tahun: any, index: any, array: any) => array.indexOf(tahun) === index
-    )
-    .map((tahun: any) => ({
-      id: tahun,
-      tahun: tahun,
-      tahunnya: tahun.toString(),
-    }));
+  .map((item:any) => parseInt(item.applied_year))
+  .filter((tahun:any, index:any, array:any) => array.indexOf(tahun) === index)
+  .map((tahun:any) => ({
+    id: tahun,
+    tahun: tahun,
+    tahunnya: tahun.toString(),
+  }));
+
+  const dataUser = [
+    { id: 1, bulan: "Januari", tahun: 1999, name: "nama" },
+    { id: 2, bulan: "Januari", tahun: 1999, name: "nama2" },
+    { id: 3, bulan: "Februari", tahun: 2000, name: "nama3" },
+    { id: 4, bulan: "Maret", tahun: 2000, name: "nama4" },
+    { id: 5, bulan: "Maret", tahun: 2001, name: "nama5" },
+    { id: 6, bulan: "April", tahun: 2001, name: "nama6" },
+    { id: 7, bulan: "Mei", tahun: 2001, name: "nama7" },
+    { id: 8, bulan: "Juni", tahun: 2002, name: "nama8" },
+    { id: 9, bulan: "Juli", tahun: 2003, name: "nama9" },
+    { id: 10, bulan: "Februari", tahun: 2000, name: "nama10" },
+    { id: 11, bulan: "Maret", tahun: 2000, name: "nama11" },
+    { id: 12, bulan: "Juli", tahun: 2003, name: "nama12" },
+  ];
 
   //props
   const propsData = {
@@ -261,31 +287,26 @@ const newBatch: MyPage = (props: any) => {
   //     setSelectedTahun(null);
   //   }
   // };
-  
   const handleFilter = (selectedBulan: any, selectedTahun: any) => {
     let newData = [...daftarapply]; // Create a new array to store the filtered data
-
+  
     if (selectedBulan) {
-      newData = newData.filter(
-        (user: any) => parseInt(user.applied_month) === selectedBulan.id
-      );
+      newData = newData.filter((user: any) => parseInt(user.applied_month) === selectedBulan.id);
     }
-
+  
     if (selectedTahun) {
-      newData = newData.filter(
-        (user: any) => parseInt(user.applied_year) === selectedTahun.tahun
-      );
+      newData = newData.filter((user: any) => parseInt(user.applied_year) === selectedTahun.tahun);
     }
-
+  
     setFilteredData(newData);
     setCurrentPage(1);
-
+  
     if (!selectedBulan && !selectedTahun) {
       setSelectedBulan(null);
       setSelectedTahun(null);
     }
-    console.log("newData", newData);
-    console.log("selected", selectedBulan);
+    console.log('newData',newData)
+    console.log('selected',selectedBulan)
   };
 
   const firstIndex = (currentPage - 1) * itemsPerPage;
@@ -302,10 +323,10 @@ const newBatch: MyPage = (props: any) => {
     setCurrentPage(page);
   };
 
-  const pageCount = Math.ceil(filteredData.length / itemsPerPage);
+  const pageCount =  Math.ceil(filteredData.length / itemsPerPage);
   return (
     <div>
-      <Content title={`CREATE BATCH`}>
+      <Content title={`EDIT ${bootcamp[0].batch_name}`}>
         <div className="container mx-auto border-2 border-gray-300 relative rounded-xl">
           <form
             onSubmit={handleSubmit(handleRegistration, handleError)}
@@ -320,6 +341,7 @@ const newBatch: MyPage = (props: any) => {
                   autoComplete="off"
                   className="w-full "
                   {...register("batchname", registerOptions.batchname)}
+                  defaultValue={bootcamp[0].batch_name}
                 />
               </div>
               <div className="w-6"></div>
@@ -331,6 +353,7 @@ const newBatch: MyPage = (props: any) => {
                     id="Technology"
                     {...register("Technology", registerOptions.Technology)}
                     label="Technology"
+                    defaultValue={bootcamp[0].batch_entity_id}
                   >
                     {progname.map((prog: any) => (
                       <MenuItem
@@ -359,6 +382,7 @@ const newBatch: MyPage = (props: any) => {
                 inputProps={{ maxLength: 120, "aria-valuemax": 120 }}
                 className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
                 {...register("description", registerOptions.description)}
+                defaultValue={bootcamp[0].batch_description}
               />
             </div>
             <div className="w-full mt-10 mb-8 flex ">
@@ -372,6 +396,7 @@ const newBatch: MyPage = (props: any) => {
                 inputProps={{ maxLength: 120, "aria-valuemax": 120 }}
                 className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
                 {...register("reason", registerOptions.reason)}
+                defaultValue={bootcamp[0].batch_reason}
               />
               <div className="w-2/6 flex justify-center items-center">
                 <a
@@ -384,25 +409,40 @@ const newBatch: MyPage = (props: any) => {
               </div>
             </div>
             <div className="w-full mb-4">
-              <FormControl
-                variant="outlined"
-                className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
-              >
+              <FormControl variant="outlined" className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4">
                 <InputLabel id="batch_type">Batch Type</InputLabel>
                 <Select
                   labelId="batch_type"
                   id="batch_type"
                   {...register("batch_type", registerOptions.batch_type)}
                   label="batch_type"
+                  defaultValue={bootcamp[0].batch_type}
                 >
-                  <MenuItem value={"online"}>Online</MenuItem>
-                  <MenuItem value={"offline"}>Offline</MenuItem>
-                  <MenuItem value={"corporate"}>Corporate</MenuItem>
+                    <MenuItem
+                      value={'online'}
+                    >
+                      Online
+                    </MenuItem>
+                    <MenuItem
+                      value={'offline'}
+                    >
+                      Offline
+                    </MenuItem>
+                    <MenuItem
+                      value={'corporate'}
+                    >
+                      Corporate
+                    </MenuItem>
                 </Select>
               </FormControl>
               <div className="ml-6"></div>
             </div>
             <div className="w-4/6 text-center"></div>
+            <input
+              type="hidden"
+              defaultValue={bootcamp[0].batch_id}
+              {...register("batch_id", registerOptions.batch_id)}
+            />
             <a className="sm:text-sm md:text-base text-sm h-auto ml-4 ">
               Periode
             </a>
@@ -420,6 +460,7 @@ const newBatch: MyPage = (props: any) => {
                     className="w-full"
                     onChange={handleStartDateChange}
                     value={startDate}
+                    defaultValue={bootcamp[0].batch_start_date}
                   />
                 </div>
                 <div className="w-6"></div>
@@ -437,6 +478,7 @@ const newBatch: MyPage = (props: any) => {
                     disabled={isEndDateDisabled}
                     onChange={handleEndDateChange}
                     value={endDate}
+                    defaultValue={bootcamp[0].batch_end_date}
                   />
                 </div>
               </LocalizationProvider>
@@ -531,9 +573,7 @@ const newBatch: MyPage = (props: any) => {
             </div>
             {/* Filter orangnya, ketika filtered.length = 0, maka pake yang lama */}
             <div className="flex flex-wrap w-full items-center justify-center">
-              {(
-                (filteredData.length == 0 ? daftarapply : filteredData) || []
-              ).map((user: any) => (
+              {( (filteredData.length==0? daftarapply : filteredData) || []).map((user: any) => (
                 //batchTrainees digunakan jika sudah ada datanya
                 <Card
                   key={user.user_entity_id}
@@ -598,5 +638,5 @@ const newBatch: MyPage = (props: any) => {
   );
 };
 
-newBatch.Layout = "Admin";
-export default newBatch;
+EditBatch.Layout = "Admin";
+export default EditBatch;
