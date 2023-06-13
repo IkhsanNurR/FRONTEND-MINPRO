@@ -7,7 +7,7 @@ const nextConfig = {
   },
   env: {
     API_URL: "http://localhost:8000",
-    imageUser: "http://localhost:8000/users/",
+    imageUser: "http://localhost:8000/users",
   },
 
   async rewrites() {

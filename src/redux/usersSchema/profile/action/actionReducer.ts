@@ -28,3 +28,45 @@ export const updateProfileResponse = (payload: any) => {
         payload
     }
 }
+
+export const addEmail = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.ADDEMAIL,
+        payload, id
+    }
+}
+
+export const addEmailResponse = ({ payload }: any) => {
+    return {
+        type: UserProfileActionType.ADDEMAIL_RESPONSE,
+        payload
+    }
+}
+
+export const editEmail = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.EDITEMAIL,
+        payload, id
+    }
+}
+
+export const editEmailResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.EDITEMAIL_RESPONSE,
+        payload
+    }
+}
+
+export const deleteEmail = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETEEMAIL,
+        payload
+    }
+}
+
+export const deleteEmailResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETEEMAIL_RESPONSE,
+        payload
+    }
+}

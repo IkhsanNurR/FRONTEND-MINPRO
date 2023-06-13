@@ -4,7 +4,6 @@ import {
   updateProfile,
 } from "@/redux/usersSchema/profile/action/actionReducer";
 import { Button, DatePicker, Form, Input, Modal, Upload } from "antd";
-import axios from "axios";
 import { getCookie } from "cookies-next";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -103,7 +102,7 @@ const FormEdit: React.FC<FormEdit> = ({ onChange, fields, form }) => {
   );
 };
 
-const Index: React.FC<EditProfile> = ({ open, onCancel, onSubmit }) => {
+const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
   const token = getCookie("token");
   const [name, setName] = useState<string | null>(null);
   const dispatch = useDispatch();
@@ -131,7 +130,7 @@ const Index: React.FC<EditProfile> = ({ open, onCancel, onSubmit }) => {
     },
   ]);
 
-  let { users, refresh } = useSelector(
+  let { users, refresh }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
 
@@ -144,23 +143,32 @@ const Index: React.FC<EditProfile> = ({ open, onCancel, onSubmit }) => {
       setFormValues([
         {
           name: "user_name",
-          value: users.user_name,
+          value: users?.user_name,
         },
         {
           name: "user_first_name",
-          value: users.user_first_name,
+          value: users?.user_first_name,
         },
         {
           name: "user_last_name",
-          value: users.user_last_name,
+          value: users?.user_last_name,
         },
         {
           name: "user_birth_date",
-          value: moment(users.user_birth_date),
+          value: users?.user_birth_date ? moment(users?.user_birth_date) : null,
         },
         {
           name: "user_photo",
-          value: null,
+          value: users?.user_photo
+            ? [
+                {
+                  uid: "-1",
+                  name: "image.png",
+                  status: "done",
+                  url: process.env.imageUser + `/${users?.user_photo}`,
+                },
+              ]
+            : [],
         },
       ]);
     }
@@ -172,7 +180,7 @@ const Index: React.FC<EditProfile> = ({ open, onCancel, onSubmit }) => {
       formData.append("user_name", formValues[0].value);
       formData.append("user_first_name", formValues[1].value);
       formData.append("user_last_name", formValues[2].value);
-      formData.append("user_birth_date", formValues[3].value);
+      formData.append("user_birth_date", formValues[3].value._i);
       const fileList = form.getFieldValue("user_photo");
       if (fileList && fileList.length > 0) {
         formData.append("user_photo", fileList[0].originFileObj);
@@ -180,7 +188,7 @@ const Index: React.FC<EditProfile> = ({ open, onCancel, onSubmit }) => {
 
       try {
         dispatch(
-          updateProfile({ payload: formData, id: users.user_entity_id })
+          updateProfile({ payload: formData, id: users?.user_entity_id })
         );
         onSubmit();
       } catch (error: any) {

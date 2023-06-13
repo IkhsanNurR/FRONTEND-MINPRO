@@ -25,6 +25,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
 import Link from "next/link";
 import decodeTokenName from "@/helper/decodedTokenName";
+import { UserOutlined } from "@ant-design/icons";
 
 const Header = (props: any) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -43,7 +44,7 @@ const Header = (props: any) => {
     setAnchorEl(null);
   };
 
-  let { users, refresh } = useSelector(
+  let { users, refresh }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
 
@@ -94,13 +95,19 @@ const Header = (props: any) => {
                   aria-expanded={open ? "true" : undefined}
                 >
                   <Avatar sx={{ width: 32, height: 32 }}>
-                    <Image
-                      alt="image"
-                      src={process.env.imageUser + users.user_photo}
-                      width={100}
-                      height={100}
-                      quality={100}
-                    />
+                    {users?.user_photo !== null ? (
+                      <Image
+                        src={process.env.imageUser + `/${users?.user_photo}`}
+                        alt="image profile"
+                        width={100}
+                        height={100}
+                        style={{
+                          borderRadius: "50%",
+                        }}
+                      />
+                    ) : (
+                      <Avatar />
+                    )}
                   </Avatar>
                 </IconButton>
               </Tooltip>
