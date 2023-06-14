@@ -32,17 +32,35 @@ const getCandidatApply = () => {
   return axios.get(`bootcamp/orangapply`);
 };
 const updateCandidatApply = (data:any) => {
-  console.log('api',data)
-  return axios.patch(`bootcamp/updatestatusapply`, data
-//   ,{
-//   headers: {
-//     'Content-Type': 'application/json'
-// }},
-);
+  // console.log('api',data)
+  return axios.patch(`bootcamp/updatestatusapply`, data);
 };
 const getCandidatFiltering = () => {
   return axios.get(`bootcamp/orangfiltering`);
 };
+const updateCandidatFiltering = (data:any) => {
+  // console.log('api', data)
+  return axios.patch(`bootcamp/updatecandidatefiltering`, data);
+};
+const getCandidatContract = () => {
+  return axios.get(`bootcamp/orangcontract`);
+};
+const updateCandidatContract = (data:any) => {
+  return axios.patch(`bootcamp/updatecandidatecontract`,data);
+};
+const getCandidatDisqualified = () => {
+  return axios.get(`bootcamp/orangdisqualified`)
+}
+const updateCandidatDisqualified = (data:any) => {
+  console.log('api',data) 
+  return axios.patch(`bootcamp/updatecandidatedisqualified`,data)
+}
+const getCandidatNotResponding = () => {
+  return axios.get(`bootcamp/orangnotresponding`)
+}
+const updateCandidatNotResponding = (data:any) => {
+  return axios.patch(`bootcamp/updatecandidatenotresponding`,data)
+}
 
 export default {
   getBootcamp,
@@ -57,4 +75,11 @@ export default {
   getCandidatApply,
   updateCandidatApply,
   getCandidatFiltering,
+  updateCandidatFiltering,
+  getCandidatContract,
+  updateCandidatContract,
+  getCandidatDisqualified,
+  updateCandidatDisqualified,
+  getCandidatNotResponding,
+  updateCandidatNotResponding
 };

@@ -47,7 +47,7 @@ const Content1 = (props: any) => {
           <button
             onClick={() => others.fungsi1()}
             type="button"
-            className="order-0 inline-flex items-center px-4 py-2 border border-transparent rounded-md bg-blue-500 hover:bg-blue-600 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-1 "
+            className="order-0 inline-flex items-center px-4 py-2 border border-transparent rounded-md bg-blue-500 hover:bg-blue-600 text-sm font-medium text-white sm:order-1 "
           >
             {others.namafungsi1}
           </button>
@@ -55,7 +55,7 @@ const Content1 = (props: any) => {
       </div>
 
       <div className="mt-8 sm:block relative">
-        <div className="align-middle inline-block min-w-full border-b border-gray-200">
+        <div className="align-middle inline-block min-w-full border-gray-200">
           {children}
         </div>
       </div>

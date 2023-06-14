@@ -11,6 +11,18 @@ export const resGetBootcamp = (payload:any) => {
         payload
     }
 }
+export const reqCreateBootcamp = (payload:any) => {
+    return{
+        type : ActionType.REQ_CREATE_BOOTCAMP,
+        payload
+    }
+}
+export const resCreateBootcamp = (payload:any) => {
+    return{
+        type : ActionType.RES_CREATE_BOOTCAMP,
+        payload
+    }
+}
 
 export const reqGetBootcampById = (payload:any) => {
     return{
@@ -100,6 +112,93 @@ export const reqGetCandidatFiltering = () => {
 export const resGetCandidatFiltering = (payload:any) => {
     return{
         type : ActionType.RES_GET_CANDIDAT_FILTERING,
+        payload
+    }
+}
+export const reqUpdateCandidatFiltering = (payload:any) => {
+    return{
+        type : ActionType.REQ_UPDATE_CANDIDAT_FILTERING,
+        payload
+        
+    }
+}
+export const resUpdateCandidatFiltering = (payload:any) => {
+    return{
+        type : ActionType.RES_UPDATE_CANDIDAT_FILTERING,
+        payload
+    }
+}
+export const reqGetCandidatContract = () => {
+    return{
+        type : ActionType.REQ_GET_CANDIDAT_CONTRACT,
+        
+    }
+}
+export const resGetCandidatContract = (payload:any) => {
+    return{
+        type : ActionType.RES_GET_CANDIDAT_CONTRACT,
+        payload
+    }
+}
+export const reqUpdateCandidatContract = (payload:any) => {
+    return{
+        type : ActionType.REQ_UPDATE_CANDIDAT_CONTRACT,
+        payload
+        
+    }
+}
+export const resUpdateCandidatContract = (payload:any) => {
+    return{
+        type : ActionType.RES_UPDATE_CANDIDAT_CONTRACT,
+        payload
+    }
+}
+export const reqGetCandidatDisqualified = () => {
+    return{
+        type : ActionType.REQ_GET_CANDIDAT_DISQUALIFIED,
+        
+    }
+}
+export const resGetCandidatDisqualified = (payload:any) => {
+    return{
+        type : ActionType.RES_GET_CANDIDAT_DISQUALIFIED,
+        payload
+    }
+}
+export const reqUpdateCandidatDisqualified = (payload:any) => {
+    return{
+        type : ActionType.REQ_UPDATE_CANDIDAT_DISQUALIFIED,
+        payload
+    }
+}
+export const resUpdateCandidatDisqualified = (payload:any) => {
+    return{
+        type : ActionType.RES_UPDATE_CANDIDAT_DISQUALIFIED,
+        payload
+    }
+}
+export const reqGetCandidatNotResponding = () => {
+    return{
+        type : ActionType.REQ_GET_CANDIDAT_NOTRESPONDING,
+        
+    }
+}
+export const resGetCandidatNotResponding = (payload:any) => {
+    return{
+        type : ActionType.RES_GET_CANDIDAT_NOTRESPONDING,
+        payload
+    }
+}
+export const reqUpdateCandidatNotResponding = (payload:any) => {
+    return{
+        type : ActionType.REQ_UPDATE_CANDIDAT_NOTRESPONDING,
+        payload
+        
+    }
+}
+export const resUpdateCandidatNotResponding = (payload:any) => {
+    return{
+        type : ActionType.RES_UPDATE_CANDIDAT_NOTRESPONDING,
         payload
     }
 }

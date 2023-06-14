@@ -53,11 +53,11 @@ const Pagination = (props:any) => {
       <>
         <div className="py-2 text-center">
           <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-            <a onClick={() => handlePageChange(currentPage - 1 <= 1 ? 1 : currentPage - 1)} href="#" className="relative inline-flex items-center rounded-1-md px-2 py-2 text-green-500"><ArrowLeftIcon className="h-5 w-5" aria-label="true" /></a>
+            <button onClick={() => handlePageChange(currentPage - 1 <= 1 ? 1 : currentPage - 1)}  className="relative inline-flex items-center rounded-1-md px-2 py-2 text-green-500"><ArrowLeftIcon className="h-5 w-5" aria-label="true" /></button>
             {renderPaginationButton()}
-            <a 
+            <button
             onClick={() => handlePageChange(currentPage + 1 <= totalPages ? currentPage + 1 : currentPage)}
-            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-green-500" href="#"><ArrowRightIcon className="h-5 w-5" aria-label="true"/></a>
+            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-green-500" ><ArrowRightIcon className="h-5 w-5" aria-label="true"/></button>
           </nav>
         </div>
       </>

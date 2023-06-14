@@ -5,7 +5,7 @@ const initialState = {
     filtering: [],
     message: '',
     status: '',
-    refresh: ''
+    refreshFiltering: ''
 }
 
 function candidateFilteringReducer(state = initialState, action:any){
@@ -14,7 +14,9 @@ function candidateFilteringReducer(state = initialState, action:any){
     
     switch (type) {
         case ActionType.RES_GET_CANDIDAT_FILTERING:
-            return {state, filtering: payload.result, status: payload.status, message:payload.message, refresh: true}
+            return {state, filtering: payload.result, status: payload.status, message:payload.message, refreshFiltering: true}
+        case ActionType.RES_UPDATE_CANDIDAT_FILTERING:
+            return {status: payload.status, message:payload.message, refreshFiltering: false}
         // case ActionType.RES_GET_CANDIDAT_FILTERING:
         //     return {status: payload.status, message:payload.message, refresh: false}
         default:

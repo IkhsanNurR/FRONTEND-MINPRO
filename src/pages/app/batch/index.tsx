@@ -1,5 +1,8 @@
 import { MyPage } from "@/components/types";
-import { reqGetBootcamp, reqGetBootcampDaftarApply } from "@/pages/redux/bootcampSchema/action/actionReducer";
+import {
+  reqGetBootcamp,
+  reqGetBootcampDaftarApply,
+} from "@/pages/redux/bootcampSchema/action/actionReducer";
 import {
   Avatar,
   AvatarGroup,
@@ -136,132 +139,152 @@ const Bootcamp: MyPage = () => {
   }, [refresh]);
   return (
     <>
-    <Content1
-      title =  "Batch"
-      namafungsi1 = "Create"
-      fungsi1 = {() => router.push('./batch/new')}
-    >
+      <Content1
+        title="Batch"
+        namafungsi1="Create"
+        fungsi1={() => router.push("./batch/new")}
+       />
 
-
-      <Paper sx={{ width: "100%", overflow: "hidden" }} className="mb-10">
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {(columns || []).map((col) => (
-                  <>
-                    <TableCell className="bg-gray-200 text-center justify-center items-center">
-                      {col.name}
+        <Paper sx={{ width: "auto", overflow: "hidden" }} className="mb-10">
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {(columns || []).map((col) => (
+                    <>
+                      <TableCell className="bg-blue-300 text-center justify-center items-center">
+                        {col.name}
+                      </TableCell>
+                    </>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(bootcamp || []).map((data: any, i: number) => (
+                  <TableRow>
+                    <TableCell className=" text-center">{i + 1}</TableCell>
+                    <TableCell className=" text-center">
+                      {data.batch_name}
                     </TableCell>
-                  </>
+                    <TableCell className=" text-center">
+                      {data.technology}
+                    </TableCell>
+                    <TableCell className=" text-center">
+                      <AvatarGroup total={data.members.length}>
+                        {data.members
+                          .slice(0, 4)
+                          .map((members: any, index: any) => (
+                            <Avatar
+                              key={index}
+                              alt={members.trainee_id}
+                              // src={members.user_photo}
+                              src={`https://i.pravatar.cc/300/img=${index + 1}`}
+                              style={{ width: "30px", height: "30px" }}
+                            />
+                          ))}
+                      </AvatarGroup>
+                    </TableCell>
+                    <TableCell className=" text-center">
+                      <div>
+                        {format(
+                          new Date(data.batch_start_date),
+                          "dd MMMM yyyy"
+                        )}
+                      </div>
+                      <div>
+                        {format(new Date(data.batch_end_date), "dd MMMM yyyy")}
+                      </div>
+                    </TableCell>
+                    <TableCell className=" text-center">
+                      {data.trainer}
+                    </TableCell>
+                    <TableCell className={` text-center`}>
+                      <a
+                        className={`${
+                          data.batch_status == "open"
+                            ? "text-white bg-green-500"
+                            : data.batch_status == "closed"
+                            ? "text-white bg-orange-500"
+                            : data.batch_status == "running"
+                            ? "text-white bg-blue-500"
+                            : data.batch_status == "pending"
+                            ? "text-white bg-yellow-500"
+                            : data.batch_status == "cancelled"
+                            ? "text-white bg-red-500"
+                            : data.batch_status == "extend"
+                            ? "text-white bg-cyan-500"
+                            : ""
+                        } rounded-lg w-full p-2`}
+                      >
+                        {data.batch_status}
+                      </a>
+                    </TableCell>
+                    <TableCell className=" text-center">
+                      <button
+                        id="demo-customized-button"
+                        aria-controls={
+                          open ? "demo-customized-menu" : undefined
+                        }
+                        aria-haspopup="true"
+                        aria-expanded={open ? "true" : undefined}
+                        onClick={(e) => handleClick(e, data)}
+                      >
+                        <MoreVertRounded />
+                      </button>
+                      <StyledMenu
+                        id="demo-customized-menu"
+                        MenuListProps={{
+                          "aria-labelledby": "demo-customized-button",
+                        }}
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                      >
+                        <MenuItem
+                          onClick={() =>
+                            router.push({
+                              pathname: `./batch/edit/${data.batch_id}`,
+                            })
+                          }
+                          disableRipple
+                        >
+                          <Edit />
+                          Edit
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseBatch} disableRipple>
+                          <DoDisturbOnOutlined />
+                          Closed Batch
+                        </MenuItem>
+                        <MenuItem onClick={handleDeleteBatch} disableRipple>
+                          <DeleteOutlineRounded />
+                          Delete Batch
+                        </MenuItem>
+                        <MenuItem onClick={handleRunningBatch} disableRipple>
+                          <PlayArrowOutlined />
+                          Set To Running
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() =>
+                            router.push({
+                              pathname: `./batch/evaluation`,
+                              query: {
+                                id: data.batch_id,
+                              },
+                            })
+                          }
+                          disableRipple
+                        >
+                          <GradingRounded />
+                          Evaluation
+                        </MenuItem>
+                      </StyledMenu>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {(bootcamp || []).map((data: any, i: number) => (
-              <TableRow>
-                <TableCell className=" text-center">
-                  {i + 1}
-                  </TableCell>
-                <TableCell className=" text-center">
-                  {data.batch_name}
-                </TableCell>
-                <TableCell className=" text-center">
-                  {data.technology}
-                </TableCell>
-                <TableCell className=" text-center">
-                  <AvatarGroup total={data.members.length}>
-                      {data.members
-                        .slice(0, 4)
-                        .map((members: any, index: any) => (
-                          <Avatar
-                            key={index}
-                            alt={members.trainee_id}
-                            // src={members.user_photo}
-                            src={`https://i.pravatar.cc/300/img=${index + 1}`}
-                            style={{ width: "30px", height: "30px" }}
-                          />
-                        ))}
-                    </AvatarGroup>
-                </TableCell>
-                <TableCell className=" text-center">
-                  <div>
-                    {format(new Date(data.batch_start_date), "dd MMMM yyyy")}
-                  </div>
-                  <div>
-                    {format(new Date(data.batch_end_date), "dd MMMM yyyy")}
-                    </div>
-                </TableCell>
-                <TableCell className=" text-center">
-                  {data.trainer}
-                </TableCell>
-                <TableCell className=" text-center">
-                  {data.batch_status}
-                </TableCell>
-                <TableCell className=" text-center">
-                  <button
-                    id="demo-customized-button"
-                    aria-controls={open ? "demo-customized-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={(e) => handleClick(e, data)}
-                  >
-                    <MoreVertRounded />
-                  </button>
-                  <StyledMenu
-                    id="demo-customized-menu"
-                    MenuListProps={{
-                      "aria-labelledby": "demo-customized-button",
-                    }}
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                  >
-                    <MenuItem
-                      onClick={() =>
-                        router.push({
-                          pathname: `./batch/edit/${data.batch_id}`,
-                        })
-                      }
-                      disableRipple
-                    >
-                      <Edit />
-                      Edit
-                    </MenuItem>
-                    <MenuItem onClick={handleCloseBatch} disableRipple>
-                      <DoDisturbOnOutlined />
-                      Closed Batch
-                    </MenuItem>
-                    <MenuItem onClick={handleDeleteBatch} disableRipple>
-                      <DeleteOutlineRounded />
-                      Delete Batch
-                    </MenuItem>
-                    <MenuItem onClick={handleRunningBatch} disableRipple>
-                      <PlayArrowOutlined />
-                      Set To Running
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() =>
-                        router.push({
-                          pathname: `./batch/evaluation`,
-                          query: {
-                            id: data.batch_id,
-                          },
-                        })
-                      }
-                      disableRipple
-                    >
-                      <GradingRounded />
-                      Evaluation
-                    </MenuItem>
-                  </StyledMenu>
-                </TableCell>
-              </TableRow>
-              ))} 
-            </TableBody>
-          </Table>
-        </TableContainer>
-        {/* <TablePagination
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {/* <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
           count={rows.length}
@@ -270,8 +293,7 @@ const Bootcamp: MyPage = () => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         /> */}
-      </Paper>
-      </Content1>
+        </Paper>
       <CloseBatch
         open={closeBatch}
         handleClose={() => setCloseBatch(false)}

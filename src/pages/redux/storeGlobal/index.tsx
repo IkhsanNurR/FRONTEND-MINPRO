@@ -7,6 +7,9 @@ import orangApplyReducer from '../bootcampSchema/reducer/orangApplyReducer'
 import trainerReducer from "../bootcampSchema/reducer/trainerReducer";
 import candidateApplyReducer from "../bootcampSchema/reducer/candidatApplyReducer";
 import candidateFilteringReducer from '../bootcampSchema/reducer/candidatFiltering'
+import candidateContractReducer from '../bootcampSchema/reducer/candidatContractReducer'
+import candidateDisqualifiedReducer from '../bootcampSchema/reducer/candidatDisqualifiedReducer'
+import candidateNotRespondingReducer from '../bootcampSchema/reducer/candidatNotResponding'
 import { combineReducers } from 'redux'
 import rootSaga from '../sagaGlobal'
 
@@ -18,7 +21,10 @@ const reducer = combineReducers({
         orangApplyReducer,
         trainerReducer,
         candidateApplyReducer,
-        candidateFilteringReducer
+        candidateFilteringReducer,
+        candidateContractReducer,
+        candidateDisqualifiedReducer,
+        candidateNotRespondingReducer
 })
 
 const store = configureStore({

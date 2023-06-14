@@ -27,6 +27,7 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { MyPage } from "@/components/types";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  reqCreateBootcamp,
   reqGetBootcampById,
   reqGetBootcampDaftarApply,
   reqGetProgName,
@@ -101,17 +102,42 @@ const newBatch: MyPage = (props: any) => {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
+    setError,
+    clearErrors,
   } = useForm<FormValues>();
 
   //submit
+
   const handleRegistration = async (data: any) => {
-    console.log("data", data);
-    const trainerId = data.Trainer?.user_entity_id;
-    const coTrainerId = data.CoTrainer?.user_entity_id;
-    const trainer = [trainerId, coTrainerId];
-    let dataBatch;
-    let dataTrainee;
+    // console.log("data", data);
+    // if (!data.StartPeriod) {
+    //   setError("StartPeriod", { message: "require" });
+    // }
+    // if (!data.EndPeriod) {
+    //   setError("EndPeriod", { message: "require" });
+    // }
+    // if (!data.EndPeriod || !data.StartPeriod) {
+    //   return true;
+    // } else {
+      const trainerId = data.Trainer?.user_entity_id;
+      const coTrainerId = data.CoTrainer?.user_entity_id;
+      const trainerPrograms = [trainerId, coTrainerId];
+      const batch = {
+        batch_entity_id: data.Technology,
+        batch_name: data.batchname,
+        batch_description: data.description,
+        batch_start_date: data.StartPeriod,
+        batch_end_date: data.EndPeriod,
+        batch_reason: data.reason,
+        batch_type: data.batch_type,
+        batch_status: "open",
+        batch_pic_id: 1,
+      };
+      const batchTrainees = data.batchTrainees;
+      const gabung = { batch, batchTrainees, trainerPrograms };
+      // dispatch(reqCreateBootcamp(gabung));
+      console.log(gabung);
+    // }
   };
 
   //Date
@@ -135,7 +161,6 @@ const newBatch: MyPage = (props: any) => {
       setValue("EndPeriod", formattedDate); // Set the value of "StartPeriod" field in the form
     }
   };
-
   //End Date > start Date
   const isEndDateDisabled = !startDate;
   const minEndDate = startDate ? dayjs(startDate).add(1, "day") : null;
@@ -143,8 +168,8 @@ const newBatch: MyPage = (props: any) => {
   //=================================================================================
 
   const registerOptions = {
-    batchname: { required: "Batch Name is required" },
-    Technology: { required: "Technology is required" },
+    batchname: { required: "required" },
+    Technology: { required: "required" },
     description: { required: "description is required" },
     reason: { required: "reason is required" },
     StartPeriod: { required: "Start Period is required" },
@@ -261,7 +286,7 @@ const newBatch: MyPage = (props: any) => {
   //     setSelectedTahun(null);
   //   }
   // };
-  
+
   const handleFilter = (selectedBulan: any, selectedTahun: any) => {
     let newData = [...daftarapply]; // Create a new array to store the filtered data
 
@@ -348,6 +373,22 @@ const newBatch: MyPage = (props: any) => {
                 <GroupsIcon style={{ fontSize: "8vw" }} className="relative" />
               </div>
             </div>
+            <div className={`w-full flex ml-4`}>
+              <div className="w-2/6">
+                {errors?.batchname && (
+                  <small className="text-red-500 absolute -mt-5 lg:-mt-10 md:-mt-6 sm:-mt-4">
+                    {errors.batchname.message}
+                  </small>
+                )}
+              </div>
+              <div className="w-2/6">
+                {errors?.Technology && (
+                  <small className="text-red-500 absolute -mt-5 lg:-mt-10 md:-mt-6 sm:-mt-4">
+                    {errors.Technology.message}
+                  </small>
+                )}
+              </div>
+            </div>
             <div className="w-full">
               <TextField
                 id="description"
@@ -360,6 +401,13 @@ const newBatch: MyPage = (props: any) => {
                 className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
                 {...register("description", registerOptions.description)}
               />
+              <div className="absolute w-full">
+                {errors?.description && (
+                  <small className="text-red-500 ml-4">
+                    {errors.description.message}
+                  </small>
+                )}
+              </div>
             </div>
             <div className="w-full mt-10 mb-8 flex ">
               <TextField
@@ -382,6 +430,13 @@ const newBatch: MyPage = (props: any) => {
                   {checked.length}
                 </a>
               </div>
+              <div className="absolute w-full ml-4 mt-14">
+                {errors?.reason && (
+                  <small className="text-red-500">
+                    {errors.reason.message}
+                  </small>
+                )}
+              </div>
             </div>
             <div className="w-full mb-4">
               <FormControl
@@ -402,8 +457,15 @@ const newBatch: MyPage = (props: any) => {
               </FormControl>
               <div className="ml-6"></div>
             </div>
+            <div className="w-full ml-4 -mt-4 mb-1">
+              {errors?.batch_type && (
+                <small className="text-red-500">
+                  {errors.batch_type.message}
+                </small>
+              )}
+            </div>
             <div className="w-4/6 text-center"></div>
-            <a className="sm:text-sm md:text-base text-sm h-auto ml-4 ">
+            <a className="sm:text-sm md:text-base text-sm h-auto ml-4 mt-4">
               Periode
             </a>
             <div className=" p-4 flex items-center -mt-2">
@@ -442,6 +504,23 @@ const newBatch: MyPage = (props: any) => {
               </LocalizationProvider>
               <div className="w-6"></div>
             </div>
+            <div className=" w-full -mt-4 flex">
+              <div className="w-2/6">
+                {errors.StartPeriod && (
+                  <small className="text-red-500 ml-4">
+                    {errors?.StartPeriod.message}
+                  </small>
+                )}
+              </div>
+              <div className="w-4"></div>
+              <div className="w-2/6">
+                {errors.StartPeriod && (
+                  <small className="text-red-500 ml-4">
+                    {errors?.StartPeriod.message}
+                  </small>
+                )}
+              </div>
+            </div>
             <div className=" p-4 flex items-center w-full relative">
               <Autocomplete
                 {...propsData}
@@ -450,7 +529,10 @@ const newBatch: MyPage = (props: any) => {
                 className="w-5/12"
                 includeInputInList
                 onChange={(event: any, value: any) => {
-                  register("Trainer", { value: value });
+                  register("Trainer", {
+                    ...registerOptions.Trainer,
+                    value: value
+                  });
                 }}
                 renderInput={(params) => (
                   <TextField
@@ -478,6 +560,13 @@ const newBatch: MyPage = (props: any) => {
                   />
                 )}
               />
+            </div>
+            <div className="w-2/6">
+              {errors.Trainer && (
+                <small className="text-red-500 ml-4">
+                  {errors?.Trainer.message}
+                </small>
+              )}
             </div>
             <div className="mt-6"></div>
             <a className="sm:text-sm md:text-base text-sm h-auto ml-4 relative">

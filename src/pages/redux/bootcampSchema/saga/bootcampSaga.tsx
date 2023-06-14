@@ -1,6 +1,6 @@
 import apiMethod from '../../../api/apiMethod'
 import {call, put} from 'redux-saga/effects'
-import { resGetBootcamp, resGetBootcampById, resGetBootcampDaftarApply } from '../action/actionReducer'
+import { resCreateBootcamp, resGetBootcamp, resGetBootcampById, resGetBootcampDaftarApply } from '../action/actionReducer'
 
 
 export function * handleGetBootcamp():any{
@@ -10,6 +10,15 @@ export function * handleGetBootcamp():any{
         yield put(resGetBootcamp(result.data))
     } catch (error) {
         yield put(resGetBootcamp({message: error, status: 404}))
+    }
+}
+export function * handleCreateBootcamp(action:any):any{
+    try {
+        const result = yield call(apiMethod.createBootcamp, action.payload)
+        // console.log('saga',result)
+        yield put(resCreateBootcamp(result.data))
+    } catch (error) {
+        yield put(resCreateBootcamp({message: error, status: 404}))
     }
 }
 

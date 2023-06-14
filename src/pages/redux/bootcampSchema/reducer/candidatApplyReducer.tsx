@@ -5,7 +5,7 @@ const initialState = {
     apply: [],
     message: '',
     status: '',
-    refresh: ''
+    refreshApply: ''
 }
 
 function candidateApplyReducer(state = initialState, action:any){
@@ -14,9 +14,9 @@ function candidateApplyReducer(state = initialState, action:any){
     
     switch (type) {
         case ActionType.RES_GET_CANDIDAT_APPLY:
-            return {state, apply: payload.result, status: payload.status, message:payload.message, refresh: true}
+            return {state, apply: payload.result, status: payload.status, message:payload.message, refreshApply: true}
         case ActionType.RES_UPDATE_CANDIDAT_APPLY:
-            return {status: payload.status, message:payload.message, refresh: false}
+            return {status: payload.status, message:payload.message, refreshApply: false}
         default:
             return state;
     }

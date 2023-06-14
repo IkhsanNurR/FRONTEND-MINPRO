@@ -37,16 +37,16 @@ const Content = (props: any) => {
           </Link>
         ))}
       </Breadcrumbs>
-      <div className="relative bg-gray-200 shadow-lg border-b rounded-md border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 w-full">
+      <div className="relative bg-blue-500 shadow-lg border-b rounded-lg border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 w-full">
         <div className="flex-1 min-w-0 ">
-          <h1 className="text-2lg font-bold leading-6 text-gray-900 sm:truncate uppercase">
+          <h1 className="text-2lg font-bold leading-6 text-white sm:truncate uppercase">
             {title}
           </h1>
         </div>
       </div>
 
       <div className="mt-8 sm:block relative">
-        <div className="align-middle inline-block min-w-full border-b border-gray-200">
+        <div className="align-middle inline-block min-w-full border-gray-200">
           {children}
         </div>
       </div>

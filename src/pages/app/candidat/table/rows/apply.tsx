@@ -9,7 +9,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { format } from "date-fns";
-import { ReadyModal, DefaultModal } from "../dialog/index";
+import {
+  ReadyModal,
+  DefaultModal,
+  ContractModal,
+  DisqualifiedModal,
+  NotrespondingModal,
+} from "../dialog/index";
 import {
   Paper,
   Table,
@@ -20,16 +26,32 @@ import {
   TableRow,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { reqGetCandidatApply, reqGetCandidatFiltering } from "@/pages/redux/bootcampSchema/action/actionReducer";
+import {
+  reqGetCandidatApply,
+  reqGetCandidatContract,
+  reqGetCandidatDisqualified,
+  reqGetCandidatFiltering,
+  reqGetCandidatNotResponding,
+} from "@/pages/redux/bootcampSchema/action/actionReducer";
 import Pagination from "@/components/pagination";
+import { promises } from "dns";
 // import Pagination from "../../../handling/pagination";
 
 const ApplyTable = (props: any) => {
-  let { apply, message, refresh } = useSelector(
+  let { apply, message, refreshApply } = useSelector(
     (state: any) => state.candidateApplyReducer
   );
-  let { filtering } = useSelector(
+  let { filtering, refreshFiltering } = useSelector(
     (state: any) => state.candidateFilteringReducer
+  );
+  let { contract, refreshContract } = useSelector(
+    (state: any) => state.candidateContractReducer
+  );
+  let { disqualified, refreshDisqualified } = useSelector(
+    (state: any) => state.candidateDisqualifiedReducer
+  );
+  let { notresponding, refreshNotResponding } = useSelector(
+    (state: any) => state.candidateNotRespondingReducer
   );
 
   const status = props.status;
@@ -37,7 +59,7 @@ const ApplyTable = (props: any) => {
   const [open, setOpen] = useState(false);
   const [selectedData, setSelectedData]: any = useState(null);
   const [currentPage, setCurrentPage]: any = useState(1);
-  const [itemPerPage, setItemPerPage] = useState(4);
+  const [itemPerPage, setItemPerPage] = useState(5);
   const totalPages = Math.ceil(data?.length / itemPerPage);
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
@@ -57,45 +79,68 @@ const ApplyTable = (props: any) => {
   };
 
   const dispatch = useDispatch();
-  // console.log("filte", filtering);
-
+  // console.log(notresponding)
+  
   useEffect(() => {
     switch (status) {
       case "apply":
-        dispatch(reqGetCandidatApply());
-
-        setData(apply);
+        dispatch(reqGetCandidatApply())
         break;
-      case "ready":
+      case "filtering test":
         dispatch(reqGetCandidatFiltering())
-        // const ready: any = dataDummy.filter((dt) => dt.status === "ready");
-        setData(filtering);
         break;
-      case "placement":
-        // const placement: any = dataDummy.filter(
-        //   (dt) => dt.status === "placement"
-        // );
-        // setData(placement);
+      case "contract":
+        dispatch(reqGetCandidatContract())
+        break;
+      case "disqualified":
+        dispatch(reqGetCandidatDisqualified())
+        break;
+      case "notresponding":
+        dispatch(reqGetCandidatNotResponding());
         break;
       default:
         break;
     }
-  }, [status, refresh]);
+  }, [refreshApply, refreshFiltering, refreshContract, refreshDisqualified, refreshNotResponding, status]);
+
+  useEffect(() => {
+    switch (status) {
+      case "apply":
+        setData(apply);
+        break;
+      case "filtering test":
+        setData(filtering);
+        break;
+      case "contract":
+        setData(contract);
+        break;
+      case "disqualified":
+        setData(disqualified);
+        break;
+      case "notresponding":
+        setData(notresponding);
+        break;
+      default:
+        break;
+    }
+  }, [apply, filtering, contract, disqualified, notresponding]);
+
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+    <Paper sx={{ width: "100%", overflow: "hidden", height:"100vh" }} className="h-fit">
+      <TableContainer sx={{ maxHeight: '100vh' }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               {(columns || []).map((col) => (
-                <TableCell className="bg-gray-200 text-center">
+                <TableCell className="bg-blue-300 text-center">
                   {col.name}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {(currentItem || []).map((dt: any, index: any) => (
+          {currentItem && currentItem.length > 0 ? (
+          currentItem.map((dt: any, index: any) => (
               <TableRow
                 hover
                 role="checkbox"
@@ -108,13 +153,31 @@ const ApplyTable = (props: any) => {
                 <TableCell className="text-center">{dt.trainee_name}</TableCell>
                 <TableCell className="text-center">{dt.usdu_school}</TableCell>
                 <TableCell className="text-center">{dt.lulus}</TableCell>
-                <TableCell className="text-center">{dt.phone}</TableCell>
+                <TableCell className="text-center">{dt.phone} </TableCell>
                 <TableCell className="text-center">{dt.technology}</TableCell>
                 <TableCell className="text-center">
                   <div className="">
                     Applied On {format(new Date(dt.applied), "dd MMMM yyyy")}
                   </div>
-                  <div>{dt.progress_name}</div>
+                  <div className="">
+                    {(dt.progress_name === 'contract' || dt.progress_name === 'disqualified' ? (
+                        'Test Score : '
+                      ) : '')
+                      }
+                    {(dt.progress_name === 'contract' || dt.progress_name === 'disqualified' ? (
+                        dt.test_score
+                      ) : '')
+                      }
+                      {(dt.progress_name === 'contract' || dt.progress_name === 'disqualified' ? (
+                        ', '
+                      ) : '')
+                      }
+                      {(dt.progress_name === 'contract' || dt.progress_name === 'disqualified' ? (
+                        //  dt.prap_status
+                        <span className="capitalize">{dt.prap_status}</span>
+                      ) : <span className="capitalize">{dt.progress_name}</span>)
+                      }
+                    </div>
                 </TableCell>
                 <TableCell className="text-center">
                   <Button
@@ -131,6 +194,9 @@ const ApplyTable = (props: any) => {
                     onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
+                    // slotProps={{
+                    //   backdrop: "rgba(0, 0, 0, 0.25)",
+                    // }}                                    
                     BackdropProps={{
                       style: {
                         backgroundColor: "rgba(0, 0, 0, 0.25)", // Atur warna latar belakang di luar modal
@@ -146,31 +212,49 @@ const ApplyTable = (props: any) => {
                     <DialogContent>
                       <DialogContentText id="alert-dialog-description">
                         {selectedData &&
-                          (selectedData.status === "ready" ? (
-                            <ReadyModal data={selectedData} close={handleClose} />
+                          (selectedData.progress_name === "filtering test" ? (
+                            <ReadyModal
+                              data={selectedData}
+                              close={handleClose}
+                            />
+                          ) : selectedData.progress_name === "contract" ? (
+                            <ContractModal
+                              data={selectedData}
+                              close={handleClose}
+                            />
+                          ) : selectedData.progress_name === "disqualified" ? (
+                            <DisqualifiedModal
+                              data={selectedData}
+                              close={handleClose}
+                            />
+                          ) : selectedData.progress_name === "not responding" ? (
+                            <NotrespondingModal
+                              data={selectedData}
+                              close={handleClose}
+                            />
                           ) : (
-                            <DefaultModal data={selectedData} close={handleClose}  />
+                            <DefaultModal
+                              data={selectedData}
+                              close={handleClose}
+                            />
                           ))}
                       </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                      {/* <Button
-                        className="order-0 mb-2 inline-flex  items-center px-4 py-2 border border-transparent rounded-md bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 sm:order-1 "
-                        onClick={handleClose}
-                      >
-                        Submit
-                      </Button>
-                      <Button
-                        className="order-0 mb-2 inline-flex items-center px-4 py-2 border border-transparent rounded-md bg-red-500 text-sm font-medium hover:bg-red-600 text-white  sm:order-1"
-                        onClick={handleClose}
-                      >
-                        Cancel
-                      </Button> */}
                     </DialogActions>
                   </Dialog>
                 </TableCell>
               </TableRow>
-            ))}
+              ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={8} className="text-center">
+                    Data tidak ada
+                  </TableCell>
+                </TableRow>
+              )}
+            {/* ))} */}
+
           </TableBody>
         </Table>
       </TableContainer>
