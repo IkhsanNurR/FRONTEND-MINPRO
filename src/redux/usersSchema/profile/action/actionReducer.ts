@@ -36,7 +36,7 @@ export const addEmail = ({ payload, id }: any) => {
     }
 }
 
-export const addEmailResponse = ({ payload }: any) => {
+export const addEmailResponse = (payload: any) => {
     return {
         type: UserProfileActionType.ADDEMAIL_RESPONSE,
         payload
@@ -68,5 +68,51 @@ export const deleteEmailResponse = (payload: any) => {
     return {
         type: UserProfileActionType.DELETEEMAIL_RESPONSE,
         payload
+    }
+}
+
+export const addPhone = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.ADDPHONE,
+        payload, id
+    }
+}
+
+export const addPhoneResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.ADDPHONE_RESPONSE,
+        payload
+    }
+}
+
+export const editPhone = ({ payload, id, phonenumber }: any) => {
+    return {
+        type: UserProfileActionType.EDITPHONE,
+        payload,
+        id,
+        phonenumber
+    }
+}
+
+export const editPhoneResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.EDITPHONE_RESPONSE,
+        payload,
+    }
+}
+
+export const deletePhone = ({ payload, id, phonenumber }: any) => {
+    return {
+        type: UserProfileActionType.DELETEPHONE,
+        payload,
+        id,
+        phonenumber
+    }
+}
+
+export const deletePhoneResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETEPHONE_RESPONSE,
+        payload,
     }
 }

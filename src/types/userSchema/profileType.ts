@@ -8,11 +8,26 @@ interface Users {
     user_photo?: string
     role_name?: string
     pmail_address?: Email[] | undefined
+    phone?: Phones[] | undefined
 }
 
 interface Email {
-    pmail_id: string
+    pmail_id: number
     pmail_address: string
+}
+
+interface Phones {
+    uspo_ponty_code: string
+    uspo_number: string
+}
+
+interface PontyCode {
+    ponty_code: string
+}
+
+interface pontyCode {
+    pontycode: PontyCode[]
+    refresh: boolean
 }
 
 interface userProfile {
@@ -25,6 +40,7 @@ interface ModalEdit {
     onSubmit: () => void
     onCancel: () => void
     id?: number
+    phonenumber?: any
 }
 
 interface FieldData {

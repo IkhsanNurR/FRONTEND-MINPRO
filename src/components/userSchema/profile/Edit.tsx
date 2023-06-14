@@ -134,6 +134,8 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
     (state: any) => state.userProfileReducers
   );
 
+  // const date = moment(users?.user_birth_date).format("YYYY-MM-DD");
+
   useEffect(() => {
     const decode = decodeTokenName(token);
     setName(decode);
@@ -155,7 +157,7 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
         },
         {
           name: "user_birth_date",
-          value: users?.user_birth_date ? moment(users?.user_birth_date) : null,
+          value: moment(users?.user_birth_date),
         },
         {
           name: "user_photo",
@@ -174,32 +176,32 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
     }
   }, [token, name, refresh]);
 
-  const handleOk = async () => {
-    form.validateFields().then(async () => {
-      const formData = new FormData();
-      formData.append("user_name", formValues[0].value);
-      formData.append("user_first_name", formValues[1].value);
-      formData.append("user_last_name", formValues[2].value);
-      formData.append("user_birth_date", formValues[3].value._i);
-      const fileList = form.getFieldValue("user_photo");
-      if (fileList && fileList.length > 0) {
-        formData.append("user_photo", fileList[0].originFileObj);
-      }
-
-      try {
-        dispatch(
-          updateProfile({ payload: formData, id: users?.user_entity_id })
-        );
-        onSubmit();
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    });
-  };
-
   const handleCancel = () => {
     onCancel();
-    form.resetFields(["user_photo"]);
+    // form.resetFields();
+    // // form.setFieldValue("user_name", users?.user_name);
+    // // form.setFields(formValues);
+    // form.setFieldsValue(formValues);
+  };
+
+  const handleOk = async () => {
+    await form.validateFields();
+    const formData = new FormData();
+    formData.append("user_name", formValues[0].value);
+    formData.append("user_first_name", formValues[1].value);
+    formData.append("user_last_name", formValues[2].value);
+    formData.append("user_birth_date", formValues[3].value);
+    const fileList = form.getFieldValue("user_photo");
+    if (fileList && fileList.length > 0) {
+      formData.append("user_photo", fileList[0].originFileObj);
+    }
+
+    try {
+      dispatch(updateProfile({ payload: formData, id: users?.user_entity_id }));
+      onSubmit();
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
 
   return (

@@ -15,16 +15,32 @@ const updateProfile = ({ data, id }: any) => {
     return axios.patch(`/users/profile/editprofile/${id}`, data)
 }
 
+const getPontyCode = () => {
+    return axios.get("/users/profile/pontycode")
+}
+
 const addEmail = ({ data, id }: any) => {
     return axios.post(`/users/profile/addEmail/${id}`, data)
 }
 
 const editEmail = ({ data, id }: any) => {
-    return axios.patch(`http://localhost:8000/users/profile/editEmail/${id}`, data)
+    return axios.patch(`/users/profile/editEmail/${id}`, data)
 }
 
 const deleteEmail = (id: any) => {
     return axios.delete(`/users/profile/deleteEmail/${id}`)
+}
+
+const addPhone = ({ data, id }: any) => {
+    return axios.post(`users/profile/addPhone/${id}`, data)
+}
+
+const editPhone = ({ data, id, phonenumber }: any) => {
+    return axios.patch(`users/profile/editPhone/${id}/${phonenumber}`, data)
+}
+
+const deletePhone = ({ id, phonenumber }: any) => {
+    return axios.delete(`/users/profile/deletePhone/${id}/${phonenumber}`)
 }
 
 export default {
@@ -32,5 +48,9 @@ export default {
     updateProfile,
     addEmail,
     editEmail,
-    deleteEmail
+    deleteEmail,
+    addPhone,
+    editPhone,
+    deletePhone,
+    getPontyCode
 }

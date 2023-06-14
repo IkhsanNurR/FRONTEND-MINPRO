@@ -48,10 +48,6 @@ const Edit: React.FC<ModalEdit> = ({ open, onCancel, onSubmit, id }) => {
   ]);
 
   const dispatch = useDispatch();
-  const handleCancel = () => {
-    onCancel();
-    console.log("cancel");
-  };
 
   let { users, refresh }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
@@ -86,6 +82,10 @@ const Edit: React.FC<ModalEdit> = ({ open, onCancel, onSubmit, id }) => {
     } catch (error: any) {
       console.log(error.message);
     }
+  };
+
+  const handleCancel = () => {
+    onCancel();
   };
 
   return (
