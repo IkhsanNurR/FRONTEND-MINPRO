@@ -9,6 +9,7 @@ interface Users {
     role_name?: string
     pmail_address?: Email[] | undefined
     phone?: Phones[] | undefined
+    address?: Address[] | undefined
 }
 
 interface Email {
@@ -19,6 +20,15 @@ interface Email {
 interface Phones {
     uspo_ponty_code: string
     uspo_number: string
+}
+
+interface Address {
+    etad_addr_id: number
+    addr_line1: string
+    addr_line2: string
+    addr_postal_code: string
+    city: string
+    address_type: string
 }
 
 interface PontyCode {
