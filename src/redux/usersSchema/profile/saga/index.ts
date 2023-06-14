@@ -1,6 +1,6 @@
 import apiMethod from "@/pages/api/UsersSchema/Profile/apiMethod";
 import { call, put } from "redux-saga/effects";
-import { GetByNameOrEmailResponse, addEmailResponse, addPhoneResponse, deleteEmailResponse, deletePhoneResponse, editEmailResponse, editPhoneResponse, updateProfileResponse } from "../action/actionReducer";
+import { GetByNameOrEmailResponse, addAddressResponse, addEmailResponse, addPhoneResponse, deleteAddressResponse, deleteEmailResponse, deletePhoneResponse, editAddressResponse, editEmailResponse, editPhoneResponse, updateProfileResponse } from "../action/actionReducer";
 
 export function* handleGetByNameOrEmail(action: any): any {
     try {
@@ -93,6 +93,42 @@ export function* handleDeletePhone(action: any): any {
         yield put(deletePhoneResponse(result.data))
     } catch (error) {
         yield put(deletePhoneResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleAddAddress(action: any): any {
+    try {
+        const result = yield call(apiMethod.addAddress, { data: action.payload, id: action.id })
+        yield put(addAddressResponse(result.data))
+    } catch (error) {
+        yield put(addAddressResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleEditAddress(action: any): any {
+    try {
+        const result = yield call(apiMethod.editAddress, { data: action.payload, id: action.id })
+        yield put(editAddressResponse(result.data))
+    } catch (error) {
+        yield put(editAddressResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleDeleteAddress(action: any): any {
+    try {
+        const result = yield call(apiMethod.deleteAddress, action.payload)
+        yield put(deleteAddressResponse(result.data))
+    } catch (error) {
+        yield put(deleteAddressResponse({
             message: error,
             status: 400
         }))

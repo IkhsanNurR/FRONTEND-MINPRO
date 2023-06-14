@@ -25,9 +25,11 @@ interface Phones {
 interface Address {
     etad_addr_id: number
     addr_line1: string
-    addr_line2: string
+    addr_line2?: string
     addr_postal_code: string
+    city_id?: number
     city: string
+    address_type_id?: number
     address_type: string
 }
 

@@ -103,6 +103,7 @@ const AddPhone: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
                   .toLowerCase()
                   .includes(input.toLowerCase())
               }
+              style={{ width: "200px" }}
             />
           </Form.Item>
         </div>

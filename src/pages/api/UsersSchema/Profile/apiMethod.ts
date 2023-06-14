@@ -43,6 +43,18 @@ const deletePhone = ({ id, phonenumber }: any) => {
     return axios.delete(`/users/profile/deletePhone/${id}/${phonenumber}`)
 }
 
+const addAddress = ({ data, id }: any) => {
+    return axios.post(`/users/profile/addAddress/${id}`, data)
+}
+
+const editAddress = ({ data, id }: any) => {
+    return axios.patch(`/users/profile/editAddress/${id}`, data)
+}
+
+const deleteAddress = (id: any) => {
+    return axios.delete(`/users/profile/deleteAddress/${id}`)
+}
+
 export default {
     getUsersByUsernameOrEmail,
     updateProfile,
@@ -52,5 +64,8 @@ export default {
     addPhone,
     editPhone,
     deletePhone,
+    addAddress,
+    editAddress,
+    deleteAddress,
     getPontyCode
 }

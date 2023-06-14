@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Button, Card, List, Modal } from "antd";
 import AddPhone from "./Add";
-import { EditOutlined } from "@mui/icons-material";
 import EditPhone from "./Edit";
 import {
   DeleteOutlined,
+  EditOutlined,
   ExclamationCircleFilled,
   PlusCircleOutlined,
 } from "@ant-design/icons";

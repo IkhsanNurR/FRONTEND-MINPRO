@@ -116,3 +116,45 @@ export const deletePhoneResponse = (payload: any) => {
         payload,
     }
 }
+
+export const addAddress = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.ADDADDRESS,
+        payload, id
+    }
+}
+
+export const addAddressResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.ADDADDRESS_RESPONSE,
+        payload
+    }
+}
+
+export const editAddress = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.EDITADDRESS,
+        payload, id
+    }
+}
+
+export const editAddressResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.EDITADDRESS_RESPONSE,
+        payload
+    }
+}
+
+export const deleteAddress = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETEADDRESS,
+        payload
+    }
+}
+
+export const deleteAddressResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETEADDRESS_RESPONSE,
+        payload,
+    }
+}
