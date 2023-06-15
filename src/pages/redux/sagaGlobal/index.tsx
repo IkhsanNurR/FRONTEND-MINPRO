@@ -1,6 +1,6 @@
 import {takeEvery, all} from 'redux-saga/effects'
 import ActionType from '../bootcampSchema/action/actionType'
-import { handleCreateBootcamp, handleGetBootcamp, handleGetBootcampById } from '../bootcampSchema/saga/bootcampSaga'
+import { handleCloseBootcamp, handleCreateBootcamp, handleDeleteBootcamp, handleEditBootcamp, handleGetBootcamp, handleGetBootcampById, handleSetToRunningBootcamp } from '../bootcampSchema/saga/bootcampSaga'
 import { handleGetProgName } from '../bootcampSchema/saga/prognameSaga'
 import { handleGetBootcampDaftarApply } from '../bootcampSchema/saga/orangApplySaga'
 import { handleGetTrainer } from '../bootcampSchema/saga/trainerSaga'
@@ -13,6 +13,10 @@ function * watchAll(){
         takeEvery(ActionType.REQ_GET_BOOTCAMP_BY_ID, handleGetBootcampById),
         takeEvery(ActionType.REQ_GET_PROGNAME, handleGetProgName),
         takeEvery(ActionType.REQ_GET_DAFTAR_APPLY, handleGetBootcampDaftarApply),
+        takeEvery(ActionType.REQ_EDIT_BOOTCAMP, handleEditBootcamp),
+        takeEvery(ActionType.REQ_CLOSE_BOOTCAMP, handleCloseBootcamp),
+        takeEvery(ActionType.REQ_DELETE_BOOTCAMP, handleDeleteBootcamp),
+        takeEvery(ActionType.REQ_SET_TO_RUNNING_BOOTCAMP, handleSetToRunningBootcamp),
 
         //trainer
         takeEvery(ActionType.REQ_GET_TRAINER, handleGetTrainer),

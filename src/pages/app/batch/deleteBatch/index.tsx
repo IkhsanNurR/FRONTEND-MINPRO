@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import Content from "@/pages/shared/content";
+import Content from "../../../../components/shared/content";
 import { useForm } from "react-hook-form";
 import { Divider, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -54,7 +54,7 @@ const DeleteBatch = ({ open, handleClose, data }: any) => {
           <Divider className="w-full border-1" />
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Input hidden untuk mengirim data */}
-            <input type="hidden" {...register("id")} value={data.batch_id} />
+            <input type="hidden" {...register("batch_id")} value={data.batch_id} />
             <p>Apakah Kamu Yakin Akan Menghapus Batch : {data.batch_name}</p>
             <div className="">
               <Button

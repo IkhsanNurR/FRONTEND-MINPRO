@@ -55,15 +55,20 @@ const ApplyTable = (props: any) => {
   );
 
   const status = props.status;
+  const selectMonth = props.selectedMonth
+  
+  
+
   const [data, setData] = useState([]);
+  const [dataFilter, setDataFilter] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedData, setSelectedData]: any = useState(null);
   const [currentPage, setCurrentPage]: any = useState(1);
   const [itemPerPage, setItemPerPage] = useState(5);
-  const totalPages = Math.ceil(data?.length / itemPerPage);
+  const totalPages = Math.ceil(dataFilter?.length / itemPerPage);
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
-  const currentItem = data?.slice(startIndex, endIndex);
+  const currentItem = dataFilter?.slice(startIndex, endIndex);
 
   const handlePageChange = (page: any) => {
     setCurrentPage(page);
@@ -80,7 +85,21 @@ const ApplyTable = (props: any) => {
 
   const dispatch = useDispatch();
   // console.log(notresponding)
+
   
+  useEffect(() => {
+      setDataFilter(data)
+      let newData:any = [...data]; // Create a new array to store the filtered data
+  
+      if (selectMonth) {
+        newData = newData.filter(
+          (user: any) => parseInt(user.applied_month) === selectMonth
+        );
+        setDataFilter(newData)
+    }
+    console.log('select month',selectMonth)
+  },[selectMonth, status])
+
   useEffect(() => {
     switch (status) {
       case "apply":
@@ -101,24 +120,29 @@ const ApplyTable = (props: any) => {
       default:
         break;
     }
-  }, [refreshApply, refreshFiltering, refreshContract, refreshDisqualified, refreshNotResponding, status]);
+  }, [refreshApply, refreshFiltering, refreshContract, refreshDisqualified, refreshNotResponding,status]);
 
   useEffect(() => {
     switch (status) {
       case "apply":
         setData(apply);
+        setDataFilter(data)
         break;
       case "filtering test":
         setData(filtering);
+        setDataFilter(data)
         break;
       case "contract":
         setData(contract);
+        setDataFilter(data)
         break;
       case "disqualified":
         setData(disqualified);
+        setDataFilter(data)
         break;
       case "notresponding":
         setData(notresponding);
+        setDataFilter(data)
         break;
       default:
         break;

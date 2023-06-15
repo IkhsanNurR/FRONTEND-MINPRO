@@ -1,5 +1,6 @@
 import ActionType from "./actionType";
 
+//bootcamp
 export const reqGetBootcamp = () => {
     return{
         type : ActionType.REQ_GET_BOOTCAMP
@@ -48,6 +49,8 @@ export const resGetBootcampDaftarApply = (payload:any) => {
     }
 }
 
+
+
 //ProgName
 export const reqGetProgName = () => {
     return{
@@ -61,6 +64,57 @@ export const resGetProgName = (payload:any) => {
         payload
     }
 }
+export const reqEditBootcamp = (payload:any) => {
+    return{
+        type : ActionType.REQ_EDIT_BOOTCAMP,
+        payload
+    }
+}
+export const resEditBootcamp = (payload:any) => {
+    return{
+        type : ActionType.RES_EDIT_BOOTCAMP,
+        payload
+    }
+}
+export const reqCloseBootcamp = (payload:any) => {
+    return{
+        type : ActionType.REQ_CLOSE_BOOTCAMP,
+        payload
+    }
+}
+export const resCloseBootcamp = (payload:any) => {
+    return{
+        type : ActionType.RES_CLOSE_BOOTCAMP,
+        payload
+    }
+}
+export const reqDeleteBootcamp = (payload:any) => {
+    return{
+        type : ActionType.REQ_DELETE_BOOTCAMP,
+        payload
+    }
+}
+export const resDeleteBootcamp = (payload:any) => {
+    return{
+        type : ActionType.RES_DELETE_BOOTCAMP,
+        payload
+    }
+}
+export const reqSetToRunningBootcamp = (payload:any) => {
+    return{
+        type : ActionType.REQ_SET_TO_RUNNING_BOOTCAMP,
+        payload
+    }
+}
+export const resSetToRunningBootcamp = (payload:any) => {
+    return{
+        type : ActionType.RES_SET_TO_RUNNING_BOOTCAMP,
+        payload
+    }
+}
+
+
+
 
 //Trainer
 export const reqGetTrainer = () => {
@@ -75,6 +129,8 @@ export const resGetTrainer = (payload:any) => {
         payload
     }
 }
+
+
 
 
 //Candidat

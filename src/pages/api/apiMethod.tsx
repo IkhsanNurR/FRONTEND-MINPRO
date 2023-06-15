@@ -15,7 +15,18 @@ const getBootcampDraftApply = () => {
 const createBootcamp = (data:any) => {
   return axios.post(`bootcamp/createbatch`, data);
 };
-
+const editBootcamp = (data: any) => {
+  return axios.patch(`bootcamp/editbootcamp`, data)
+}
+const closeBootcamp = (data: any) => {
+  return axios.patch(`bootcmap/closebootcamp`, data)
+}
+const deleteBootcamp = (data:any) => {
+  return axios.patch(`bootcamp/deletebootcamp`, data)
+}
+const setToRunningBootcamp = (data:any) => {
+  return axios.patch(`bootcamp/settorunning`,data)
+}
 
 //progName
 const getProgName = () => {
@@ -27,7 +38,10 @@ const getTrainer = () => {
   return axios.get(`bootcamp/trainer`);
 };
 
-//CandidatApply
+
+
+
+//Candidat
 const getCandidatApply = () => {
   return axios.get(`bootcamp/orangapply`);
 };
@@ -63,15 +77,25 @@ const updateCandidatNotResponding = (data:any) => {
 }
 
 export default {
+  //bootcamp
   getBootcamp,
   getBootcampById,
   getBootcampDraftApply,
   createBootcamp,
+  editBootcamp,
+  closeBootcamp,
+  deleteBootcamp,
+  setToRunningBootcamp,
   
+  //progname
   getProgName,
   
+
+  //trainer
   getTrainer,
 
+
+  //candidat
   getCandidatApply,
   updateCandidatApply,
   getCandidatFiltering,

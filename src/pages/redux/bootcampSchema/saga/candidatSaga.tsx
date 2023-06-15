@@ -2,8 +2,6 @@ import apiMethod from '../../../api/apiMethod'
 import {call, put} from 'redux-saga/effects'
 import { resGetBootcampDaftarApply, resGetCandidatApply, resGetCandidatContract, resGetCandidatDisqualified, resGetCandidatFiltering, resGetCandidatNotResponding, resUpdateCandidatApply, resUpdateCandidatContract, resUpdateCandidatDisqualified, resUpdateCandidatFiltering, resUpdateCandidatNotResponding } from '../action/actionReducer'
 
-
-
 export function * handleGetCandidatApply():any{
     try {
         const result = yield call(apiMethod.getCandidatApply)

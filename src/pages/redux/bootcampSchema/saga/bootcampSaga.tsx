@@ -1,6 +1,6 @@
 import apiMethod from '../../../api/apiMethod'
 import {call, put} from 'redux-saga/effects'
-import { resCreateBootcamp, resGetBootcamp, resGetBootcampById, resGetBootcampDaftarApply } from '../action/actionReducer'
+import { resCloseBootcamp, resCreateBootcamp, resDeleteBootcamp, resEditBootcamp, resGetBootcamp, resGetBootcampById, resGetBootcampDaftarApply, resSetToRunningBootcamp } from '../action/actionReducer'
 
 
 export function * handleGetBootcamp():any{
@@ -31,13 +31,39 @@ export function * handleGetBootcampById(action:any):any{
         yield put(resGetBootcampById({message: error, status: 404}))
     }
 }
-
-// export function * handleGetBootcampDaftarApply():any{
-//     try {
-//         const result = yield call(apiMethod.getBootcampDraftApply)
-//         console.log('saga',result)
-//         yield put(resGetBootcampDaftarApply(result.data))
-//     } catch (error) {
-//         yield put(resGetBootcampDaftarApply({message: error, status: 404}))
-//     }
-// }
+export function * handleEditBootcamp(action:any):any{
+    try {
+        const result = yield call(apiMethod.editBootcamp, action.payload)
+        // console.log('saga',result)
+        yield put(resEditBootcamp(result.data))
+    } catch (error) {
+        yield put(resEditBootcamp({message: error, status: 404}))
+    }
+}
+export function * handleCloseBootcamp(action:any):any{
+    try {
+        const result = yield call(apiMethod.closeBootcamp, action.payload)
+        // console.log('saga',result)
+        yield put(resCloseBootcamp(result.data))
+    } catch (error) {
+        yield put(resCloseBootcamp({message: error, status: 404}))
+    }
+}
+export function * handleDeleteBootcamp(action:any):any{
+    try {
+        const result = yield call(apiMethod.deleteBootcamp, action.payload)
+        // console.log('saga',result)
+        yield put(resDeleteBootcamp(result.data))
+    } catch (error) {
+        yield put(resDeleteBootcamp({message: error, status: 404}))
+    }
+}
+export function * handleSetToRunningBootcamp(action:any):any{
+    try {
+        const result = yield call(apiMethod.setToRunningBootcamp, action.payload)
+        // console.log('saga',result)
+        yield put(resSetToRunningBootcamp(result.data))
+    } catch (error) {
+        yield put(resSetToRunningBootcamp({message: error, status: 404}))
+    }
+}

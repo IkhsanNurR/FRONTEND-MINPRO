@@ -44,7 +44,7 @@ const newBatch: MyPage = (props: any) => {
   let { progname } = useSelector((state: any) => state.prognameReducer);
 
   let { trainer } = useSelector((state: any) => state.trainerReducer);
-  console.log("trainernya", trainer);
+
   //===============================================================
 
   //router
@@ -103,62 +103,92 @@ const newBatch: MyPage = (props: any) => {
     formState: { errors },
     setValue,
     setError,
-    clearErrors,
+    unregister
   } = useForm<FormValues>();
 
   //submit
 
   const handleRegistration = async (data: any) => {
-    // console.log("data", data);
-    // if (!data.StartPeriod) {
-    //   setError("StartPeriod", { message: "require" });
-    // }
-    // if (!data.EndPeriod) {
-    //   setError("EndPeriod", { message: "require" });
-    // }
-    // if (!data.EndPeriod || !data.StartPeriod) {
-    //   return true;
-    // } else {
+    if (!data.StartPeriod) {
+      setError("StartPeriod", { message: "require" });
+    }
+    if (!data.EndPeriod) {
+      setError("EndPeriod", { message: "require" });
+    }
+    if (!data.EndPeriod || !data.StartPeriod) {
+      return true;
+    }
       const trainerId = data.Trainer?.user_entity_id;
       const coTrainerId = data.CoTrainer?.user_entity_id;
-      const trainerPrograms = [trainerId, coTrainerId];
-      const batch = {
+      let trainerPrograms: any[] = [];
+      if (coTrainerId) {
+        trainerPrograms.push(coTrainerId);
+      }
+      if (trainerId) {
+        trainerPrograms.push(trainerId);
+      } else {
+        setError('Trainer', {
+          type: 'manual',
+          message: 'Trainer is required',
+        });
+      }
+
+      if (trainerId && coTrainerId && trainerId === coTrainerId) {
+        setError('Trainer', {
+          type: 'manual',
+          message: 'Trainer and CoTrainer must be different',
+        });
+      } else {
+        const batch = {
         batch_entity_id: data.Technology,
         batch_name: data.batchname,
         batch_description: data.description,
         batch_start_date: data.StartPeriod,
         batch_end_date: data.EndPeriod,
-        batch_reason: data.reason,
         batch_type: data.batch_type,
         batch_status: "open",
         batch_pic_id: 1,
       };
       const batchTrainees = data.batchTrainees;
+      if(batchTrainees.length==0){
+        setError('batchTrainees',{message:'Selected Members is required'})
+        return true;
+      }
       const gabung = { batch, batchTrainees, trainerPrograms };
-      // dispatch(reqCreateBootcamp(gabung));
-      console.log(gabung);
-    // }
-  };
+      console.log('gabungan', gabung)
+      if(batch && batchTrainees && trainerPrograms.length>=1){
+        // dispatch(reqCreateBootcamp(gabung));
+      }
+    }
+    };
 
   //Date
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   //handle start date
   const handleStartDateChange = (date: any) => {
+    register('StartPeriod',registerOptions.StartPeriod)
     setStartDate(date);
     setEndDate(null);
     if (date) {
       const formattedDate: any = format(date.$d, "dd/MM/yyyy");
       setValue("StartPeriod", formattedDate); // Set the value of "StartPeriod" field in the form
+    } else {
+      setError("StartPeriod", {message:'require'})
+      unregister("StartPeriod")
     }
   };
 
   //handle end date
   const handleEndDateChange = (date: any) => {
+    register('EndPeriod',registerOptions.EndPeriod)
     setEndDate(date);
     if (date) {
       const formattedDate: any = format(date.$d, "dd/MM/yyyy");
       setValue("EndPeriod", formattedDate); // Set the value of "StartPeriod" field in the form
+    }else {
+      setError("EndPeriod", {message:'require'})
+      unregister("EndPeriod")
     }
   };
   //End Date > start Date
@@ -175,8 +205,6 @@ const newBatch: MyPage = (props: any) => {
     StartPeriod: { required: "Start Period is required" },
     EndPeriod: { required: "End Period is required" },
     Trainer: { required: "Trainer is required" },
-    CoTrainer: { required: "Co-Trainer is required" },
-    batchTrainees: { required: "Selected Members is required" },
     batch_id: { required: "batch id is  required" },
     batch_type: { required: "batch_type is  required" },
   };
@@ -254,11 +282,6 @@ const newBatch: MyPage = (props: any) => {
   }
   const handleError = (errors: any) => {};
 
-  const [selectedTechnology, setSelectedTechnology] = useState("");
-  const handleTechnologyChange = (event: any) => {
-    setSelectedTechnology(event.target.value);
-  };
-
   //pagination dan filtering
   const [selectedBulan, setSelectedBulan] = useState(null);
   const [selectedTahun, setSelectedTahun] = useState(null);
@@ -287,6 +310,7 @@ const newBatch: MyPage = (props: any) => {
   //   }
   // };
 
+  
   const handleFilter = (selectedBulan: any, selectedTahun: any) => {
     let newData = [...daftarapply]; // Create a new array to store the filtered data
 
@@ -309,8 +333,6 @@ const newBatch: MyPage = (props: any) => {
       setSelectedBulan(null);
       setSelectedTahun(null);
     }
-    console.log("newData", newData);
-    console.log("selected", selectedBulan);
   };
 
   const firstIndex = (currentPage - 1) * itemsPerPage;
@@ -409,7 +431,7 @@ const newBatch: MyPage = (props: any) => {
                 )}
               </div>
             </div>
-            <div className="w-full mt-10 mb-8 flex ">
+            {/* <div className="w-full mt-10 mb-8 flex ">
               <TextField
                 id="reason"
                 variant="outlined"
@@ -437,8 +459,8 @@ const newBatch: MyPage = (props: any) => {
                   </small>
                 )}
               </div>
-            </div>
-            <div className="w-full mb-4">
+            </div> */}
+            <div className="w-full mb-8 mt-8">
               <FormControl
                 variant="outlined"
                 className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
@@ -514,14 +536,65 @@ const newBatch: MyPage = (props: any) => {
               </div>
               <div className="w-4"></div>
               <div className="w-2/6">
-                {errors.StartPeriod && (
+                {errors.EndPeriod && (
                   <small className="text-red-500 ml-4">
-                    {errors?.StartPeriod.message}
+                    {errors?.EndPeriod.message}
                   </small>
                 )}
               </div>
             </div>
             <div className=" p-4 flex items-center w-full relative">
+              <Autocomplete
+                {...propsData}
+                id="Trainer"
+                autoComplete
+                className="w-5/12"
+                includeInputInList
+                onChange={(event: any, value: any) => {
+                  register("Trainer", {
+                    ...registerOptions.Trainer,
+                    value: value
+                  });
+                  if (!value) {
+                    setValue("Trainer", ""); // Menghapus nilai "Trainer" jika value null
+                  } else {
+                    setValue("Trainer", value);
+                  }
+                }
+              }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search Trainer"
+                    variant="standard"
+                  />
+                )}
+              />
+              <div className="w-8"></div>
+              <Autocomplete
+                {...propsData}
+                id="CoTrainer"
+                autoComplete
+                className="w-5/12"
+                includeInputInList
+                onChange={(event: any, value: any) => {
+                  register("CoTrainer")
+                  if (!value) {
+                    setValue("CoTrainer", "");
+                  } else {
+                    setValue("CoTrainer", value);
+                  }
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search Co-Trainer"
+                    variant="standard"
+                  />
+                )}
+              />
+            </div>
+            {/* <div className=" p-4 flex items-center w-full relative">
               <Autocomplete
                 {...propsData}
                 id="Trainer"
@@ -560,10 +633,10 @@ const newBatch: MyPage = (props: any) => {
                   />
                 )}
               />
-            </div>
-            <div className="w-2/6">
+            </div> */}
+            <div className="w-full">
               {errors.Trainer && (
-                <small className="text-red-500 ml-4">
+                <small className="text-red-500 ml-4 -mt-2">
                   {errors?.Trainer.message}
                 </small>
               )}
@@ -617,6 +690,13 @@ const newBatch: MyPage = (props: any) => {
                   Search
                 </Button>
               </div>
+            </div>
+            <div className="w-full">
+              {errors.batchTrainees && (
+                <small className="text-red-500 ml-4 -mt-2">
+                  {errors?.batchTrainees.message}
+                </small>
+              )}
             </div>
             {/* Filter orangnya, ketika filtered.length = 0, maka pake yang lama */}
             <div className="flex flex-wrap w-full items-center justify-center">

@@ -10,9 +10,14 @@ const Content = (props: any) => {
   const router = useRouter();
   const routenya = router.pathname;
   const pathArray = routenya.split("/").filter((item) => item !== ""); // Mengubah rute menjadi array dan menghapus elemen kosong
-  const lastThreePaths = pathArray.slice(-3); // Mengambil tiga elemen terakhir dari array
+  let lastThreePaths:any;
+  if(pathArray[pathArray.length-1] =='edit'){
+    lastThreePaths = pathArray.slice(0,-1); 
+  } else{
+    lastThreePaths = pathArray.slice(-3); // Mengambil tiga elemen terakhir dari array
+  }
+  const pathObjects: any = lastThreePaths.map((route:any, index:any) => {
 
-  const pathObjects: any = lastThreePaths.map((route, index) => {
     const path = `/${lastThreePaths.slice(0, index + 1).join("/")}`; // Mendapatkan jalur berdasarkan rute
 
     return {
