@@ -54,10 +54,12 @@ const ApplyTable = (props: any) => {
     (state: any) => state.candidateNotRespondingReducer
   );
 
+  // console.log('props',props);
   const status = props.status;
-  const selectMonth = props.selectedMonth
-  
-  
+  const selectMonth = props.selectedMonth;
+  const selectYear = props.selectYear
+
+  console.log(props.selectYear)
 
   const [data, setData] = useState([]);
   const [dataFilter, setDataFilter] = useState([]);
@@ -85,34 +87,41 @@ const ApplyTable = (props: any) => {
 
   const dispatch = useDispatch();
   // console.log(notresponding)
+  console.log('data', data)
 
-  
   useEffect(() => {
-      setDataFilter(data)
-      let newData:any = [...data]; // Create a new array to store the filtered data
+    let newData: any = [...data]; // Create a new array to store the filtered data
   
-      if (selectMonth) {
-        newData = newData.filter(
-          (user: any) => parseInt(user.applied_month) === selectMonth
-        );
-        setDataFilter(newData)
+    if (selectMonth && selectYear !== "") {
+      newData = newData.filter(
+        (user: any) =>
+          parseInt(user.applied_month) === selectMonth &&
+          user.applied_year === selectYear
+      );
+      setDataFilter(newData);
+    } else if (selectMonth && selectYear === "") {
+      setDataFilter([]); // Set dataFilter to an empty array if year is not selected
+    } else if (selectYear !== "") {
+      newData = newData.filter((user: any) => user.applied_year === selectYear);
+      setDataFilter(newData);
+    } else {
+      setDataFilter(data);
     }
-    console.log('select month',selectMonth)
-  },[selectMonth, status])
+  }, [selectMonth, selectYear, status]);
 
   useEffect(() => {
     switch (status) {
       case "apply":
-        dispatch(reqGetCandidatApply())
+        dispatch(reqGetCandidatApply());
         break;
       case "filtering test":
-        dispatch(reqGetCandidatFiltering())
+        dispatch(reqGetCandidatFiltering());
         break;
       case "contract":
-        dispatch(reqGetCandidatContract())
+        dispatch(reqGetCandidatContract());
         break;
       case "disqualified":
-        dispatch(reqGetCandidatDisqualified())
+        dispatch(reqGetCandidatDisqualified());
         break;
       case "notresponding":
         dispatch(reqGetCandidatNotResponding());
@@ -120,29 +129,36 @@ const ApplyTable = (props: any) => {
       default:
         break;
     }
-  }, [refreshApply, refreshFiltering, refreshContract, refreshDisqualified, refreshNotResponding,status]);
+  }, [
+    refreshApply,
+    refreshFiltering,
+    refreshContract,
+    refreshDisqualified,
+    refreshNotResponding,
+    status,
+  ]);
 
   useEffect(() => {
     switch (status) {
       case "apply":
         setData(apply);
-        setDataFilter(data)
+        setDataFilter(data);
         break;
       case "filtering test":
         setData(filtering);
-        setDataFilter(data)
+        setDataFilter(data);
         break;
       case "contract":
         setData(contract);
-        setDataFilter(data)
+        setDataFilter(data);
         break;
       case "disqualified":
         setData(disqualified);
-        setDataFilter(data)
+        setDataFilter(data);
         break;
       case "notresponding":
         setData(notresponding);
-        setDataFilter(data)
+        setDataFilter(data);
         break;
       default:
         break;
@@ -150,8 +166,11 @@ const ApplyTable = (props: any) => {
   }, [apply, filtering, contract, disqualified, notresponding]);
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", height:"100vh" }} className="h-fit">
-      <TableContainer sx={{ maxHeight: '100vh' }}>
+    <Paper
+      sx={{ width: "100%", overflow: "hidden", height: "100vh" }}
+      className="h-fit"
+    >
+      <TableContainer sx={{ maxHeight: "100vh" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -163,122 +182,128 @@ const ApplyTable = (props: any) => {
             </TableRow>
           </TableHead>
           <TableBody>
-          {currentItem && currentItem.length > 0 ? (
-          currentItem.map((dt: any, index: any) => (
-              <TableRow
-                hover
-                role="checkbox"
-                tabIndex={-1}
-                key={dt.user_entity_id}
-              >
-                <TableCell className="text-center">
-                  {startIndex + index + 1}
-                </TableCell>
-                <TableCell className="text-center">{dt.trainee_name}</TableCell>
-                <TableCell className="text-center">{dt.usdu_school}</TableCell>
-                <TableCell className="text-center">{dt.lulus}</TableCell>
-                <TableCell className="text-center">{dt.phone} </TableCell>
-                <TableCell className="text-center">{dt.technology}</TableCell>
-                <TableCell className="text-center">
-                  <div className="">
-                    Applied On {format(new Date(dt.applied), "dd MMMM yyyy")}
-                  </div>
-                  <div className="">
-                    {(dt.progress_name === 'contract' || dt.progress_name === 'disqualified' ? (
-                        'Test Score : '
-                      ) : '')
-                      }
-                    {(dt.progress_name === 'contract' || dt.progress_name === 'disqualified' ? (
-                        dt.test_score
-                      ) : '')
-                      }
-                      {(dt.progress_name === 'contract' || dt.progress_name === 'disqualified' ? (
-                        ', '
-                      ) : '')
-                      }
-                      {(dt.progress_name === 'contract' || dt.progress_name === 'disqualified' ? (
+            {currentItem && currentItem.length > 0 ? (
+              currentItem.map((dt: any, index: any) => (
+                <TableRow
+                  hover
+                  role="checkbox"
+                  tabIndex={-1}
+                  key={dt.user_entity_id}
+                >
+                  <TableCell className="text-center">
+                    {startIndex + index + 1}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {dt.trainee_name}
+                  </TableCell>
+                  <TableCell className="text-center">
+                    {dt.usdu_school}
+                  </TableCell>
+                  <TableCell className="text-center">{dt.lulus}</TableCell>
+                  <TableCell className="text-center">{dt.phone} </TableCell>
+                  <TableCell className="text-center">{dt.technology}</TableCell>
+                  <TableCell className="text-center">
+                    <div className="">
+                      Applied On {format(new Date(dt.applied), "dd MMMM yyyy")}
+                    </div>
+                    <div className="">
+                      {dt.progress_name === "contract" ||
+                      dt.progress_name === "disqualified"
+                        ? "Test Score : "
+                        : ""}
+                      {dt.progress_name === "contract" ||
+                      dt.progress_name === "disqualified"
+                        ? dt.test_score
+                        : ""}
+                      {dt.progress_name === "contract" ||
+                      dt.progress_name === "disqualified"
+                        ? ", "
+                        : ""}
+                      {dt.progress_name === "contract" ||
+                      dt.progress_name === "disqualified" ? (
                         //  dt.prap_status
                         <span className="capitalize">{dt.prap_status}</span>
-                      ) : <span className="capitalize">{dt.progress_name}</span>)
-                      }
+                      ) : (
+                        <span className="capitalize">{dt.progress_name}</span>
+                      )}
                     </div>
-                </TableCell>
-                <TableCell className="text-center">
-                  <Button
-                    onClick={() => handleClickOpen(dt)}
-                    className="text-black"
-                  >
-                    <MoreVertIcon />
-                  </Button>
-                  <Dialog
-                    open={(Boolean(selectedData), open)}
-                    // open={open}
-                    // onClose={(() => setDataStatus(null), handleClose)}
-                    // onClose={() => setSelectedData(null)}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                    // slotProps={{
-                    //   backdrop: "rgba(0, 0, 0, 0.25)",
-                    // }}                                    
-                    BackdropProps={{
-                      style: {
-                        backgroundColor: "rgba(0, 0, 0, 0.25)", // Atur warna latar belakang di luar modal
-                      },
-                    }}
-                  >
-                    <DialogTitle
-                      id="alert-dialog-title"
-                      className="border-b-2 mb-4"
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Button
+                      onClick={() => handleClickOpen(dt)}
+                      className="text-black"
                     >
-                      {"Switch Status"}
-                    </DialogTitle>
-                    <DialogContent>
-                      <DialogContentText id="alert-dialog-description">
-                        {selectedData &&
-                          (selectedData.progress_name === "filtering test" ? (
-                            <ReadyModal
-                              data={selectedData}
-                              close={handleClose}
-                            />
-                          ) : selectedData.progress_name === "contract" ? (
-                            <ContractModal
-                              data={selectedData}
-                              close={handleClose}
-                            />
-                          ) : selectedData.progress_name === "disqualified" ? (
-                            <DisqualifiedModal
-                              data={selectedData}
-                              close={handleClose}
-                            />
-                          ) : selectedData.progress_name === "not responding" ? (
-                            <NotrespondingModal
-                              data={selectedData}
-                              close={handleClose}
-                            />
-                          ) : (
-                            <DefaultModal
-                              data={selectedData}
-                              close={handleClose}
-                            />
-                          ))}
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                    </DialogActions>
-                  </Dialog>
-                </TableCell>
-              </TableRow>
-              ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={8} className="text-center">
-                    Data tidak ada
+                      <MoreVertIcon />
+                    </Button>
+                    <Dialog
+                      open={(Boolean(selectedData), open)}
+                      // open={open}
+                      // onClose={(() => setDataStatus(null), handleClose)}
+                      // onClose={() => setSelectedData(null)}
+                      onClose={handleClose}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                      // slotProps={{
+                      //   backdrop: "rgba(0, 0, 0, 0.25)",
+                      // }}
+                      BackdropProps={{
+                        style: {
+                          backgroundColor: "rgba(0, 0, 0, 0.25)", // Atur warna latar belakang di luar modal
+                        },
+                      }}
+                    >
+                      <DialogTitle
+                        id="alert-dialog-title"
+                        className="border-b-2 mb-4"
+                      >
+                        {"Switch Status"}
+                      </DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                          {selectedData &&
+                            (selectedData.progress_name === "filtering test" ? (
+                              <ReadyModal
+                                data={selectedData}
+                                close={handleClose}
+                              />
+                            ) : selectedData.progress_name === "contract" ? (
+                              <ContractModal
+                                data={selectedData}
+                                close={handleClose}
+                              />
+                            ) : selectedData.progress_name ===
+                              "disqualified" ? (
+                              <DisqualifiedModal
+                                data={selectedData}
+                                close={handleClose}
+                              />
+                            ) : selectedData.progress_name ===
+                              "not responding" ? (
+                              <NotrespondingModal
+                                data={selectedData}
+                                close={handleClose}
+                              />
+                            ) : (
+                              <DefaultModal
+                                data={selectedData}
+                                close={handleClose}
+                              />
+                            ))}
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions></DialogActions>
+                    </Dialog>
                   </TableCell>
                 </TableRow>
-              )}
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={8} className="text-center">
+                  Data tidak ada
+                </TableCell>
+              </TableRow>
+            )}
             {/* ))} */}
-
           </TableBody>
         </Table>
       </TableContainer>

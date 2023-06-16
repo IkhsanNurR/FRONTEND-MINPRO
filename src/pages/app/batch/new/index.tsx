@@ -14,7 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -103,7 +103,7 @@ const newBatch: MyPage = (props: any) => {
     formState: { errors },
     setValue,
     setError,
-    unregister
+    unregister,
   } = useForm<FormValues>();
 
   //submit
@@ -118,28 +118,28 @@ const newBatch: MyPage = (props: any) => {
     if (!data.EndPeriod || !data.StartPeriod) {
       return true;
     }
-      const trainerId = data.Trainer?.user_entity_id;
-      const coTrainerId = data.CoTrainer?.user_entity_id;
-      let trainerPrograms: any[] = [];
-      if (coTrainerId) {
-        trainerPrograms.push(coTrainerId);
-      }
-      if (trainerId) {
-        trainerPrograms.push(trainerId);
-      } else {
-        setError('Trainer', {
-          type: 'manual',
-          message: 'Trainer is required',
-        });
-      }
+    const trainerId = data.Trainer?.user_entity_id;
+    const coTrainerId = data.CoTrainer?.user_entity_id;
+    let trainerPrograms: any[] = [];
+    if (coTrainerId) {
+      trainerPrograms.push(coTrainerId);
+    }
+    if (trainerId) {
+      trainerPrograms.push(trainerId);
+    } else {
+      setError("Trainer", {
+        type: "manual",
+        message: "Trainer is required",
+      });
+    }
 
-      if (trainerId && coTrainerId && trainerId === coTrainerId) {
-        setError('Trainer', {
-          type: 'manual',
-          message: 'Trainer and CoTrainer must be different',
-        });
-      } else {
-        const batch = {
+    if (trainerId && coTrainerId && trainerId === coTrainerId) {
+      setError("Trainer", {
+        type: "manual",
+        message: "Trainer and CoTrainer must be different",
+      });
+    } else {
+      const batch = {
         batch_entity_id: data.Technology,
         batch_name: data.batchname,
         batch_description: data.description,
@@ -150,45 +150,45 @@ const newBatch: MyPage = (props: any) => {
         batch_pic_id: 1,
       };
       const batchTrainees = data.batchTrainees;
-      if(batchTrainees.length==0){
-        setError('batchTrainees',{message:'Selected Members is required'})
+      if (batchTrainees.length == 0) {
+        setError("batchTrainees", { message: "Selected Members is required" });
         return true;
       }
       const gabung = { batch, batchTrainees, trainerPrograms };
-      console.log('gabungan', gabung)
-      if(batch && batchTrainees && trainerPrograms.length>=1){
-        // dispatch(reqCreateBootcamp(gabung));
+      console.log("gabungan", gabung);
+      if (batch && batchTrainees && trainerPrograms.length >= 1) {
+        dispatch(reqCreateBootcamp(gabung));
       }
     }
-    };
+  };
 
   //Date
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   //handle start date
   const handleStartDateChange = (date: any) => {
-    register('StartPeriod',registerOptions.StartPeriod)
+    register("StartPeriod", registerOptions.StartPeriod);
     setStartDate(date);
     setEndDate(null);
     if (date) {
       const formattedDate: any = format(date.$d, "dd/MM/yyyy");
       setValue("StartPeriod", formattedDate); // Set the value of "StartPeriod" field in the form
     } else {
-      setError("StartPeriod", {message:'require'})
-      unregister("StartPeriod")
+      setError("StartPeriod", { message: "require" });
+      unregister("StartPeriod");
     }
   };
 
   //handle end date
   const handleEndDateChange = (date: any) => {
-    register('EndPeriod',registerOptions.EndPeriod)
+    register("EndPeriod", registerOptions.EndPeriod);
     setEndDate(date);
     if (date) {
       const formattedDate: any = format(date.$d, "dd/MM/yyyy");
       setValue("EndPeriod", formattedDate); // Set the value of "StartPeriod" field in the form
-    }else {
-      setError("EndPeriod", {message:'require'})
-      unregister("EndPeriod")
+    } else {
+      setError("EndPeriod", { message: "require" });
+      unregister("EndPeriod");
     }
   };
   //End Date > start Date
@@ -209,8 +209,7 @@ const newBatch: MyPage = (props: any) => {
     batch_type: { required: "batch_type is  required" },
   };
 
-  //contoh data
-
+  //data bulan
   const dataBulan = [
     { id: 1, bulan: "Januari" },
     { id: 2, bulan: "Februari" },
@@ -285,34 +284,14 @@ const newBatch: MyPage = (props: any) => {
   //pagination dan filtering
   const [selectedBulan, setSelectedBulan] = useState(null);
   const [selectedTahun, setSelectedTahun] = useState(null);
-  const [filteredData, setFilteredData] = useState(daftarapply);
+  const [loadedData, setLoadedData] = useState(daftarapply);
+  const [filteredData, setFilteredData] = useState(loadedData);
+  // const [filteredData, setFilteredData] = useState(daftarapply);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
 
-  // const handleFilter = (selectedBulan: any, selectedTahun: any) => {
-  //   let newData = daftarapply;
-  //   if (selectedBulan) {
-  //     newData = newData.filter((user:any) => user.applied_month == selectedBulan.bulan);
-  //   }
-
-  //   if (selectedTahun) {
-  //     newData = newData.filter((user:any) => parseInt(user.applied_year) == selectedTahun?.tahun);
-  //     console.log('filter',newData.filter((user:any) => parseInt(user.applied_year) == selectedTahun?.tahun))
-  //   }
-
-  //   setFilteredData(newData);
-  //   setCurrentPage(1); // Reset halaman ke halaman pertama setelah filtering
-
-  //   // Reset selectedBulan and selectedTahun jika nul
-  //   if (!selectedBulan && !selectedTahun) {
-  //     setSelectedBulan(null);
-  //     setSelectedTahun(null);
-  //   }
-  // };
-
-  
   const handleFilter = (selectedBulan: any, selectedTahun: any) => {
-    let newData = [...daftarapply]; // Create a new array to store the filtered data
+    let newData = [...loadedData];
 
     if (selectedBulan) {
       newData = newData.filter(
@@ -349,6 +328,19 @@ const newBatch: MyPage = (props: any) => {
     setCurrentPage(page);
   };
 
+  const handleTechChange = (tech: any) => {
+    let newData = [...daftarapply];
+    if (tech) {
+      newData = newData.filter(
+        (user: any) => parseInt(user.program_entity) === tech.target.value
+      );
+      setLoadedData(newData);
+      setFilteredData(newData);
+      setCurrentPage(1);
+    }
+    console.log("newData", newData);
+  };
+
   const pageCount = Math.ceil(filteredData.length / itemsPerPage);
   return (
     <div>
@@ -378,6 +370,7 @@ const newBatch: MyPage = (props: any) => {
                     id="Technology"
                     {...register("Technology", registerOptions.Technology)}
                     label="Technology"
+                    onChange={handleTechChange}
                   >
                     {progname.map((prog: any) => (
                       <MenuItem
@@ -411,7 +404,7 @@ const newBatch: MyPage = (props: any) => {
                 )}
               </div>
             </div>
-            <div className="w-full">
+            <div className="w-full mb-8 flex ">
               <TextField
                 id="description"
                 variant="outlined"
@@ -423,6 +416,15 @@ const newBatch: MyPage = (props: any) => {
                 className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
                 {...register("description", registerOptions.description)}
               />
+              <div className="w-2/6 flex justify-center items-center">
+                <a
+                  className={`text-6xl ml-2 ${
+                    checked.length == 0 ? "hidden" : ""
+                  }`}
+                >
+                  {checked.length}
+                </a>
+              </div>
               <div className="absolute w-full">
                 {errors?.description && (
                   <small className="text-red-500 ml-4">
@@ -553,15 +555,14 @@ const newBatch: MyPage = (props: any) => {
                 onChange={(event: any, value: any) => {
                   register("Trainer", {
                     ...registerOptions.Trainer,
-                    value: value
+                    value: value,
                   });
                   if (!value) {
                     setValue("Trainer", ""); // Menghapus nilai "Trainer" jika value null
                   } else {
                     setValue("Trainer", value);
                   }
-                }
-              }
+                }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -578,7 +579,7 @@ const newBatch: MyPage = (props: any) => {
                 className="w-5/12"
                 includeInputInList
                 onChange={(event: any, value: any) => {
-                  register("CoTrainer")
+                  register("CoTrainer");
                   if (!value) {
                     setValue("CoTrainer", "");
                   } else {
@@ -700,9 +701,10 @@ const newBatch: MyPage = (props: any) => {
             </div>
             {/* Filter orangnya, ketika filtered.length = 0, maka pake yang lama */}
             <div className="flex flex-wrap w-full items-center justify-center">
-              {(
-                (filteredData.length == 0 ? daftarapply : filteredData) || []
-              ).map((user: any) => (
+              {/* {(
+                (filteredData.length == 0 ? currentData : filteredData) || []
+              ).map((user: any) => ( */}
+              {currentData?.map((user: any) => (
                 //batchTrainees digunakan jika sudah ada datanya
                 <Card
                   key={user.user_entity_id}
@@ -719,7 +721,6 @@ const newBatch: MyPage = (props: any) => {
                     <Typography variant="body1" component="div">
                       {user.trainee_name}
                     </Typography>
-
                     <AddRoundedIcon
                       className={`${
                         checked.includes(user.user_entity_id)
@@ -730,6 +731,13 @@ const newBatch: MyPage = (props: any) => {
                   </CardContent>
                 </Card>
               ))}
+              {loadedData.length == 0 && filteredData == 0 ? (
+                <Typography className="mt-5 capitalize text-white bg-red-400 rounded-lg w-fit p-4 text-center">
+                  Tidak ada Data
+                </Typography>
+              ) : (
+                ""
+              )}
             </div>
             <div className="flex justify-center mt-3">
               <Pagination

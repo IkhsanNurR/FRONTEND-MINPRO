@@ -54,7 +54,7 @@ const Content1 = (props: any) => {
         </div>
       </div>
 
-      <div className="mt-8 sm:block relative">
+      <div className=" sm:block relative">
         <div className="align-middle inline-block min-w-full border-gray-200">
           {children}
         </div>

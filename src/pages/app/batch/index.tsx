@@ -96,14 +96,14 @@ const Bootcamp: MyPage = () => {
   const [closeBatch, setCloseBatch]: any = useState(false);
   const [deleteBatch, setDeleteBatch]: any = useState(false);
   const [runningBatch, setRunningBatch]: any = useState(false);
+  const [filterData, setFilterData] = useState(bootcamp);
   const [selected, setSelected]: any = useState(0);
   const [currentPage, setCurrentPage]: any = useState(1);
-  const [itemPerPage, setItemPerPage] = useState(5);
-  const [dataFilter, setDataFilter] = useState([]);
-  const totalPages = Math.ceil(dataFilter?.length / itemPerPage);
+  const [itemPerPage, setItemPerPage] = useState(1);
+  const totalPages = Math.ceil(filterData?.length / itemPerPage);
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
-  const currentItem = dataFilter?.slice(startIndex, endIndex);
+  const currentItem = filterData?.slice(startIndex, endIndex);
 
   const columns = [
     { name: "No" },
@@ -115,13 +115,14 @@ const Bootcamp: MyPage = () => {
     { name: "Status" },
     { name: "Aksi" },
   ];
-  const statusFilter: any = [
-    { status: "open" },
-    { status: "cancelled" },
-    { status: "running" },
-    { status: "closed " },
-    { status: "pending" },
-    { status: "extend" },
+
+  const statusFilter = [
+    { id: 1, status: "open" },
+    { id: 2, status: "running" },
+    { id: 3, status: "closed" },
+    { id: 4, status: "pending" },
+    { id: 5, status: "cancelled" },
+    { id: 6, status: "extend" },
   ];
 
   const {
@@ -131,6 +132,57 @@ const Bootcamp: MyPage = () => {
     setValue,
   } = useForm();
 
+  const handleFilter = (filter: any) => {
+    console.log(filter);
+    let newData = [...bootcamp]; // Create a new array to store the filtered data
+  
+    if (filter.batch_status_input === "" && filter.batch_status !== "null") {
+      newData = newData.filter(
+        (user: any) => user.batch_status === filter.batch_status
+      );
+      setFilterData(newData);
+    } else if (filter.batch_status_input !== "" && filter.batch_status === "null") {
+      newData = newData.filter((user: any) => {
+        return (
+          user.technology
+            .toLowerCase()
+            .includes(filter.batch_status_input.toLowerCase()) ||
+          user.batch_name
+            .toLowerCase()
+            .includes(filter.batch_status_input.toLowerCase()) ||
+          user.trainer
+            .toLowerCase()
+            .includes(filter.batch_status_input.toLowerCase())
+        );
+      });
+      setFilterData(newData);
+    } else if (filter.batch_status === "null" && filter.batch_status_input === "") {
+      setFilterData(bootcamp);
+    } else if (filter.batch_status_input && filter.batch_status && filter.batch_status !== "null") {
+      newData = newData.filter((user: any) => {
+        return (
+          user.technology
+            .toLowerCase()
+            .includes(filter.batch_status_input.toLowerCase()) ||
+          user.batch_name
+            .toLowerCase()
+            .includes(filter.batch_status_input.toLowerCase()) ||
+          user.trainer
+            .toLowerCase()
+            .includes(filter.batch_status_input.toLowerCase())
+        ) && user.batch_status === filter.batch_status;
+      });
+      
+      if (newData.length === 0) {
+        // Jika data tidak ditemukan, setFilterData([]) atau tampilkan pesan sesuai kebutuhan Anda
+        setFilterData([]);
+        // atau tampilkan pesan "Data tidak ditemukan" atau sesuai kebutuhan
+      } else {
+        setFilterData(newData);
+      }
+    }
+  }
+  
   const router = useRouter();
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>, data: any) => {
@@ -150,7 +202,7 @@ const Bootcamp: MyPage = () => {
   };
 
   const handleDeleteBatch = () => {
-    setCloseBatch(true);
+    setDeleteBatch(true);
     setAnchorEl(null);
   };
 
@@ -163,25 +215,8 @@ const Bootcamp: MyPage = () => {
 
   console.log(bootcamp);
 
-  const handleFilter = (data: any) => {
-    console.log("filter", data);
-  };
-
   useEffect(() => {
-    setDataFilter(bootcamp);
-    let newData:any = [...bootcamp]
-
-    if(statusFilter){
-      newData = newData.filter(
-        (user: any) => parseInt(user.batch_status) === statusFilter
-       
-      )
-    }
-    setDataFilter(newData)
-  },[statusFilter])
-
-  useEffect(() => {
-
+    setFilterData(bootcamp);
     dispatch(reqGetBootcamp());
   }, [refresh]);
   return (
@@ -192,30 +227,29 @@ const Bootcamp: MyPage = () => {
         fungsi1={() => router.push("./batch/new")}
       />
 
-      <div className="mt-4  w-full p-4 text-center">
+      <div className=" w-full p-4 text-center">
         <form onSubmit={handleSubmit(handleFilter)}>
           <label htmlFor="search" className="mr-2">
             Seacrh
           </label>
+
           <input
             type="search"
             className=" px-2 py-1 rounded-xl border-gray-200 border-2"
+            {...register("batch_status_input")}
           />
-              <select
-                id=""
-                className="ml-4 mr-4 w-24 border-gray-200 border-2 p-1 rounded-lg"
-                {...register("filter")}
-                defaultValue={"status"}
-                >
-                  <option value="status" autoFocus disabled>Status</option>
-                {(statusFilter || []).map((status: any, index: any) => {
-                  return (
-                    <>
-                <option value="">{status.status}</option>
-                    </>
-                );
-              })}
-              </select>
+
+          <select
+            id=""
+            className="ml-4 mr-4 w-28 border-gray-200 border-2 p-1 rounded-lg"
+            defaultValue={"null"}
+            {...register("batch_status")}
+          >
+            <option value="null">None</option>
+            {statusFilter.map((status: any, index: any) => (
+              <option value={status.status}>{status.status}</option>
+            ))}
+          </select>
           <button className="order-0  ml-2 inline-flex items-center px-4 py-2 border border-transparent rounded-xl bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:order-1">
             Search
           </button>
@@ -237,126 +271,144 @@ const Bootcamp: MyPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {(currentItem || []).map((data: any, i: number) => (
+              {currentItem && currentItem.length > 0 ? (
+                currentItem.map((data: any, i: any) => (
+                  <TableRow>
+                    <TableCell className=" text-center">
+                      {startIndex + i + 1}
+                    </TableCell>
+                    <TableCell className=" text-center">
+                      {data.batch_name}
+                    </TableCell>
+                    <TableCell className=" text-center">
+                      {data.technology}
+                    </TableCell>
+                    <TableCell className=" text-center">
+                      <AvatarGroup total={data.members.length}>
+                        {data.members
+                          .slice(0, 4)
+                          .map((members: any, index: any) => (
+                            <Avatar
+                              key={index}
+                              alt={members.trainee_id}
+                              // src={members.user_photo}
+                              src={`https://i.pravatar.cc/300/img=${index + 1}`}
+                              style={{ width: "30px", height: "30px" }}
+                            />
+                          ))}
+                      </AvatarGroup>
+                    </TableCell>
+                    <TableCell className=" text-center">
+                      <div>
+                        {format(
+                          new Date(data.batch_start_date),
+                          "dd MMMM yyyy"
+                        )}
+                      </div>
+                      <div>
+                        {format(new Date(data.batch_end_date), "dd MMMM yyyy")}
+                      </div>
+                    </TableCell>
+                    <TableCell className=" text-center">
+                      {data.trainer}
+                    </TableCell>
+                    <TableCell className={` text-center`}>
+                      <a
+                        className={`${
+                          data.batch_status == "open"
+                            ? "text-white bg-green-500"
+                            : data.batch_status == "closed"
+                            ? "text-white bg-orange-500"
+                            : data.batch_status == "running"
+                            ? "text-white bg-blue-500"
+                            : data.batch_status == "pending"
+                            ? "text-white bg-yellow-500"
+                            : data.batch_status == "cancelled"
+                            ? "text-white bg-red-500"
+                            : data.batch_status == "extend"
+                            ? "text-white bg-cyan-500"
+                            : ""
+                        } rounded-lg w-full p-2 capitalize`}
+                      >
+                        {data.batch_status}
+                      </a>
+                    </TableCell>
+                    <TableCell className=" text-center">
+                      <button
+                        id="demo-customized-button"
+                        aria-controls={
+                          open ? "demo-customized-menu" : undefined
+                        }
+                        aria-haspopup="true"
+                        aria-expanded={open ? "true" : undefined}
+                        onClick={(e) => handleClick(e, data)}
+                      >
+                        <MoreVertRounded />
+                      </button>
+                      <StyledMenu
+                        id="demo-customized-menu"
+                        MenuListProps={{
+                          "aria-labelledby": "demo-customized-button",
+                        }}
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                      >
+                        <MenuItem
+                          onClick={() =>
+                            router.push({
+                              pathname: `./batch/edit`,
+                              query: {
+                                batch_id: selected.batch_id,
+                                // progname1: selected.technology
+                              },
+                            })
+                          }
+                          disableRipple
+                        >
+                          <Edit />
+                          Edit
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseBatch} disableRipple>
+                          <DoDisturbOnOutlined />
+                          Closed Batch
+                        </MenuItem>
+                        <MenuItem onClick={handleDeleteBatch} disableRipple>
+                          <DeleteOutlineRounded />
+                          Delete Batch
+                        </MenuItem>
+                        <MenuItem onClick={handleRunningBatch} disableRipple>
+                          <PlayArrowOutlined />
+                          Set To Running
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() =>
+                            router.push({
+                              pathname: `./batch/evaluation`,
+                              query: {
+                                batch_id: selected.batch_id,
+                              },
+                            })
+                          }
+                          disableRipple
+                        >
+                          <GradingRounded />
+                          Evaluation
+                        </MenuItem>
+                      </StyledMenu>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
                 <TableRow>
-                  <TableCell className=" text-center">
-                    {startIndex + i + 1}
-                  </TableCell>
-                  <TableCell className=" text-center">
-                    {data.batch_name}
-                  </TableCell>
-                  <TableCell className=" text-center">
-                    {data.technology}
-                  </TableCell>
-                  <TableCell className=" text-center">
-                    <AvatarGroup total={data.members.length}>
-                      {data.members
-                        .slice(0, 4)
-                        .map((members: any, index: any) => (
-                          <Avatar
-                            key={index}
-                            alt={members.trainee_id}
-                            // src={members.user_photo}
-                            src={`https://i.pravatar.cc/300/img=${index + 1}`}
-                            style={{ width: "30px", height: "30px" }}
-                          />
-                        ))}
-                    </AvatarGroup>
-                  </TableCell>
-                  <TableCell className=" text-center">
-                    <div>
-                      {format(new Date(data.batch_start_date), "dd MMMM yyyy")}
-                    </div>
-                    <div>
-                      {format(new Date(data.batch_end_date), "dd MMMM yyyy")}
-                    </div>
-                  </TableCell>
-                  <TableCell className=" text-center">{data.trainer}</TableCell>
-                  <TableCell className={` text-center`}>
-                    <a
-                      className={`${
-                        data.batch_status == "open"
-                          ? "text-white bg-green-500"
-                          : data.batch_status == "closed"
-                          ? "text-white bg-orange-500"
-                          : data.batch_status == "running"
-                          ? "text-white bg-blue-500"
-                          : data.batch_status == "pending"
-                          ? "text-white bg-yellow-500"
-                          : data.batch_status == "cancelled"
-                          ? "text-white bg-red-500"
-                          : data.batch_status == "extend"
-                          ? "text-white bg-cyan-500"
-                          : ""
-                      } rounded-lg w-full p-2 capitalize`}
-                    >
-                      {data.batch_status}
-                    </a>
-                  </TableCell>
-                  <TableCell className=" text-center">
-                    <button
-                      id="demo-customized-button"
-                      aria-controls={open ? "demo-customized-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? "true" : undefined}
-                      onClick={(e) => handleClick(e, data)}
-                    >
-                      <MoreVertRounded />
-                    </button>
-                    <StyledMenu
-                      id="demo-customized-menu"
-                      MenuListProps={{
-                        "aria-labelledby": "demo-customized-button",
-                      }}
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                    >
-                      <MenuItem
-                        onClick={() =>
-                          router.push({
-                            pathname: `./batch/edit`,
-                            query: {
-                              batch_id: selected.batch_id,
-                              // progname1: selected.technology
-                            },
-                          })
-                        }
-                        disableRipple
-                      >
-                        <Edit />
-                        Edit
-                      </MenuItem>
-                      <MenuItem onClick={handleCloseBatch} disableRipple>
-                        <DoDisturbOnOutlined />
-                        Closed Batch
-                      </MenuItem>
-                      <MenuItem onClick={handleDeleteBatch} disableRipple>
-                        <DeleteOutlineRounded />
-                        Delete Batch
-                      </MenuItem>
-                      <MenuItem onClick={handleRunningBatch} disableRipple>
-                        <PlayArrowOutlined />
-                        Set To Running
-                      </MenuItem>
-                      <MenuItem
-                        onClick={() =>
-                          router.push({
-                            pathname: `./batch/evaluation`,
-                            query: {
-                              batch_id: selected.batch_id,
-                            },
-                          })
-                        }
-                        disableRipple
-                      >
-                        <GradingRounded />
-                        Evaluation
-                      </MenuItem>
-                    </StyledMenu>
+                  <TableCell 
+                  colSpan={8} 
+                  className="text-center ">
+
+                    Data tidak ada
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>

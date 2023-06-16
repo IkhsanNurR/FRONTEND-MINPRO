@@ -20,7 +20,7 @@ const style = {
 };
 
 const ReviewModal = ({ open, handleClose, data }: any) => {
-  console.log(open, handleClose, data);
+  // console.log(open, handleClose, data);
   const {
     register,
     handleSubmit,
@@ -35,8 +35,9 @@ const ReviewModal = ({ open, handleClose, data }: any) => {
   }, [open, reset]);
 
   const onSubmit = (formData: any) => {
+    
     console.log(formData);
-    handleClose();
+    // handleClose();
   };
 
   return (

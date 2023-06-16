@@ -10,6 +10,7 @@ interface TabPanelProps {
 
 const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
+  // console.log('props tabs', props)
 
   return (
     <div

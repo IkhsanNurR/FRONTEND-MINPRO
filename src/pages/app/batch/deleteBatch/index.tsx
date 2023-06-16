@@ -7,6 +7,8 @@ import Content from "../../../../components/shared/content";
 import { useForm } from "react-hook-form";
 import { Divider, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { reqDeleteBootcamp } from "@/pages/redux/bootcampSchema/action/actionReducer";
 
 const style = {
   position: "absolute" as "absolute",
@@ -21,6 +23,7 @@ const style = {
 
 const DeleteBatch = ({ open, handleClose, data }: any) => {
   // console.log('props',open, handleClose, data);
+  // console.log('data',data)
   const {
     register,
     handleSubmit,
@@ -34,10 +37,19 @@ const DeleteBatch = ({ open, handleClose, data }: any) => {
     }
   }, [open, reset]);
 
-  const onSubmit = (formData: any) => {
-    console.log(formData);
-    handleClose();
-  };
+  const dispatch = useDispatch()
+
+  // console.log('data', data.batch_id)
+  // const handleDelete = (formData: any) => {
+    //   console.log('delete',formData);
+    //   // handleClose();
+    // };
+    
+    const handleDelete = (formData: any) => {
+      console.log('data',formData)
+      const batch_id = formData.batch_id
+      dispatch(reqDeleteBootcamp(formData))
+  }
 
   return (
     <div>
@@ -52,7 +64,7 @@ const DeleteBatch = ({ open, handleClose, data }: any) => {
             Confirm
           </Typography>
           <Divider className="w-full border-1" />
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(handleDelete)}>
             {/* Input hidden untuk mengirim data */}
             <input type="hidden" {...register("batch_id")} value={data.batch_id} />
             <p>Apakah Kamu Yakin Akan Menghapus Batch : {data.batch_name}</p>
@@ -71,7 +83,7 @@ const DeleteBatch = ({ open, handleClose, data }: any) => {
                 onClick={handleClose}
                 variant="contained"
                 size="small"
-                className="mt-4 ml-2 mb-4 mr-4 bg-blue-500 hover:bg-blue-600 rounded-md"
+                className="mt-4 ml-2 mb-4 mr-4 bg-red-500 hover:bg-red-600 rounded-md"
               >
                 Cancel
               </Button>

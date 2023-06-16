@@ -130,6 +130,49 @@ export const resGetTrainer = (payload:any) => {
     }
 }
 
+//trainee
+export const reqGetTraineeById = (payload:any) => {
+    return{
+        type : ActionType.REQ_GET_TRAINEE_BY_ID,
+        payload
+        
+    }
+}
+export const resGetTraineeById = (payload:any) => {
+    return{
+        type : ActionType.RES_GET_TRAINEE_BY_ID,
+        payload
+    }
+}
+
+
+//EVALUATION
+export const reqEvaluationDetail = (payload:any) => {
+    return{
+        type : ActionType.REQ_EVALUATION_DETAIL,
+        payload
+    }
+}
+export const resEvaluationDetail = (payload:any) => {
+    return{
+        type : ActionType.RES_EVALUATION_DETAIL,
+        payload
+    }
+}
+export const reqEvaluationStatus = (payload:any) => {
+    return{
+        type : ActionType.REQ_EVALUATION_STATUS,
+        payload
+    }
+}
+export const resEvaluationStatus = (payload:any) => {
+    return{
+        type : ActionType.RES_EVALUATION_STATUS,
+        payload
+    }
+}
+
+
 
 
 

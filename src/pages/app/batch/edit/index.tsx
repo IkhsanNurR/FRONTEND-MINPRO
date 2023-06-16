@@ -22,7 +22,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -69,9 +69,7 @@ const EditBatch: MyPage = (props: any) => {
       : [...traineeId, index];
     setTraineeId(updatedTraineeId);
   };
-
-  console.log("checked", checked);
-
+  console.log("ceknya", checked);
   const { batch_id } = router.query;
   //useEffect API
   useEffect(() => {
@@ -96,7 +94,6 @@ const EditBatch: MyPage = (props: any) => {
     const orang = bootcamp[0]?.members;
     const selected = orang?.map((member: any) => member.trainee_id);
     setTraineeId(selected);
-    console.log('tanggal',bootcamp[0]?.batch_start_date)
   }, [checked, bootcamp]);
   //================
 
@@ -104,8 +101,8 @@ const EditBatch: MyPage = (props: any) => {
     if (traineeId) {
       setChecked(traineeId);
     }
-    setStartDate(loadedData?.batch_start_date)
-    setEndDate(loadedData?.batch_end_date)
+    // setStartDate(parseISO(loadedData?.batch_start_date));
+    // setEndDate(parseISO(loadedData?.batch_end_date));
   }, [router.isReady, loadedData]);
 
   //type form
@@ -181,16 +178,19 @@ const EditBatch: MyPage = (props: any) => {
         return true;
       }
       const gabung = { batch, batchTrainees, trainerPrograms };
-      console.log("gabungan", gabung);
+      // console.log("gabungan", gabung);
       if (batch && batchTrainees && trainerPrograms.length >= 1) {
         // dispatch(reqCreateBootcamp(gabung)); //ganti ke api update
       }
     }
   };
 
+  // setStartDate()
+  // setEndDate(loadedData?.batch_end_date)
   //Date
-  const [startDate, setStartDate] = useState<Date | null>(null );
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+
   //handle start date
   const handleStartDateChange = (date: any) => {
     register("StartPeriod", registerOptions.StartPeriod);
@@ -220,7 +220,11 @@ const EditBatch: MyPage = (props: any) => {
 
   //End Date > start Date
   const isEndDateDisabled = !startDate;
-  const minEndDate = startDate ? dayjs(startDate).add(1, "day") : null;
+  const minEndDate = loadedData?.batch_start_date
+    ? dayjs(loadedData?.batch_start_date)
+    : startDate
+    ? dayjs(startDate).add(1, "day")
+    : null;
 
   //=================================================================================
 
@@ -376,10 +380,20 @@ const EditBatch: MyPage = (props: any) => {
     setCurrentPage(page);
   };
 
+  const [daftarTech, setDaftarTech] = useState(daftarapply);
+  useEffect(() => {
+    const newData = daftarapply.filter(
+      (user: any) =>
+        parseInt(user.program_entity) === loadedData?.batch_entity_id
+    );
+    setDaftarTech(newData);
+    setFilteredData(newData);
+    setCurrentPage(1);
+  }, [loadedData, daftarapply]);
+
   const pageCount = Math.ceil(filteredData.length / itemsPerPage);
 
   if (!loadedData) {
-    // console.log('laoded',loadedData)
     return (
       <div className="mt-48 flex justify-center items-center">
         <Image src={loading} alt="loading" className="text-center" />
@@ -421,6 +435,7 @@ const EditBatch: MyPage = (props: any) => {
                       {...register("Technology", registerOptions.Technology)}
                       label="Technology"
                       defaultValue={loadedData.batch_entity_id}
+                      disabled
                     >
                       {progname.map((prog: any) => (
                         <MenuItem
@@ -457,7 +472,7 @@ const EditBatch: MyPage = (props: any) => {
                   )}
                 </div>
               </div>
-              <div className="w-full">
+              <div className="w-full mb-8 flex ">
                 <TextField
                   id="description"
                   variant="outlined"
@@ -473,6 +488,15 @@ const EditBatch: MyPage = (props: any) => {
                   {...register("description", registerOptions.description)}
                   defaultValue={loadedData.batch_description}
                 />
+                <div className="w-2/6 flex justify-center items-center">
+                  <a
+                    className={`text-6xl ml-2 ${
+                      checked.length == 0 ? "hidden" : ""
+                    }`}
+                  >
+                    {checked.length}
+                  </a>
+                </div>
                 <div className="absolute w-full">
                   {errors?.description && (
                     <small className="text-red-500 ml-4">
@@ -506,7 +530,7 @@ const EditBatch: MyPage = (props: any) => {
                   {checked.length}
                 </a>
               </div>
-            </div> */}
+            </div>  */}
               <div className="w-full mb-8 mt-8">
                 <FormControl
                   variant="outlined"
@@ -556,7 +580,11 @@ const EditBatch: MyPage = (props: any) => {
                       label="Mulai"
                       className="w-full"
                       onChange={handleStartDateChange}
-                      value={startDate}
+                      value={
+                        loadedData.batch_start_date
+                          ? dayjs(loadedData?.batch_start_date)
+                          : startDate
+                      }
                     />
                   </div>
                   <div className="w-6"></div>
@@ -573,7 +601,11 @@ const EditBatch: MyPage = (props: any) => {
                       minDate={minEndDate}
                       disabled={isEndDateDisabled}
                       onChange={handleEndDateChange}
-                      value={endDate}
+                      value={
+                        loadedData.batch_end_date
+                          ? dayjs(loadedData?.batch_end_date)
+                          : endDate
+                      }
                     />
                   </div>
                 </LocalizationProvider>
@@ -716,9 +748,10 @@ const EditBatch: MyPage = (props: any) => {
               </div>
               {/* Filter orangnya, ketika filtered.length = 0, maka pake yang lama */}
               <div className="flex flex-wrap w-full items-center justify-center">
-                {(
+                {/* {(
                   (filteredData.length == 0 ? daftarapply : filteredData) || []
-                ).map((user: any) => (
+                ).map((user: any) => ( */}
+                {currentData?.map((user: any) => (
                   //batchTrainees digunakan jika sudah ada datanya
                   <Card
                     key={user.user_entity_id}
@@ -746,6 +779,13 @@ const EditBatch: MyPage = (props: any) => {
                     </CardContent>
                   </Card>
                 ))}
+                {loadedData.length == 0 && filteredData == 0 ? (
+                  <Typography className="mt-5 capitalize text-white bg-red-400 rounded-lg w-fit p-4 text-center">
+                    Tidak ada Data
+                  </Typography>
+                ) : (
+                  ""
+                )}
               </div>
               <div className="flex justify-center mt-3">
                 <Pagination

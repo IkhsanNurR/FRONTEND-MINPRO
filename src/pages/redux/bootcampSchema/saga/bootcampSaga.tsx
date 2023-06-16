@@ -43,7 +43,7 @@ export function * handleEditBootcamp(action:any):any{
 export function * handleCloseBootcamp(action:any):any{
     try {
         const result = yield call(apiMethod.closeBootcamp, action.payload)
-        // console.log('saga',result)
+        // console.log('sagaClose',result)
         yield put(resCloseBootcamp(result.data))
     } catch (error) {
         yield put(resCloseBootcamp({message: error, status: 404}))

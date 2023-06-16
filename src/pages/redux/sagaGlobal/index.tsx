@@ -5,6 +5,8 @@ import { handleGetProgName } from '../bootcampSchema/saga/prognameSaga'
 import { handleGetBootcampDaftarApply } from '../bootcampSchema/saga/orangApplySaga'
 import { handleGetTrainer } from '../bootcampSchema/saga/trainerSaga'
 import { handleGetCandidatApply, handleGetCandidatContract, handleGetCandidatDisqualified, handleGetCandidatFiltering, handleGetCandidatNotResponding, handleUpdateCandidatApply, handleUpdateCandidatContract, handleUpdateCandidatDisqualified, handleUpdateCandidatFiltering, handleUpdateCandidatNotResponding } from '../bootcampSchema/saga/candidatSaga'
+import { handleGetTraineeById } from '../bootcampSchema/saga/traineeSaga'
+import { handleEvaluationDetail, handleEvaluationStatus } from '../bootcampSchema/saga/evaluationSaga'
 
 function * watchAll(){
     yield all([
@@ -20,6 +22,14 @@ function * watchAll(){
 
         //trainer
         takeEvery(ActionType.REQ_GET_TRAINER, handleGetTrainer),
+
+        // trainee
+        takeEvery(ActionType.REQ_GET_TRAINEE_BY_ID, handleGetTraineeById),
+        
+        //evaluation
+        takeEvery(ActionType.REQ_EVALUATION_DETAIL, handleEvaluationDetail),
+        takeEvery(ActionType.REQ_EVALUATION_STATUS, handleEvaluationStatus),
+
 
         //CandidateApply
         takeEvery(ActionType.REQ_GET_CANDIDAT_APPLY, handleGetCandidatApply),

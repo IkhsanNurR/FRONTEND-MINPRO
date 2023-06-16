@@ -7,6 +7,9 @@ import Content from "../../../../components/shared/content";
 import { useForm } from "react-hook-form";
 import { Divider, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { reqSetToRunningBootcamp } from "@/pages/redux/bootcampSchema/action/actionReducer";
+import { id } from "date-fns/locale";
 
 const style = {
   position: "absolute" as "absolute",
@@ -20,7 +23,7 @@ const style = {
 };
 
 const RunningBatch = ({ open, handleClose, data }: any) => {
-  // console.log('props',open, handleClose, data);
+  // console.log('props', data);
   const {
     register,
     handleSubmit,
@@ -34,9 +37,21 @@ const RunningBatch = ({ open, handleClose, data }: any) => {
     }
   }, [open, reset]);
 
+  const dispatch = useDispatch()
   const onSubmit = (formData: any) => {
-    console.log(formData);
-    handleClose();
+    const batch_id = formData.batch_id
+    const members = [data.members] 
+    let member:any = []
+    {members[0].map((member1:any, i:any ) => {
+       member.push(member1.batr_id)
+      // return member
+      // console.log(member);
+    })}
+    const status = 'running'
+    const data1 = {member, batch_id, status}
+    console.log('data',data1)
+    dispatch(reqSetToRunningBootcamp(data1))
+    // handleClose();
   };
 
   return (
@@ -55,6 +70,7 @@ const RunningBatch = ({ open, handleClose, data }: any) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Input hidden untuk mengirim data */}
             <input type="hidden" {...register("batch_id")} value={data.batch_id} />
+            {/* <input type="hidden" {...register("batch_entity_id")} value={data.members} /> */}
             <p>Jalankan Batch : {data.batch_name}</p>
             <div className="">
               <Button
@@ -71,7 +87,7 @@ const RunningBatch = ({ open, handleClose, data }: any) => {
                 onClick={handleClose}
                 variant="contained"
                 size="small"
-                className="mt-4 ml-2 mb-4 mr-4 bg-blue-500 hover:bg-blue-600 rounded-md"
+                className="mt-4 ml-2 mb-4 mr-4 bg-red-500 hover:bg-red-600 rounded-md"
               >
                 Cancel
               </Button>

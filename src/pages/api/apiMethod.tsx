@@ -16,13 +16,19 @@ const createBootcamp = (data:any) => {
   return axios.post(`bootcamp/createbatch`, data);
 };
 const editBootcamp = (data: any) => {
-  return axios.patch(`bootcamp/editbootcamp`, data)
+  return axios.patch(`bootcamp/editbatch`, data)
 }
 const closeBootcamp = (data: any) => {
-  return axios.patch(`bootcmap/closebootcamp`, data)
-}
+  // console.log('api',data)
+  return axios.patch(`bootcamp/closebatch`, data
+  // , {
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   }
+  // })
+)}
 const deleteBootcamp = (data:any) => {
-  return axios.patch(`bootcamp/deletebootcamp`, data)
+  return axios.patch(`bootcamp/deletebatch`, data)
 }
 const setToRunningBootcamp = (data:any) => {
   return axios.patch(`bootcamp/settorunning`,data)
@@ -38,7 +44,11 @@ const getTrainer = () => {
   return axios.get(`bootcamp/trainer`);
 };
 
-
+//trainee
+const getTraineebyId = (data:any) => {
+  console.log('api', data)
+  return axios.get(`bootcamp/trainee/${+data.batch_id}/${+data.trainee_id}`)
+}
 
 
 //Candidat
@@ -76,6 +86,16 @@ const updateCandidatNotResponding = (data:any) => {
   return axios.patch(`bootcamp/updatecandidatenotresponding`,data)
 }
 
+
+//review
+const evaluationDetail = (data:any) => {
+  console.log('api',data)
+  return axios.patch(`bootcamp/evaluation/evaluationdetail`, data)
+}
+const editStatusEvaluation = (data:any) => {
+  return axios.patch(`bootcamp/evaluation/editstatusevaluation`, data)
+}
+
 export default {
   //bootcamp
   getBootcamp,
@@ -93,6 +113,13 @@ export default {
 
   //trainer
   getTrainer,
+
+  //trainee,
+  getTraineebyId,
+
+  //review
+  editStatusEvaluation,
+  evaluationDetail,
 
 
   //candidat
