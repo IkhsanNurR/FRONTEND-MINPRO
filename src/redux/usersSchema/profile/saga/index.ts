@@ -1,6 +1,6 @@
 import apiMethod from "@/pages/api/UsersSchema/Profile/apiMethod";
 import { call, put } from "redux-saga/effects";
-import { GetByNameOrEmailResponse, addAddressResponse, addEmailResponse, addPhoneResponse, deleteAddressResponse, deleteEmailResponse, deletePhoneResponse, editAddressResponse, editEmailResponse, editPhoneResponse, updateProfileResponse } from "../action/actionReducer";
+import { GetByNameOrEmailResponse, addAddressResponse, addEducationResponse, addEmailResponse, addExperienceResponse, addPhoneResponse, deleteAddressResponse, deleteEducationResponse, deleteEmailResponse, deleteExperienceResponse, deletePhoneResponse, editAddressResponse, editEducationResponse, editEmailResponse, editExperienceResponse, editPhoneResponse, updateProfileResponse } from "../action/actionReducer";
 
 export function* handleGetByNameOrEmail(action: any): any {
     try {
@@ -129,6 +129,78 @@ export function* handleDeleteAddress(action: any): any {
         yield put(deleteAddressResponse(result.data))
     } catch (error) {
         yield put(deleteAddressResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleAddEducation(action: any): any {
+    try {
+        const result = yield call(apiMethod.addEducation, { data: action.payload, id: action.id })
+        yield put(addEducationResponse(result.data))
+    } catch (error) {
+        yield put(addEducationResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleEditEducation(action: any): any {
+    try {
+        const result = yield call(apiMethod.editEducation, { data: action.payload, id: action.id })
+        yield put(editEducationResponse(result.data))
+    } catch (error) {
+        yield put(editEducationResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleDeleteEducation(action: any): any {
+    try {
+        const result = yield call(apiMethod.deleteEducation, action.payload)
+        yield put(deleteEducationResponse(result.data))
+    } catch (error) {
+        yield put(deleteEducationResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleAddExperience(action: any): any {
+    try {
+        const result = yield call(apiMethod.addExperience, { data: action.payload, id: action.id })
+        yield put(addExperienceResponse(result.data))
+    } catch (error) {
+        yield put(addExperienceResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleEditExperience(action: any): any {
+    try {
+        const result = yield call(apiMethod.editExperience, { data: action.payload, id: action.id })
+        yield put(editExperienceResponse(result.data))
+    } catch (error) {
+        yield put(editExperienceResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleDeleteExperience(action: any): any {
+    try {
+        const result = yield call(apiMethod.deleteExperience, action.payload)
+        yield put(deleteExperienceResponse(result.data))
+    } catch (error) {
+        yield put(deleteExperienceResponse({
             message: error,
             status: 400
         }))

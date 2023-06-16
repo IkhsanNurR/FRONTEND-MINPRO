@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Card, List, Modal } from "antd";
+import { Button, Card, Empty, List, Modal } from "antd";
 import AddPhone from "./Add";
 import EditPhone from "./Edit";
 import {
@@ -81,48 +81,52 @@ const Index: React.FC = () => {
         </>
       }
     >
-      <List
-        dataSource={users?.phone}
-        renderItem={(item) => (
-          <List.Item
-            actions={[
-              <>
-                <Button
-                  className="flex"
-                  onClick={() => showModalEditPhone(item.uspo_number)}
-                >
-                  <EditOutlined style={{ fontSize: "20px" }} />
-                  <span>Edit</span>
-                </Button>
-                <EditPhone
-                  open={modalEditPhone}
-                  onCancel={handleCancelEditPhone}
-                  onSubmit={handleSubmitEditPhone}
-                  phonenumber={phoneNumber}
-                  id={Number(users?.user_entity_id)}
-                />
-              </>,
-              <>
-                <Button
-                  className="flex"
-                  onClick={() =>
-                    showDeleteConfirmPhone(
-                      Number(users?.user_entity_id),
-                      item.uspo_number
-                    )
-                  }
-                >
-                  <DeleteOutlined style={{ fontSize: "20px" }} />
-                  <span>Delete</span>
-                </Button>
-              </>,
-            ]}
-          >
-            {item.uspo_number + " " + `(${item.uspo_ponty_code})`}
-          </List.Item>
-        )}
-        bordered
-      />
+      {users?.phone?.length ? (
+        <List
+          dataSource={users?.phone}
+          renderItem={(item) => (
+            <List.Item
+              actions={[
+                <>
+                  <Button
+                    className="flex"
+                    onClick={() => showModalEditPhone(item.uspo_number)}
+                  >
+                    <EditOutlined style={{ fontSize: "20px" }} />
+                    <span>Edit</span>
+                  </Button>
+                  <EditPhone
+                    open={modalEditPhone}
+                    onCancel={handleCancelEditPhone}
+                    onSubmit={handleSubmitEditPhone}
+                    phonenumber={phoneNumber}
+                    id={Number(users?.user_entity_id)}
+                  />
+                </>,
+                <>
+                  <Button
+                    className="flex"
+                    onClick={() =>
+                      showDeleteConfirmPhone(
+                        Number(users?.user_entity_id),
+                        item.uspo_number
+                      )
+                    }
+                  >
+                    <DeleteOutlined style={{ fontSize: "20px" }} />
+                    <span>Delete</span>
+                  </Button>
+                </>,
+              ]}
+            >
+              {item.uspo_number + " " + `(${item.uspo_ponty_code})`}
+            </List.Item>
+          )}
+          bordered
+        />
+      ) : (
+        <Empty description="No Data" />
+      )}
     </Card>
   );
 };

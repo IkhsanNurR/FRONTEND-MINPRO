@@ -10,6 +10,9 @@ import PhoneCard from "@/components/userSchema/phones";
 import EditProfileCard from "@/components/userSchema/profile";
 import EmailCard from "@/components/userSchema/email";
 import AddressCard from "@/components/userSchema/address";
+import EducationCard from "@/components/userSchema/education";
+import ExperiencesCard from "@/components/userSchema/experiences";
+import SkillsCard from "@/components/userSchema/skills";
 
 const Index: MyPage = () => {
   const dispatch = useDispatch();
@@ -34,9 +37,9 @@ const Index: MyPage = () => {
         <EmailCard />
         <PhoneCard />
         <AddressCard />
-        <Card title="Educations"></Card>
-        <Card title="Experiences"></Card>
-        <Card title="Skills"></Card>
+        <EducationCard />
+        <ExperiencesCard />
+        <SkillsCard />
       </Card>
     </Content2>
   );

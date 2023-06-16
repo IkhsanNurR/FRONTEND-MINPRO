@@ -2,7 +2,7 @@ import { all, takeEvery } from 'redux-saga/effects'
 import AuthActionTypes from '../usersSchema/auth/action/actionType'
 import { handleLogin } from '../usersSchema/auth/saga'
 import UserProfileActionType from '../usersSchema/profile/action/actionType'
-import { handleAddAddress, handleAddEmail, handleAddPhone, handleDeleteAddress, handleDeleteEmail, handleDeletePhone, handleEditAddress, handleEditEmail, handleEditPhone, handleGetByNameOrEmail, handleUpdateProfile } from '../usersSchema/profile/saga'
+import { handleAddAddress, handleAddEducation, handleAddEmail, handleAddExperience, handleAddPhone, handleDeleteAddress, handleDeleteEducation, handleDeleteEmail, handleDeleteExperience, handleDeletePhone, handleEditAddress, handleEditEducation, handleEditEmail, handleEditExperience, handleEditPhone, handleGetByNameOrEmail, handleUpdateProfile } from '../usersSchema/profile/saga'
 import pontyCodeActionType from '../usersSchema/pontycode/action/actionType'
 import { handleGetPontycode } from '../usersSchema/pontycode/saga'
 import cityActionType from '../masterSchema/city/action/actionType'
@@ -30,6 +30,14 @@ function* watchAll() {
         takeEvery(UserProfileActionType.ADDADDRESS, handleAddAddress),
         takeEvery(UserProfileActionType.EDITADDRESS, handleEditAddress),
         takeEvery(UserProfileActionType.DELETEADDRESS, handleDeleteAddress),
+
+        takeEvery(UserProfileActionType.ADDEDUCATION, handleAddEducation),
+        takeEvery(UserProfileActionType.DELETEEDUCATION, handleDeleteEducation),
+        takeEvery(UserProfileActionType.EDITEDUCATION, handleEditEducation),
+
+        takeEvery(UserProfileActionType.ADDEXPERIENCE, handleAddExperience),
+        takeEvery(UserProfileActionType.EDITEXPERIENCE, handleEditExperience),
+        takeEvery(UserProfileActionType.DELETEEXPERIENCE, handleDeleteExperience),
 
         //MASTER
         takeEvery(cityActionType.GET_CITY, handleGetCity),

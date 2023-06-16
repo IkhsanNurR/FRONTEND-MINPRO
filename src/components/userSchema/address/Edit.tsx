@@ -154,52 +154,43 @@ const Edit: React.FC<ModalEdit> = ({ open, onCancel, onSubmit, id }) => {
     } catch (error: any) {
       console.log(error.message);
     }
-    // console.log("oke", values);
   };
 
   let { users, refresh }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
 
-  const token = getCookie("token");
-  const [names, setName] = useState<string | null>(null);
-
   useEffect(() => {
-    const decode = decodeTokenName(token);
-    setName(decode);
-
-    if (names) {
-      dispatch(GetByNameOrEmail(names));
-      const address = users?.address?.find(
-        (item) => Number(item.etad_addr_id) === Number(id)
-      );
-      setFormValues([
-        {
-          name: "newAddressLine1",
-          value: address?.addr_line1,
-        },
-        {
-          name: "newAddressLine2",
-          value: address?.addr_line2,
-        },
-        {
-          name: "newAddressPostalCode",
-          value: address?.addr_postal_code,
-        },
-        {
-          name: "newAddressCityId",
-          value: address?.city_id,
-        },
-        {
-          name: "newAddressTypeId",
-          value: address?.address_type_id,
-        },
-      ]);
-    }
-  }, [token, names, refresh, id]);
+    const address = users?.address?.find(
+      (item) => Number(item.etad_addr_id) === Number(id)
+    );
+    setFormValues([
+      {
+        name: "newAddressLine1",
+        value: address?.addr_line1,
+      },
+      {
+        name: "newAddressLine2",
+        value: address?.addr_line2,
+      },
+      {
+        name: "newAddressPostalCode",
+        value: address?.addr_postal_code,
+      },
+      {
+        name: "newAddressCityId",
+        value: address?.city_id,
+      },
+      {
+        name: "newAddressTypeId",
+        value: address?.address_type_id,
+      },
+    ]);
+  }, [refresh, id]);
 
   return (
     <Modal
+      mask={false}
       title="Edit Address"
       open={open}
       onCancel={handleCancel}

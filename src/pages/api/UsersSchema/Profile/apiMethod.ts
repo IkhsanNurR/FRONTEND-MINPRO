@@ -55,6 +55,30 @@ const deleteAddress = (id: any) => {
     return axios.delete(`/users/profile/deleteAddress/${id}`)
 }
 
+const addEducation = ({ data, id }: any) => {
+    return axios.post(`/users/profile/addEducation/${id}`, data)
+}
+
+const editEducation = ({ data, id }: any) => {
+    return axios.patch(`/users/profile/editEducation/${id}`, data)
+}
+
+const deleteEducation = (id: any) => {
+    return axios.delete(`/users/profile/deleteEducation/${id}`)
+}
+
+const addExperience = ({ data, id }: any) => {
+    return axios.post(`/users/profile/addExperiences/${id}`, data)
+}
+
+const editExperience = ({ data, id }: any) => {
+    return axios.patch(`/users/profile/editExperience/${id}`, data)
+}
+
+const deleteExperience = (id: any) => {
+    return axios.delete(`/users/profile/deleteExperience/${id}`)
+}
+
 export default {
     getUsersByUsernameOrEmail,
     updateProfile,
@@ -67,5 +91,11 @@ export default {
     addAddress,
     editAddress,
     deleteAddress,
+    addEducation,
+    editEducation,
+    deleteEducation,
+    addExperience,
+    editExperience,
+    deleteExperience,
     getPontyCode
 }

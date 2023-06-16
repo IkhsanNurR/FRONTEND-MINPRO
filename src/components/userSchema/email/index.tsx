@@ -15,7 +15,8 @@ const Index: React.FC = () => {
   let { users }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
-  const lengthEmail = users?.pmail_address?.length || 0;
+
+  const lengthEmail: boolean = (users?.pmail_address?.length ?? 0) > 1;
 
   const [modalAddEmail, setModalAddEmail] = useState<boolean>(false);
   const [modalEditEmail, setModalEditEmail] = useState<boolean>(false);
@@ -103,7 +104,7 @@ const Index: React.FC = () => {
                 />
               </>,
               <>
-                {lengthEmail > 1 ? (
+                {lengthEmail && (
                   <Button
                     className="flex"
                     onClick={() =>
@@ -116,7 +117,7 @@ const Index: React.FC = () => {
                     <DeleteOutlined style={{ fontSize: "20px" }} />
                     <span>Delete</span>
                   </Button>
-                ) : null}
+                )}
               </>,
             ]}
           >

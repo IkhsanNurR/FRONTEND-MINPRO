@@ -16,7 +16,7 @@ export default function userProfileReducers(state = initialState, action: any) {
             return { message: payload.message, refresh: false }
 
         case UserProfileActionType.ADDEMAIL_RESPONSE:
-            return { users: payload, refresh: false }
+            return { message: payload.message, refresh: false }
         case UserProfileActionType.DELETEEMAIL_RESPONSE:
             return { message: payload.message, refresh: false }
         case UserProfileActionType.EDITEMAIL_RESPONSE:
@@ -35,6 +35,21 @@ export default function userProfileReducers(state = initialState, action: any) {
             return { message: payload.message, refresh: false }
         case UserProfileActionType.DELETEADDRESS_RESPONSE:
             return { message: payload.message, refresh: false }
+
+        case UserProfileActionType.ADDEDUCATION_RESPONSE:
+            return { message: payload.message, refresh: false }
+        case UserProfileActionType.EDITEDUCATION_RESPONSE:
+            return { message: payload.message, refresh: false }
+        case UserProfileActionType.DELETEEDUCATION_RESPONSE:
+            return { message: payload.message, refresh: false }
+
+        case UserProfileActionType.ADDEXPERIENCE_RESPONSE:
+            return { message: payload.message, refresh: false }
+        case UserProfileActionType.EDITEXPERIENCE_RESPONSE:
+            return { message: payload.message, refresh: false }
+        case UserProfileActionType.DELETEEXPERIENCE_RESPONSE:
+            return { message: payload.message, refresh: false }
+
         default:
             return state
     }

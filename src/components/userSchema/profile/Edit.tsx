@@ -10,8 +10,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const FormEdit: React.FC<FormEdit> = ({ onChange, fields, form }) => {
-  const dateFormat = "YYYY/MM/DD";
-
   return (
     <Form
       form={form}
@@ -75,7 +73,7 @@ const FormEdit: React.FC<FormEdit> = ({ onChange, fields, form }) => {
             ]}
           >
             <DatePicker
-              format={dateFormat}
+              format={"YYYY/MM/DD"}
               value={form.getFieldValue("user_birth_date")}
             />
           </Form.Item>

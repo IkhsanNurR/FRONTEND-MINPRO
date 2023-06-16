@@ -10,6 +10,21 @@ interface Users {
     pmail_address?: Email[] | undefined
     phone?: Phones[] | undefined
     address?: Address[] | undefined
+    education?: Education[] | undefined
+    experiences?: Experiences[] | undefined
+}
+
+interface Education {
+    usdu_id: number
+    usdu_school: string
+    usdu_degree: string
+    usdu_field_study: string
+    usdu_graduate_year: string
+    usdu_start_date: Date
+    usdu_end_date: Date
+    usdu_grade: string
+    usdu_activities: string
+    usdu_description: string
 }
 
 interface Email {
@@ -31,6 +46,21 @@ interface Address {
     city: string
     address_type_id?: number
     address_type: string
+}
+
+interface Experiences {
+    usex_id: number
+    usex_title: string
+    usex_profile_headline: string
+    usex_company_name: string
+    usex_start_date: Date
+    usex_end_date: Date
+    usex_industry: string
+    usex_description: string
+    usex_experience_type: string
+    usex_employment_type: string
+    city_name: string
+    usex_city_id? : number
 }
 
 interface PontyCode {
@@ -57,7 +87,7 @@ interface ModalEdit {
 
 interface FieldData {
     name: string | number | (string | number)[];
-    value?: any;
+    value?: any | any[];
 }
 
 interface ModalAdd {

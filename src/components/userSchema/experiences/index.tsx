@@ -5,20 +5,21 @@ import {
   PlusCircleOutlined,
 } from "@ant-design/icons";
 import { Button, Card, Empty, List, Modal } from "antd";
+import moment from "moment";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Add from "./Add";
-import { deleteAddress } from "@/redux/usersSchema/profile/action/actionReducer";
-import Edit from "./Edit";
+import Add from "./add";
+import { deleteExperience } from "@/redux/usersSchema/profile/action/actionReducer";
+import Edit from "./edit";
 
 const Index: React.FC = () => {
   let { users }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
-
   const [modalAdd, setModalAdd] = useState<boolean>(false);
   const [modalEdit, setModalEdit] = useState<boolean>(false);
   const [idEdit, setIdEdit] = useState<number>();
+
   const { confirm } = Modal;
   const dispatch = useDispatch();
 
@@ -26,18 +27,15 @@ const Index: React.FC = () => {
     setModalAdd(!modalAdd);
   };
 
-  const showDeleteConfirmAddress = (id: number, name: string) => {
+  const showDeleteConfirm = (id: number, name: string) => {
     confirm({
-      title: `Are you sure to delete this Address ${name} ? `,
+      title: `Are you sure to delete this experience ${name} ? `,
       icon: <ExclamationCircleFilled />,
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
       onOk() {
-        dispatch(deleteAddress(id));
-      },
-      onCancel() {
-        console.log("cancel");
+        dispatch(deleteExperience(id));
       },
     });
   };
@@ -57,7 +55,7 @@ const Index: React.FC = () => {
 
   return (
     <Card
-      title="Address"
+      title="Experiences"
       extra={
         <>
           <Button className="flex" onClick={showModalAdd}>
@@ -73,16 +71,16 @@ const Index: React.FC = () => {
         </>
       }
     >
-      {users?.address?.length ? (
+      {users?.experiences?.length ? (
         <List
-          dataSource={users?.address}
+          dataSource={users?.experiences}
           renderItem={(item) => (
             <List.Item
               actions={[
                 <>
                   <Button
                     className="flex"
-                    onClick={() => showModalEdit(item.etad_addr_id)}
+                    onClick={() => showModalEdit(item.usex_id)}
                   >
                     <EditOutlined style={{ fontSize: "20px" }} />
                     <span>Edit</span>
@@ -98,10 +96,7 @@ const Index: React.FC = () => {
                   <Button
                     className="flex"
                     onClick={() =>
-                      showDeleteConfirmAddress(
-                        Number(item.etad_addr_id),
-                        item.addr_line1
-                      )
+                      showDeleteConfirm(item.usex_id, item.usex_title)
                     }
                   >
                     <DeleteOutlined style={{ fontSize: "20px" }} />
@@ -110,14 +105,19 @@ const Index: React.FC = () => {
                 </>,
               ]}
             >
-              <div className="flex flex-col capitalize">
-                <p> address 1 : {item.addr_line1}</p>
-                {item.addr_line2 !== null ? (
-                  <p> address 2 : {item.addr_line2}</p>
-                ) : null}
-                <p> postal code : {item.addr_postal_code}</p>
-                <p> type : ({item.address_type})</p>
-                <p>city : {item.city}</p>
+              <div className="flex flex-col">
+                <p className="font-bold text-xl">{item.usex_industry}</p>
+                <p>{item.usex_profile_headline}</p>
+                <p className="font-bold">{item.usex_company_name}</p>
+                <p>
+                  {moment(item.usex_start_date).format("MMM YYYY")} -{" "}
+                  {moment(item.usex_end_date).format("MMM YYYY")}
+                </p>
+                <p>{item.city_name}</p>
+                <br />
+                <div
+                  dangerouslySetInnerHTML={{ __html: item.usex_description }}
+                />
               </div>
             </List.Item>
           )}

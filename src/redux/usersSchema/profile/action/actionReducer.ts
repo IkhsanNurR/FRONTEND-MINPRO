@@ -158,3 +158,87 @@ export const deleteAddressResponse = (payload: any) => {
         payload,
     }
 }
+
+export const addEducation = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.ADDEDUCATION,
+        payload, id
+    }
+}
+
+export const addEducationResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.ADDEDUCATION_RESPONSE,
+        payload
+    }
+}
+
+export const editEducation = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.EDITEDUCATION,
+        payload, id
+    }
+}
+
+export const editEducationResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.EDITEDUCATION_RESPONSE,
+        payload
+    }
+}
+
+export const deleteEducation = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETEEDUCATION,
+        payload
+    }
+}
+
+export const deleteEducationResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETEEDUCATION_RESPONSE,
+        payload
+    }
+}
+
+export const addExperience = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.ADDEXPERIENCE,
+        payload, id
+    }
+}
+
+export const addExperienceResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.ADDEXPERIENCE_RESPONSE,
+        payload,
+    }
+}
+
+export const editExperience = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.EDITEXPERIENCE,
+        payload, id
+    }
+}
+
+export const editExperienceResponse = ( payload: any) => {
+    return {
+        type: UserProfileActionType.EDITEXPERIENCE_RESPONSE,
+        payload
+    }
+}
+
+export const deleteExperience = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETEEXPERIENCE,
+        payload
+    }
+}
+
+export const deleteExperienceResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETEEXPERIENCE_RESPONSE,
+        payload
+    }
+}
