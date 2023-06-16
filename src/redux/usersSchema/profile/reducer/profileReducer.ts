@@ -50,6 +50,11 @@ export default function userProfileReducers(state = initialState, action: any) {
         case UserProfileActionType.DELETEEXPERIENCE_RESPONSE:
             return { message: payload.message, refresh: false }
 
+        case UserProfileActionType.ADDSKILL_RESPONSE:
+            return { message: payload.message, refresh: false }
+        case UserProfileActionType.DELETESKILL_RESPONSE:
+            return { message: payload.message, refresh: false }
+
         default:
             return state
     }

@@ -12,6 +12,12 @@ interface Users {
     address?: Address[] | undefined
     education?: Education[] | undefined
     experiences?: Experiences[] | undefined
+    skill?: Skill[] | undefined
+}
+
+interface Skill {
+    uski_id: number
+    uski_skty_name: string
 }
 
 interface Education {
@@ -60,7 +66,7 @@ interface Experiences {
     usex_experience_type: string
     usex_employment_type: string
     city_name: string
-    usex_city_id? : number
+    usex_city_id?: number
 }
 
 interface PontyCode {

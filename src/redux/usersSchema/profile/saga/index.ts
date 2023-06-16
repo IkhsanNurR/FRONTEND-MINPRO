@@ -1,6 +1,6 @@
 import apiMethod from "@/pages/api/UsersSchema/Profile/apiMethod";
 import { call, put } from "redux-saga/effects";
-import { GetByNameOrEmailResponse, addAddressResponse, addEducationResponse, addEmailResponse, addExperienceResponse, addPhoneResponse, deleteAddressResponse, deleteEducationResponse, deleteEmailResponse, deleteExperienceResponse, deletePhoneResponse, editAddressResponse, editEducationResponse, editEmailResponse, editExperienceResponse, editPhoneResponse, updateProfileResponse } from "../action/actionReducer";
+import { GetByNameOrEmailResponse, addAddressResponse, addEducationResponse, addEmailResponse, addExperienceResponse, addPhoneResponse, addSkillResponse, deleteAddressResponse, deleteEducationResponse, deleteEmailResponse, deleteExperienceResponse, deletePhoneResponse, deleteSkillResponse, editAddressResponse, editEducationResponse, editEmailResponse, editExperienceResponse, editPhoneResponse, updateProfileResponse } from "../action/actionReducer";
 
 export function* handleGetByNameOrEmail(action: any): any {
     try {
@@ -201,6 +201,30 @@ export function* handleDeleteExperience(action: any): any {
         yield put(deleteExperienceResponse(result.data))
     } catch (error) {
         yield put(deleteExperienceResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleAddSkill(action: any): any {
+    try {
+        const result = yield call(apiMethod.addSkill, { data: action.payload, id: action.id })
+        yield put(addSkillResponse(result.data))
+    } catch (error) {
+        yield put(addSkillResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleDeleteSkil(action: any): any {
+    try {
+        const result = yield call(apiMethod.deleteSkill, action.payload)
+        yield put(deleteSkillResponse(result.data))
+    } catch (error) {
+        yield put(deleteSkillResponse({
             message: error,
             status: 400
         }))

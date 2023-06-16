@@ -3,4 +3,4 @@ const addreetypeActionType = {
     GET_ADDRESSTYPE_RESPONSE: "GET_ADDRESSTYPE_RESPONSE"
 }
 
-export default  addreetypeActionType
+export default addreetypeActionType

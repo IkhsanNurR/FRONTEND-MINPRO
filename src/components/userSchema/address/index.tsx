@@ -36,9 +36,6 @@ const Index: React.FC = () => {
       onOk() {
         dispatch(deleteAddress(id));
       },
-      onCancel() {
-        console.log("cancel");
-      },
     });
   };
 

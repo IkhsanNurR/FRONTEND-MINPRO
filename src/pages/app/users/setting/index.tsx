@@ -5,7 +5,7 @@ import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReduc
 import { Card } from "antd";
 import { getCookie } from "cookies-next";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import PhoneCard from "@/components/userSchema/phones";
 import EditProfileCard from "@/components/userSchema/profile";
 import EmailCard from "@/components/userSchema/email";

@@ -7,6 +7,7 @@ import rootSaga from '@/redux/sagaGlobal'
 import pontycodeReducers from "../usersSchema/pontycode/reducer/pontycodeReducer";
 import cityReducers from "../masterSchema/city/reducer/cityReducer";
 import addreetypeReducers from "../masterSchema/addresstype/reducer/addresstypeReducer";
+import skilltypeReducers from "../masterSchema/skillType/reducer/skilltypeReducer";
 
 const logger = createLogger()
 const saga = createSagaMiddleware()
@@ -15,7 +16,8 @@ const reducer = combineReducers({
     userProfileReducers,
     pontycodeReducers,
     cityReducers,
-    addreetypeReducers
+    addreetypeReducers,
+    skilltypeReducers
 })
 
 const store = configureStore({

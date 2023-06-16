@@ -222,7 +222,7 @@ export const editExperience = ({ payload, id }: any) => {
     }
 }
 
-export const editExperienceResponse = ( payload: any) => {
+export const editExperienceResponse = (payload: any) => {
     return {
         type: UserProfileActionType.EDITEXPERIENCE_RESPONSE,
         payload
@@ -239,6 +239,34 @@ export const deleteExperience = (payload: any) => {
 export const deleteExperienceResponse = (payload: any) => {
     return {
         type: UserProfileActionType.DELETEEXPERIENCE_RESPONSE,
+        payload
+    }
+}
+
+export const addSkill = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.ADDSKILL,
+        payload, id
+    }
+}
+
+export const addSkillResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.ADDSKILL_RESPONSE,
+        payload,
+    }
+}
+
+export const deleteSkill = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETESKILL,
+        payload
+    }
+}
+
+export const deleteSkillResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETESKILL_RESPONSE,
         payload
     }
 }

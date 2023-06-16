@@ -79,6 +79,14 @@ const deleteExperience = (id: any) => {
     return axios.delete(`/users/profile/deleteExperience/${id}`)
 }
 
+const addSkill = ({ data, id }: any) => {
+    return axios.post(`/users/profile/addSkill/${id}`, data)
+}
+
+const deleteSkill = (id: any): any => {
+    return axios.delete(`/users/profile/deleteSkill/${id}`)
+}
+
 export default {
     getUsersByUsernameOrEmail,
     updateProfile,
@@ -97,5 +105,7 @@ export default {
     addExperience,
     editExperience,
     deleteExperience,
+    addSkill,
+    deleteSkill,
     getPontyCode
 }

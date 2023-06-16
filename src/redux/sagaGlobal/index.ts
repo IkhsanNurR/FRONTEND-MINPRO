@@ -2,13 +2,15 @@ import { all, takeEvery } from 'redux-saga/effects'
 import AuthActionTypes from '../usersSchema/auth/action/actionType'
 import { handleLogin } from '../usersSchema/auth/saga'
 import UserProfileActionType from '../usersSchema/profile/action/actionType'
-import { handleAddAddress, handleAddEducation, handleAddEmail, handleAddExperience, handleAddPhone, handleDeleteAddress, handleDeleteEducation, handleDeleteEmail, handleDeleteExperience, handleDeletePhone, handleEditAddress, handleEditEducation, handleEditEmail, handleEditExperience, handleEditPhone, handleGetByNameOrEmail, handleUpdateProfile } from '../usersSchema/profile/saga'
+import { handleAddAddress, handleAddEducation, handleAddEmail, handleAddExperience, handleAddPhone, handleAddSkill, handleDeleteAddress, handleDeleteEducation, handleDeleteEmail, handleDeleteExperience, handleDeletePhone, handleDeleteSkil, handleEditAddress, handleEditEducation, handleEditEmail, handleEditExperience, handleEditPhone, handleGetByNameOrEmail, handleUpdateProfile } from '../usersSchema/profile/saga'
 import pontyCodeActionType from '../usersSchema/pontycode/action/actionType'
 import { handleGetPontycode } from '../usersSchema/pontycode/saga'
 import cityActionType from '../masterSchema/city/action/actionType'
 import { handleGetCity } from '../masterSchema/city/saga'
 import addreetypeActionType from '../masterSchema/addresstype/action/actionType'
 import { handleGetAddressType } from '../masterSchema/addresstype/saga'
+import skillTypeActionType from '../masterSchema/skillType/action/actionType'
+import { handleGetSkillType } from '../masterSchema/skillType/saga'
 
 function* watchAll() {
     yield all([
@@ -39,9 +41,13 @@ function* watchAll() {
         takeEvery(UserProfileActionType.EDITEXPERIENCE, handleEditExperience),
         takeEvery(UserProfileActionType.DELETEEXPERIENCE, handleDeleteExperience),
 
+        takeEvery(UserProfileActionType.ADDSKILL, handleAddSkill),
+        takeEvery(UserProfileActionType.DELETESKILL, handleDeleteSkil),
+
         //MASTER
         takeEvery(cityActionType.GET_CITY, handleGetCity),
-        takeEvery(addreetypeActionType.GET_ADDRESSTYPE, handleGetAddressType)
+        takeEvery(addreetypeActionType.GET_ADDRESSTYPE, handleGetAddressType),
+        takeEvery(skillTypeActionType.GET_SKILLTYPE, handleGetSkillType)
     ])
 }
 
