@@ -270,3 +270,31 @@ export const deleteSkillResponse = (payload: any) => {
         payload
     }
 }
+
+export const addResume = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.ADDRESUME,
+        payload, id
+    }
+}
+
+export const addResumeResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.ADDRESUME_RESPONSE,
+        payload
+    }
+}
+
+export const deleteResume = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETERESUME,
+        payload
+    }
+}
+
+export const deleteResumeResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.DELETERESUME_RESPONSE,
+        payload
+    }
+}

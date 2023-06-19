@@ -1,8 +1,8 @@
 import { all, takeEvery } from 'redux-saga/effects'
 import AuthActionTypes from '../usersSchema/auth/action/actionType'
-import { handleLogin } from '../usersSchema/auth/saga'
+import { handleLogin, handleSignup } from '../usersSchema/auth/saga'
 import UserProfileActionType from '../usersSchema/profile/action/actionType'
-import { handleAddAddress, handleAddEducation, handleAddEmail, handleAddExperience, handleAddPhone, handleAddSkill, handleDeleteAddress, handleDeleteEducation, handleDeleteEmail, handleDeleteExperience, handleDeletePhone, handleDeleteSkil, handleEditAddress, handleEditEducation, handleEditEmail, handleEditExperience, handleEditPhone, handleGetByNameOrEmail, handleUpdateProfile } from '../usersSchema/profile/saga'
+import { handleAddAddress, handleAddEducation, handleAddEmail, handleAddExperience, handleAddPhone, handleAddResume, handleAddSkill, handleDeleteAddress, handleDeleteEducation, handleDeleteEmail, handleDeleteExperience, handleDeletePhone, handleDeleteResume, handleDeleteSkil, handleEditAddress, handleEditEducation, handleEditEmail, handleEditExperience, handleEditPhone, handleGetByNameOrEmail, handleUpdateProfile } from '../usersSchema/profile/saga'
 import pontyCodeActionType from '../usersSchema/pontycode/action/actionType'
 import { handleGetPontycode } from '../usersSchema/pontycode/saga'
 import cityActionType from '../masterSchema/city/action/actionType'
@@ -11,10 +11,13 @@ import addreetypeActionType from '../masterSchema/addresstype/action/actionType'
 import { handleGetAddressType } from '../masterSchema/addresstype/saga'
 import skillTypeActionType from '../masterSchema/skillType/action/actionType'
 import { handleGetSkillType } from '../masterSchema/skillType/saga'
+import jobhireActionType from '../jobhireSchema/action/actionType'
+import { handleGetAllJob } from '../jobhireSchema/saga'
 
 function* watchAll() {
     yield all([
         takeEvery(AuthActionTypes.LOGIN, handleLogin),
+        takeEvery(AuthActionTypes.SIGNUP, handleSignup),
 
         takeEvery(UserProfileActionType.GETBYNAMEOREMAIL, handleGetByNameOrEmail),
         takeEvery(UserProfileActionType.UPDATEPROFILE, handleUpdateProfile),
@@ -44,10 +47,16 @@ function* watchAll() {
         takeEvery(UserProfileActionType.ADDSKILL, handleAddSkill),
         takeEvery(UserProfileActionType.DELETESKILL, handleDeleteSkil),
 
+        takeEvery(UserProfileActionType.ADDRESUME, handleAddResume),
+        takeEvery(UserProfileActionType.DELETERESUME, handleDeleteResume),
+
         //MASTER
         takeEvery(cityActionType.GET_CITY, handleGetCity),
         takeEvery(addreetypeActionType.GET_ADDRESSTYPE, handleGetAddressType),
-        takeEvery(skillTypeActionType.GET_SKILLTYPE, handleGetSkillType)
+        takeEvery(skillTypeActionType.GET_SKILLTYPE, handleGetSkillType),
+
+        //job-hire
+        takeEvery(jobhireActionType.GETJOB, handleGetAllJob)
     ])
 }
 

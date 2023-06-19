@@ -1,7 +1,7 @@
 import { addEducation } from "@/redux/usersSchema/profile/action/actionReducer";
 import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useDispatch } from "react-redux";
 
 const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
   const [form] = Form.useForm();
@@ -15,7 +15,17 @@ const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
   const handleOk = async (values: any) => {
     try {
       await form.validateFields();
-      dispatch(addEducation({ payload: values, id }));
+      const data = {
+        newSchool: values.newSchool,
+        newDegree: values.newDegree,
+        newFieldStudy: values.newFieldStudy,
+        newGrade: values.newGrade,
+        newStartDate: values.Date[0],
+        newEndDate: values.Date[1],
+        newActivitis: values.newActivitis,
+        newDescription: values.newDescription,
+      };
+      dispatch(addEducation({ payload: data, id }));
       onSubmit();
       form.resetFields();
     } catch (error: any) {
@@ -23,20 +33,11 @@ const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
     }
   };
 
-  const handleChangeDate = (
-    dates: any | null,
-    dateStrings: [string, string]
-  ) => {
-    form.setFieldsValue({
-      newStartDate: dateStrings[0],
-      newEndDate: dateStrings[1],
-    });
-  };
-
   return (
     <Modal
       title="Tambah Education"
       open={open}
+      style={{ top: 10 }}
       onCancel={handleCancel}
       footer={
         <div>
@@ -124,11 +125,9 @@ const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Start">
-          <DatePicker.RangePicker onChange={handleChangeDate} picker="month" />
+        <Form.Item label="Start" name="Date">
+          <DatePicker.RangePicker />
         </Form.Item>
-        <Form.Item name="newStartDate" hidden />
-        <Form.Item name="newEndDate" hidden />
         <Form.Item
           label="Activies"
           name="newActivitis"

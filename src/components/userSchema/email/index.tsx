@@ -4,8 +4,8 @@ import {
   ExclamationCircleFilled,
   PlusCircleOutlined,
 } from "@ant-design/icons";
-import { Button, Card, List, Modal } from "antd";
-import React, { useState } from "react";
+import { Button, Card, List, Modal, message } from "antd";
+import React, { useEffect, useState } from "react";
 import Add from "./Add";
 import Edit from "./Edit";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,67 +66,69 @@ const Index: React.FC = () => {
   };
 
   return (
-    <Card
-      title="Emails"
-      extra={
-        <>
-          <Button className="flex" onClick={showModalAddEmail}>
-            <PlusCircleOutlined style={{ fontSize: "20px" }} />
-            <span>Add</span>
-          </Button>
-          <Add
-            open={modalAddEmail}
-            onCancel={handleCancelAddEmail}
-            onSubmit={handleSubmitAddEmail}
-            id={users?.user_entity_id}
-          />
-        </>
-      }
-    >
-      <List
-        dataSource={users?.pmail_address}
-        renderItem={(item) => (
-          <List.Item
-            actions={[
-              <>
-                <Button
-                  className="flex"
-                  onClick={() => showModalEditEmail(item.pmail_id)}
-                >
-                  <EditOutlined style={{ fontSize: "20px" }} />
-                  <span>Edit </span>
-                </Button>
-                <Edit
-                  open={modalEditEmail}
-                  onCancel={handleCancelEditEmail}
-                  onSubmit={handleSubmitEditEmail}
-                  id={idEditEmail}
-                />
-              </>,
-              <>
-                {lengthEmail && (
+    <>
+      <Card
+        title="Emails"
+        extra={
+          <>
+            <Button className="flex" onClick={showModalAddEmail}>
+              <PlusCircleOutlined style={{ fontSize: "20px" }} />
+              <span>Add</span>
+            </Button>
+            <Add
+              open={modalAddEmail}
+              onCancel={handleCancelAddEmail}
+              onSubmit={handleSubmitAddEmail}
+              id={users?.user_entity_id}
+            />
+          </>
+        }
+      >
+        <List
+          dataSource={users?.pmail_address}
+          renderItem={(item) => (
+            <List.Item
+              actions={[
+                <>
                   <Button
                     className="flex"
-                    onClick={() =>
-                      showDeleteConfirmEmail(
-                        item.pmail_address,
-                        Number(item.pmail_id)
-                      )
-                    }
+                    onClick={() => showModalEditEmail(item.pmail_id)}
                   >
-                    <DeleteOutlined style={{ fontSize: "20px" }} />
-                    <span>Delete</span>
+                    <EditOutlined style={{ fontSize: "20px" }} />
+                    <span>Edit </span>
                   </Button>
-                )}
-              </>,
-            ]}
-          >
-            {item.pmail_address}
-          </List.Item>
-        )}
-        bordered
-      />
-    </Card>
+                  <Edit
+                    open={modalEditEmail}
+                    onCancel={handleCancelEditEmail}
+                    onSubmit={handleSubmitEditEmail}
+                    id={idEditEmail}
+                  />
+                </>,
+                <>
+                  {lengthEmail && (
+                    <Button
+                      className="flex"
+                      onClick={() =>
+                        showDeleteConfirmEmail(
+                          item.pmail_address,
+                          Number(item.pmail_id)
+                        )
+                      }
+                    >
+                      <DeleteOutlined style={{ fontSize: "20px" }} />
+                      <span>Delete</span>
+                    </Button>
+                  )}
+                </>,
+              ]}
+            >
+              {item.pmail_address}
+            </List.Item>
+          )}
+          bordered
+        />
+      </Card>
+    </>
   );
 };
 

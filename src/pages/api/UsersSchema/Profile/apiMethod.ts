@@ -87,6 +87,14 @@ const deleteSkill = (id: any): any => {
     return axios.delete(`/users/profile/deleteSkill/${id}`)
 }
 
+const addResume = ({ data, id }: any) => {
+    return axios.post(`/users/profile/uploadResume/${id}`, data)
+}
+
+const deleteResume = (id: any) => {
+    return axios.delete(`/users/profile/deleteResume/${id}`)
+}
+
 export default {
     getUsersByUsernameOrEmail,
     updateProfile,
@@ -107,5 +115,7 @@ export default {
     deleteExperience,
     addSkill,
     deleteSkill,
+    addResume,
+    deleteResume,
     getPontyCode
 }

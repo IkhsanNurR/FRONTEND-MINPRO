@@ -8,7 +8,7 @@ import {
   SolutionOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 const UserLayout = ({ children }: PropsWithChildren) => {
   const [haveToken, setHaveToken] = useState<CookieValueTypes>("");
@@ -49,36 +49,60 @@ const UserLayout = ({ children }: PropsWithChildren) => {
     },
     {
       label: (
-        <div className="flex">
-          <PoweroffOutlined className="pt-1" />
-          <button onClick={handleLogout} className="pl-2">
-            Sign Out
-          </button>
-        </div>
+        <Button type="link" onClick={handleLogout}>
+          <PoweroffOutlined className="" />
+          <span>Sign Out</span>
+        </Button>
       ),
       key: "3",
     },
   ];
 
+  // const handleClick = () => {
+  //   const pathname = router.pathname.substring(1);
+  //   router.push({
+  //     pathname: "/external/signup",
+  //     query: { url: pathname },
+  //   });
+  // };
+
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between bg-slate-100 max-h-12">
         <div className="float-left">
-          <h1>TOpbar</h1>
+          <div className="flex">
+            <Link href="/profesional"> Job Apply</Link>
+          </div>
         </div>
-        <div className="float-right">
+        <div className="float-right p-2">
           {haveToken ? (
-            <Dropdown menu={{ items }} trigger={["click"]}>
+            <Dropdown
+              menu={{ items }}
+              trigger={["click"]}
+              className="cursor-pointer"
+            >
               <Avatar icon={<UserOutlined />} className="icon" />
             </Dropdown>
           ) : (
-            <Button>
-              <Link href="/signin">Sign in</Link>
-            </Button>
+            <>
+              <Button>
+                <Link href="/signin">Sign in</Link>
+              </Button>
+              <Button
+                onClick={() =>
+                  router.push({
+                    pathname: "external/signup",
+                    query: router.pathname,
+                  })
+                }
+              >
+                <span>Sign Up</span>
+              </Button>
+            </>
           )}
         </div>
       </div>
-      <main>{children}</main>
+      <main className="p-10">{children}</main>
     </>
   );
 };

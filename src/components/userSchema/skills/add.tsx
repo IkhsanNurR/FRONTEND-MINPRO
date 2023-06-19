@@ -76,10 +76,6 @@ const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
             showSearch
             placeholder="Skill"
             optionFilterProp="children"
-            // options={skillType?.map((item) => ({
-            //   value: item.skty_name,
-            //   label: item.skty_name,
-            // }))}
             options={skillType
               ?.filter((item) => !skill?.includes(item.skty_name))
               .map((item) => ({

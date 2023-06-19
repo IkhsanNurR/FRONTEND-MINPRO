@@ -3,14 +3,17 @@ import AuthActionTypes from "../action/actionType";
 const initialState = {
     message: "",
     token: "",
-    refresh: ""
+    refresh: "",
+    status: ""
 }
 
 export default function authReducers(state = initialState, action: any) {
     const { type, payload } = action
     switch (type) {
         case AuthActionTypes.LOGIN_RESPONSE:
-            return { state, token: payload.token, message: payload.message, refresh: true }
+            return { token: payload.token, message: payload.message, refresh: false }
+        case AuthActionTypes.SIGNUP_RESPONSE:
+            return { message: payload.message, status: payload.status, refresh: false }
         default:
             return state
     }

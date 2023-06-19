@@ -101,6 +101,7 @@ const Header = (props: any) => {
                         alt="image profile"
                         width={100}
                         height={100}
+                        quality={100}
                         style={{
                           borderRadius: "50%",
                         }}

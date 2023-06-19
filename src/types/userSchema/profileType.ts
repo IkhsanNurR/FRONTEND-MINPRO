@@ -13,6 +13,12 @@ interface Users {
     education?: Education[] | undefined
     experiences?: Experiences[] | undefined
     skill?: Skill[] | undefined
+    resume?: Resume[] | undefined
+}
+
+interface Resume {
+    usme_id: number
+    usme_filelink: string
 }
 
 interface Skill {
@@ -80,7 +86,8 @@ interface pontyCode {
 
 interface userProfile {
     users: Users
-    refresh: boolean
+    refresh?: boolean
+    msg?: string
 }
 
 interface ModalEdit {

@@ -1,7 +1,7 @@
 import { addEmail } from "@/redux/usersSchema/profile/action/actionReducer";
-import { Button, Form, Input, Modal } from "antd";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { Button, Form, Input, Modal, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
   const [form] = Form.useForm();
@@ -36,47 +36,49 @@ const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
   };
 
   return (
-    <Modal
-      title="Tambah Email"
-      open={open}
-      onCancel={handleCancel}
-      footer={
-        <div>
-          <Button onClick={handleCancel}>Batal</Button>
-          <Button
-            onClick={() => form.submit()}
-            className="ant-btn ant-btn-primary"
-            style={{ backgroundColor: "#1890ff", borderColor: "#1890ff" }}
-          >
-            Simpan
-          </Button>
-        </div>
-      }
-    >
-      <Form
-        form={form}
-        layout="vertical"
-        autoComplete="off"
-        onFinish={handleOk}
+    <>
+      <Modal
+        title="Tambah Email"
+        open={open}
+        onCancel={handleCancel}
+        footer={
+          <div>
+            <Button onClick={handleCancel}>Batal</Button>
+            <Button
+              onClick={() => form.submit()}
+              className="ant-btn ant-btn-primary"
+              style={{ backgroundColor: "#1890ff", borderColor: "#1890ff" }}
+            >
+              Simpan
+            </Button>
+          </div>
+        }
       >
-        <Form.Item
-          label="Email"
-          name="newEmail"
-          rules={[
-            {
-              required: true,
-              message: "Please input a valid email address",
-              type: "email",
-            },
-          ]}
+        <Form
+          form={form}
+          layout="vertical"
+          autoComplete="off"
+          onFinish={handleOk}
         >
-          <Input
-            value={formValues.pmail_address?.[0].pmail_address}
-            onChange={handleChange}
-          />
-        </Form.Item>
-      </Form>
-    </Modal>
+          <Form.Item
+            label="Email"
+            name="newEmail"
+            rules={[
+              {
+                required: true,
+                message: "Please input a valid email address",
+                type: "email",
+              },
+            ]}
+          >
+            <Input
+              value={formValues.pmail_address?.[0].pmail_address}
+              onChange={handleChange}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
   );
 };
 

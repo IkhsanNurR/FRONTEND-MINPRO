@@ -13,3 +13,17 @@ export const LoginResponse = (payload: any) => {
         payload
     }
 }
+
+export const SignUp = (payload: any) => {
+    return {
+        type: AuthActionTypes.SIGNUP,
+        payload
+    }
+}
+
+export const SignUpResponse = (payload: any) => {
+    return {
+        type: AuthActionTypes.SIGNUP_RESPONSE,
+        payload
+    }
+}

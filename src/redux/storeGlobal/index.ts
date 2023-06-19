@@ -8,6 +8,7 @@ import pontycodeReducers from "../usersSchema/pontycode/reducer/pontycodeReducer
 import cityReducers from "../masterSchema/city/reducer/cityReducer";
 import addreetypeReducers from "../masterSchema/addresstype/reducer/addresstypeReducer";
 import skilltypeReducers from "../masterSchema/skillType/reducer/skilltypeReducer";
+import jobReducers from "../jobhireSchema/reducer/jobReducer";
 
 const logger = createLogger()
 const saga = createSagaMiddleware()
@@ -17,7 +18,8 @@ const reducer = combineReducers({
     pontycodeReducers,
     cityReducers,
     addreetypeReducers,
-    skilltypeReducers
+    skilltypeReducers,
+    jobReducers
 })
 
 const store = configureStore({

@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getCity } from "@/redux/masterSchema/city/action/actionReducer";
 import { addExperience } from "@/redux/usersSchema/profile/action/actionReducer";
 import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import TextEditor from "@/components/shared/textEditor";
-import moment, { Moment } from "moment";
-import dayjs, { Dayjs } from "dayjs";
 
 const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
   const [form] = Form.useForm();
@@ -24,9 +22,21 @@ const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
   const handleOk = async (values: any) => {
     try {
       await form.validateFields();
+      const data = {
+        newTitle: values.newTitle,
+        newHeadline: values.newHeadline,
+        newCompany: values.newCompany,
+        newCity: values.newCity,
+        newStartDate: values.Date[0],
+        newEndDate: values.Date[1],
+        newIndustry: values.newIndustry,
+        newEmployeType: values.newEmployeType,
+        newDescription: values.newDescription,
+        newExperienceType: values.newExperienceType,
+      };
       dispatch(
         addExperience({
-          payload: values,
+          payload: data,
           id,
         })
       );
@@ -36,25 +46,6 @@ const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
       console.log(error.message);
     }
   };
-
-  const handleChangeDate = (
-    dates: any | null,
-    dateStrings: [string, string]
-  ) => {
-    form.setFieldsValue({
-      newStartDate: dateStrings[0],
-      newEndDate: dateStrings[1],
-    });
-  };
-
-  // const [rangeValue, setRangeValue] = useState<[Dayjs | null, Dayjs | null]>([
-  //   dayjs("2022-01", "YYYY-MM"),
-  //   dayjs("2022-10", "YYYY-MM"),
-  // ]);
-
-  // const handleChangeDate = (dates: any) => {
-  //   setRangeValue(dates);
-  // };
 
   return (
     <Modal
@@ -141,15 +132,9 @@ const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
             }
           />
         </Form.Item>
-        <Form.Item label="Start" name="Start">
-          <DatePicker.RangePicker
-            format="YYYY-MM"
-            onChange={handleChangeDate}
-            picker="month"
-          />
+        <Form.Item label="Start" name="Date">
+          <DatePicker.RangePicker format="YYYY-MM" picker="month" />
         </Form.Item>
-        <Form.Item name="newStartDate" hidden />
-        <Form.Item name="newEndDate" hidden />
         <Form.Item
           name="newIndustry"
           label="Industry"

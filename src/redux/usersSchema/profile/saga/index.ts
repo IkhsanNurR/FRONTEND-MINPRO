@@ -1,6 +1,6 @@
 import apiMethod from "@/pages/api/UsersSchema/Profile/apiMethod";
 import { call, put } from "redux-saga/effects";
-import { GetByNameOrEmailResponse, addAddressResponse, addEducationResponse, addEmailResponse, addExperienceResponse, addPhoneResponse, addSkillResponse, deleteAddressResponse, deleteEducationResponse, deleteEmailResponse, deleteExperienceResponse, deletePhoneResponse, deleteSkillResponse, editAddressResponse, editEducationResponse, editEmailResponse, editExperienceResponse, editPhoneResponse, updateProfileResponse } from "../action/actionReducer";
+import { GetByNameOrEmailResponse, addAddressResponse, addEducationResponse, addEmailResponse, addExperienceResponse, addPhoneResponse, addResumeResponse, addSkillResponse, deleteAddressResponse, deleteEducationResponse, deleteEmailResponse, deleteExperienceResponse, deletePhoneResponse, deleteResumeResponse, deleteSkillResponse, editAddressResponse, editEducationResponse, editEmailResponse, editExperienceResponse, editPhoneResponse, updateProfileResponse } from "../action/actionReducer";
 
 export function* handleGetByNameOrEmail(action: any): any {
     try {
@@ -225,6 +225,30 @@ export function* handleDeleteSkil(action: any): any {
         yield put(deleteSkillResponse(result.data))
     } catch (error) {
         yield put(deleteSkillResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleAddResume(action: any): any {
+    try {
+        const result = yield call(apiMethod.addResume, { data: action.payload, id: action.id })
+        yield put(addResumeResponse(result.data))
+    } catch (error) {
+        yield put(addResumeResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleDeleteResume(action: any): any {
+    try {
+        const result = yield call(apiMethod.deleteResume, action.payload)
+        yield put(deleteResumeResponse(result.data))
+    } catch (error) {
+        yield put(deleteResumeResponse({
             message: error,
             status: 400
         }))

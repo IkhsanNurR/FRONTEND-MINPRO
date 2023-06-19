@@ -4,6 +4,15 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
 import decodeTokenName from "@/helper/decodedTokenName";
+import { Card } from "antd";
+import EditProfileCard from "@/components/userSchema/profile";
+import PhoneCard from "@/components/userSchema/phones";
+import EmailCard from "@/components/userSchema/email";
+import AddressCard from "@/components/userSchema/address";
+import EducationCard from "@/components/userSchema/education";
+import ExperiencesCard from "@/components/userSchema/experiences";
+import SkillsCard from "@/components/userSchema/skills";
+import ResumeCard from "@/components/userSchema/resume";
 
 const Index: MyPage = () => {
   const token = getCookie("token");
@@ -11,9 +20,7 @@ const Index: MyPage = () => {
   const [name, setName] = useState<string | null>(null);
   const dispatch = useDispatch();
 
-  let { users, refresh } = useSelector(
-    (state: any) => state.userProfileReducers
-  );
+  let { refresh } = useSelector((state: any) => state.userProfileReducers);
 
   useEffect(() => {
     const decode = decodeTokenName(token);
@@ -25,12 +32,17 @@ const Index: MyPage = () => {
   }, [token, name, refresh]);
 
   return (
-    <div>
-      Profile {name}
-      <div>
-        {users.user_name}
-        {users.role_name}
-      </div>
+    <div className="p-20">
+      <Card title="Setting Profile">
+        <EditProfileCard />
+        <EmailCard />
+        <PhoneCard />
+        <AddressCard />
+        <EducationCard />
+        <ExperiencesCard />
+        <SkillsCard />
+        <ResumeCard />
+      </Card>
     </div>
   );
 };

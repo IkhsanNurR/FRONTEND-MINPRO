@@ -120,7 +120,6 @@ const Index: MyPage = () => {
                     Forgot your password ?
                   </Link>
                 </Form.Item>
-
                 <Form.Item wrapperCol={{ offset: 10, span: 14 }}>
                   <Button
                     type="primary"
@@ -137,7 +136,7 @@ const Index: MyPage = () => {
               <p className="mt-2 text-sm text-center text-gray-400">
                 Don&#x27;t have an account yet? {}
                 <Link
-                  href="#"
+                  href="/external/signup"
                   className="text-blue-500 focus:outline-none focus:underline hover:underline"
                 >
                   Sign up

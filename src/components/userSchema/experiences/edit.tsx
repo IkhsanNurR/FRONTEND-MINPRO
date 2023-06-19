@@ -14,16 +14,6 @@ const FormEdit: React.FC<FormEdit> = ({ form, onChange, onFinish, fields }) => {
     dispatch(getCity());
   }, [refresh]);
 
-  const handleChangeDate = (
-    dates: any | null,
-    dateStrings: [string, string]
-  ) => {
-    form.setFieldsValue({
-      newStartDate: dateStrings[0],
-      newEndDate: dateStrings[1],
-    });
-  };
-
   return (
     <Form
       form={form}
@@ -93,15 +83,9 @@ const FormEdit: React.FC<FormEdit> = ({ form, onChange, onFinish, fields }) => {
           }
         />
       </Form.Item>
-      <Form.Item label="Start" name="Start">
-        <DatePicker.RangePicker
-          format="YYYY-MM"
-          onChange={handleChangeDate}
-          picker="month"
-        />
+      <Form.Item label="Start" name="Date">
+        <DatePicker.RangePicker format="YYYY-MM" picker="month" />
       </Form.Item>
-      <Form.Item name="newStartDate" hidden />
-      <Form.Item name="newEndDate" hidden />
       <Form.Item
         name="newIndustry"
         label="Industry"
@@ -218,15 +202,7 @@ const Edit: React.FC<ModalEdit> = ({ open, onCancel, onSubmit, id }) => {
       value: "",
     },
     {
-      name: "Start",
-      value: "",
-    },
-    {
-      name: "newStartDate",
-      value: "",
-    },
-    {
-      name: "newEndDate",
+      name: "Date",
       value: "",
     },
     {
@@ -271,19 +247,11 @@ const Edit: React.FC<ModalEdit> = ({ open, onCancel, onSubmit, id }) => {
         value: experience?.usex_city_id,
       },
       {
-        name: "Start",
+        name: "Date",
         value: [
           dayjs(experience?.usex_start_date),
           dayjs(experience?.usex_end_date),
         ],
-      },
-      {
-        name: "newStartDate",
-        value: experience?.usex_start_date,
-      },
-      {
-        name: "newEndDate",
-        value: experience?.usex_end_date,
       },
       {
         name: "newIndustry",
@@ -311,7 +279,19 @@ const Edit: React.FC<ModalEdit> = ({ open, onCancel, onSubmit, id }) => {
   const handleOk = async (values: any) => {
     try {
       await form.validateFields();
-      dispatch(editExperience({ payload: values, id }));
+      const data = {
+        newTitle: values.newTitle,
+        newHeadline: values.newHeadline,
+        newCompany: values.newCompany,
+        newCity: values.newCity,
+        newStartDate: values.Date[0],
+        newEndDate: values.Date[1],
+        newIndustry: values.newIndustry,
+        newEmployeType: values.newEmployeType,
+        newDescription: values.newDescription,
+        newExperienceType: values.newExperienceType,
+      };
+      dispatch(editExperience({ payload: data, id }));
       onSubmit();
     } catch (error: any) {
       console.log(error.message);

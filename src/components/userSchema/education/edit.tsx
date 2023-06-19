@@ -1,5 +1,6 @@
 import { editEducation } from "@/redux/usersSchema/profile/action/actionReducer";
 import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
+import dayjs from "dayjs";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -84,33 +85,9 @@ const FormEdit: React.FC<FormEdit> = ({ form, onChange, onFinish, fields }) => {
       >
         <Input />
       </Form.Item>
-      <div className="flex justify-between">
-        <Form.Item
-          label="Start"
-          name="newStartDate"
-          rules={[
-            {
-              required: true,
-              message: "Please input your start education",
-            },
-          ]}
-        >
-          <DatePicker picker="month" format={"YYYY-MM"} />
-        </Form.Item>
-        <span>Until</span>
-        <Form.Item
-          label="End"
-          name="newEndDate"
-          rules={[
-            {
-              required: true,
-              message: "Please input your end education",
-            },
-          ]}
-        >
-          <DatePicker format={"YYYY-MM"} picker="month" />
-        </Form.Item>
-      </div>
+      <Form.Item label="Start" name="Date">
+        <DatePicker.RangePicker />
+      </Form.Item>
       <Form.Item
         label="Activies"
         name="newActivitis"
@@ -161,11 +138,7 @@ const Edit: React.FC<ModalEdit> = ({ open, onCancel, onSubmit, id }) => {
       value: "",
     },
     {
-      name: "newStartDate",
-      value: "",
-    },
-    {
-      name: "newEndDate",
+      name: "start",
       value: "",
     },
     {
@@ -202,12 +175,11 @@ const Edit: React.FC<ModalEdit> = ({ open, onCancel, onSubmit, id }) => {
         value: education?.usdu_grade,
       },
       {
-        name: "newStartDate",
-        value: moment(education?.usdu_start_date),
-      },
-      {
-        name: "newEndDate",
-        value: moment(education?.usdu_end_date),
+        name: "Date",
+        value: [
+          dayjs(education?.usdu_start_date),
+          dayjs(education?.usdu_end_date),
+        ],
       },
       {
         name: "newActivitis",
@@ -227,7 +199,17 @@ const Edit: React.FC<ModalEdit> = ({ open, onCancel, onSubmit, id }) => {
   const handleOk = async (values: any) => {
     try {
       await form.validateFields();
-      dispatch(editEducation({ payload: values, id }));
+      const data = {
+        newSchool: values.newSchool,
+        newDegree: values.newDegree,
+        newFieldStudy: values.newFieldStudy,
+        newGrade: values.newGrade,
+        newStartDate: values.Date[0],
+        newEndDate: values.Date[1],
+        newActivitis: values.newActivitis,
+        newDescription: values.newDescription,
+      };
+      dispatch(editEducation({ payload: data, id }));
       onSubmit();
     } catch (error: any) {
       console.log(error.message);
@@ -239,6 +221,7 @@ const Edit: React.FC<ModalEdit> = ({ open, onCancel, onSubmit, id }) => {
       title="Edit Education"
       open={open}
       onCancel={handleCancel}
+      style={{ top: 10 }}
       footer={
         <div>
           <Button onClick={handleCancel}>Batal</Button>

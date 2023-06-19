@@ -4,6 +4,11 @@ const Login = (data: any) => {
     return axios.post('/users/auth/signin', data)
 }
 
+const SignUp = (data: any) => {
+    return axios.post('/users/student', data)
+}
+
 export default {
-    Login
+    Login,
+    SignUp
 }

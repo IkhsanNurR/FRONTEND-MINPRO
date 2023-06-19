@@ -94,7 +94,7 @@ const AddPhone: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
               optionFilterProp="children"
               //   onChange={onchangeSelect}
               //   onSearch={onSearch}
-              options={pontycode.map((item) => ({
+              options={pontycode?.map((item) => ({
                 value: item.ponty_code,
                 label: item.ponty_code,
               }))}

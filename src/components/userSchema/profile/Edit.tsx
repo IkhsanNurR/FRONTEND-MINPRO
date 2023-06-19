@@ -3,13 +3,22 @@ import {
   GetByNameOrEmail,
   updateProfile,
 } from "@/redux/usersSchema/profile/action/actionReducer";
-import { Button, DatePicker, Form, Input, Modal, Upload } from "antd";
+import {
+  Button,
+  DatePicker,
+  DatePickerProps,
+  Form,
+  Input,
+  Modal,
+  Upload,
+  message,
+} from "antd";
 import { getCookie } from "cookies-next";
-import moment from "moment";
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const FormEdit: React.FC<FormEdit> = ({ onChange, fields, form }) => {
+const FormEdit: React.FC<FormEdit> = ({ onChange, fields, form, onFinish }) => {
   return (
     <Form
       form={form}
@@ -21,6 +30,7 @@ const FormEdit: React.FC<FormEdit> = ({ onChange, fields, form }) => {
         onChange(allFields);
       }}
       encType="multipart/form-data"
+      onFinish={onFinish}
     >
       <div className="flex gap-10">
         <div>
@@ -72,10 +82,7 @@ const FormEdit: React.FC<FormEdit> = ({ onChange, fields, form }) => {
               },
             ]}
           >
-            <DatePicker
-              format={"YYYY/MM/DD"}
-              value={form.getFieldValue("user_birth_date")}
-            />
+            <DatePicker />
           </Form.Item>
         </div>
         <div>
@@ -132,8 +139,6 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
     (state: any) => state.userProfileReducers
   );
 
-  // const date = moment(users?.user_birth_date).format("YYYY-MM-DD");
-
   useEffect(() => {
     const decode = decodeTokenName(token);
     setName(decode);
@@ -155,7 +160,10 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
         },
         {
           name: "user_birth_date",
-          value: moment(users?.user_birth_date),
+          value:
+            users?.user_birth_date !== null
+              ? dayjs(users?.user_birth_date)
+              : null,
         },
         {
           name: "user_photo",
@@ -176,19 +184,17 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
 
   const handleCancel = () => {
     onCancel();
-    // form.resetFields();
-    // // form.setFieldValue("user_name", users?.user_name);
-    // // form.setFields(formValues);
-    // form.setFieldsValue(formValues);
   };
 
-  const handleOk = async () => {
+  const handleOk = async (values: any) => {
     await form.validateFields();
     const formData = new FormData();
     formData.append("user_name", formValues[0].value);
     formData.append("user_first_name", formValues[1].value);
     formData.append("user_last_name", formValues[2].value);
-    formData.append("user_birth_date", formValues[3].value);
+
+    const birthDate = dayjs(formValues[3].value).format("YYYY-MM-DD");
+    formData.append("user_birth_date", birthDate);
     const fileList = form.getFieldValue("user_photo");
     if (fileList && fileList.length > 0) {
       formData.append("user_photo", fileList[0].originFileObj);
@@ -205,7 +211,6 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
   return (
     <Modal
       open={open}
-      onOk={handleOk}
       onCancel={handleCancel}
       title="Edit Profile"
       mask={false}
@@ -213,7 +218,7 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
         <div>
           <Button onClick={handleCancel}>Batal</Button>
           <Button
-            onClick={handleOk}
+            onClick={() => form.submit()}
             className="ant-btn ant-btn-primary"
             style={{ backgroundColor: "#1890ff", borderColor: "#1890ff" }}
           >
@@ -226,6 +231,7 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
         form={form}
         fields={formValues}
         onChange={(newFields) => setFormValues(newFields)}
+        onFinish={handleOk}
       />
     </Modal>
   );
