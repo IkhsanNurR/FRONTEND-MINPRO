@@ -3,6 +3,9 @@ import axios from "../config/endpoint";
 
 
 //bootcamp
+const createApplyBootcamp = (data:any) => {
+  return axios.post('bootcamp/applybatch')
+}
 const getBootcamp = () => {
   return axios.get("bootcamp");
 };
@@ -105,12 +108,14 @@ const editStatusEvaluation = (data:any) => {
 export default {
   //bootcamp
   getBootcamp,
+  createApplyBootcamp,
   getBootcampById,
   getBootcampDraftApply,
   createBootcamp,
   editBootcamp,
   closeBootcamp,
   extendBootcamp,
+  pendingBootcamp,
   deleteBootcamp,
   setToRunningBootcamp,
   

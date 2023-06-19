@@ -110,7 +110,6 @@ const EditBatch: MyPage = (props: any) => {
     setValue("Technology", loadedData?.batch_entity_id);
     setValue("EndPeriod", loadedData?.batch_end_date);
     setValue("StartPeriod", loadedData?.batch_start_date);
-    // console.log('loaded', loadedData?.members[0].trainer_id[0])
   }, [router.isReady, loadedData]);
 
   //type form
@@ -656,7 +655,6 @@ const EditBatch: MyPage = (props: any) => {
                   autoComplete
                   className="w-5/12"
                   includeInputInList
-                  defaultValue={trainer1[0]}
                   onChange={(event: any, value: any) => {
                     register("Trainer", {
                       ...registerOptions.Trainer,

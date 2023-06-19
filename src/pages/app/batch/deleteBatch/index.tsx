@@ -24,12 +24,21 @@ const style = {
 const DeleteBatch = ({ open, handleClose, data }: any) => {
   // console.log('props',open, handleClose, data);
   // console.log('data',data)
+
+  type Values = {
+    reason : string 
+    batch_id : number
+  }
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<Values>();
+
+  const registerOptions = {
+    reason: { required: "Reason is required" }
+  }
 
   useEffect(() => {
     if (open) {
@@ -48,6 +57,8 @@ const DeleteBatch = ({ open, handleClose, data }: any) => {
     const handleDelete = (formData: any) => {
       // console.log('data',data)
       const batch_id = formData.batch_id
+      const batch_reason = formData.reason
+      const batch_name = data.batch_name
       const members = [data.members]
       let member:any = []
       {members[0].map((member1:any, i:any ) => {
@@ -55,7 +66,7 @@ const DeleteBatch = ({ open, handleClose, data }: any) => {
         // return member
         // console.log(member);
       })}
-      const gabung = {batch_id, member}
+      const gabung = {batch_id, member, batch_reason, batch_name}
       console.log(gabung)
       dispatch(reqDeleteBootcamp(gabung))
       handleClose()
@@ -78,6 +89,27 @@ const DeleteBatch = ({ open, handleClose, data }: any) => {
             {/* Input hidden untuk mengirim data */}
             <input type="hidden" {...register("batch_id")} value={data.batch_id} />
             <p>Apakah Kamu Yakin Akan Menghapus Batch : {data.batch_name}</p>
+            <div>
+            <TextField
+                id="reason"
+                variant="outlined"
+                label="reason"
+                autoComplete="off"
+                multiline
+                maxRows={4}
+                className="w-10/12 mt-3" 
+                inputProps={{ maxLength: 250, "aria-valuemax": 250 }}
+                // className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
+                {...register("reason", registerOptions.reason)}
+              />
+            </div>
+            <div className=" w-full">
+                {errors?.reason && (
+                  <small className="text-red-500 ml-4">
+                    {errors.reason.message}
+                  </small>
+                )}
+            </div>
             <div className="">
               <Button
                 type="submit"

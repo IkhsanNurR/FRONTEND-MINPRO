@@ -150,6 +150,9 @@ const EvaluationBatch: MyPage = () => {
                         {data.firstname}
                       </h1>
                       <h2 className="text-lg font-semibold">{data.lastname}</h2>
+                      <h3 className="text-lg font-semibold capitalize">
+                        {data.status_trainee}
+                      </h3>
                       <h3 className="pt-4 text-base">
                         Total Score : {data.total_score}
                       </h3>

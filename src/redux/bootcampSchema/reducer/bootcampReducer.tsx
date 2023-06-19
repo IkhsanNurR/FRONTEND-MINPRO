@@ -25,11 +25,15 @@ function bootcampReducer(state = initialState, action:any){
             return {state, bootcamp: payload.result, status: payload.status, message:payload.message, refresh: false}
         case ActionType.RES_CREATE_BOOTCAMP:
             return {status: payload.status, message:payload.message, refresh: false}
+        case ActionType.RES_APPLY_BOOTCAMP:
+            return {status: payload.status, message:payload.message, refresh: false}
         case ActionType.RES_EDIT_BOOTCAMP:
             return {status: payload.status, message:payload.message, refresh: false}
         case ActionType.RES_EXTEND_BOOTCAMP:
             return {status: payload.status, message:payload.message, refresh: false}
         case ActionType.RES_CLOSE_BOOTCAMP:
+            return {status: payload.status, message:payload.message, refresh: false}
+        case ActionType.RES_PENDING_BOOTCAMP:
             return {status: payload.status, message:payload.message, refresh: false}
         case ActionType.RES_DELETE_BOOTCAMP:
             return {status: payload.status, message:payload.message, refresh: false}

@@ -45,6 +45,8 @@ import Pagination from "@/components/pagination";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
 import ExtendBatch from "./extendBatch";
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import PendingBatch from "./pending";
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
     elevation={0}
@@ -100,6 +102,7 @@ const Bootcamp: MyPage = () => {
   const [closeBatch, setCloseBatch]: any = useState(false);
   const [deleteBatch, setDeleteBatch]: any = useState(false);
   const [runningBatch, setRunningBatch]: any = useState(false);
+  const [pendingBatch, setPendingBatch]: any = useState(false);
   const [extendsBatch, setExtendsBatch]:any = useState(false)
   const [filterData, setFilterData] = useState(bootcamp);
   const [selected, setSelected]: any = useState(0);
@@ -213,6 +216,10 @@ const Bootcamp: MyPage = () => {
 
   const handleCloseBatch = () => {
     setCloseBatch(true);
+    setAnchorEl(null);
+  };
+  const handlePendingBatch = () => {
+    setPendingBatch(true);
     setAnchorEl(null);
   };
 
@@ -388,29 +395,41 @@ const Bootcamp: MyPage = () => {
                             })
                           }
                           disableRipple
-                          disabled = {selected.batch_status === 'running' || selected.batch_status === 'closed' || selected.batch_status === 'cancelled'}
+                          // disabled = {selected.batch_status === 'running' || selected.batch_status === 'closed' || selected.batch_status === 'cancelled'}
+                          disabled = {selected.batch_status !== 'open' && selected.batch_status !== 'pending'}
                         >
                           <Edit />
                           Edit
                         </MenuItem>
                         <MenuItem onClick={handleCloseBatch} disableRipple
-                        disabled = {selected.batch_status === 'closed' || selected.batch_status === 'cancelled' }
+                        // disabled = {selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'open' || selected.batch_status === 'pending'}
+                        disabled = {selected.batch_status !== 'extend' && selected.batch_status !== 'running'}
                         >
                           <DoDisturbOnOutlined />
                           Closed Batch
                         </MenuItem>
+                        <MenuItem onClick={handlePendingBatch} disableRipple 
+                        disabled={selected.batch_status !== 'open' && selected.batch_status !== 'pending'}>
+                          <PendingActionsIcon />
+                          Pending Batch
+                        </MenuItem>
                         <MenuItem onClick={handleExtendBatch} disableRipple 
-                        disabled={selected.batch_status === 'open' || selected.batch_status === 'cancelled' || selected.batch_status === 'closed'}>
+                        // disabled={selected.batch_status === 'open' || selected.batch_status === 'cancelled' || selected.batch_status === 'closed'}
+                        disabled={['open', 'cancelled', 'closed', 'pending'].includes(selected.batch_status)}
+                        >
                           <Update />
                           Extends Batch
                         </MenuItem>
                         <MenuItem onClick={handleDeleteBatch} disableRipple 
-                        disabled={selected.batch_status === 'closed' || selected.batch_status === 'cancelled'}>
+                        // disabled={selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'extend' || selected.batch_status === 'running'}>
+                        disabled={selected.batch_status !== 'open' && selected.batch_status !== 'pending'}
+                        >
                           <DeleteOutlineRounded />
                           Delete Batch
                         </MenuItem>
                         <MenuItem onClick={handleRunningBatch} disableRipple
-                        disabled={selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'running'}
+                        // disabled={selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'running'}
+                        disabled={selected.batch_status !== 'open' && selected.batch_status !== 'pending'}
                         >
                           <PlayArrowOutlined />
                           Set To Running
@@ -424,7 +443,7 @@ const Bootcamp: MyPage = () => {
                               },
                             })
                           }
-                          disabled={ selected.batch_status === 'cancelled'}
+                          disabled={  selected.batch_status !== 'closed'}
                           
                           disableRipple
                         >
@@ -459,6 +478,11 @@ const Bootcamp: MyPage = () => {
       <ExtendBatch
         open={extendsBatch}
         handleClose={() => setExtendsBatch(false)}
+        data={selected}
+      />
+      <PendingBatch
+        open={pendingBatch}
+        handleClose={() => setPendingBatch(false)}
         data={selected}
       />
       <DeleteBatch

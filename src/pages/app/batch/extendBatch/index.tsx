@@ -13,6 +13,7 @@ import { format, parse } from 'date-fns';
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import { type } from "os";
 
 const style = {
   position: "absolute" as "absolute",
@@ -29,6 +30,12 @@ const ExtendBatch = ({ open, handleClose, data }: any) => {
   // console.log('props',open, handleClose, data);
 
   const [endDate, setEndDate] = useState(null);
+
+  type Values = {
+    reason : string
+    extend: string
+    batch_id: number
+  }
   const {
     register,
     handleSubmit,
@@ -37,11 +44,15 @@ const ExtendBatch = ({ open, handleClose, data }: any) => {
     setError,
     unregister,
     formState: { errors },
-  } = useForm();
+  } = useForm<Values>();
 
   const registerOptions = {
-    date: { required: "date is required" }
+    date: { required: "date is required" },
+    reason: { required: "Reason is required" }
+    
   }
+
+
 
   const handleextenddate = (date: any) => {
     register("extend", registerOptions.date);
@@ -73,7 +84,9 @@ const ExtendBatch = ({ open, handleClose, data }: any) => {
   const handleExtend = (formData: any) => {
     // console.log("data", formData);
 
+
     const parsedDate = parse(formData.extend, 'dd/MM/yyyy', new Date());
+    const reason = formData.reason
 
     // Memformat tanggal dengan format yang diinginkan
     const formattedDate = format(parsedDate, 'dd MMMM yyyy');
@@ -84,12 +97,13 @@ const ExtendBatch = ({ open, handleClose, data }: any) => {
         batch_id : formData.batch_id,
         batch_end_date : formData.extend,
         batch_name : data.batch_name,
+        reason,
         formattedDate
     }
     
-    // console.log(gabung)
+    console.log(gabung)
     dispatch(reqExtendBootcamp(gabung))
-    handleClose()
+    // handleClose()
   };
 
   return (
@@ -115,6 +129,7 @@ const ExtendBatch = ({ open, handleClose, data }: any) => {
             <p>
               Apakah Kamu Yakin Akan Memperpanjang Batch : {data.batch_name}
             </p>
+
             <div className=" p-4 flex items-center">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <div className="w-1/2">
@@ -139,6 +154,28 @@ const ExtendBatch = ({ open, handleClose, data }: any) => {
               </LocalizationProvider>
               <div className="w-6"></div>
             </div>
+            <div>
+            <TextField
+                id="reason"
+                variant="outlined"
+                label="reason"
+                autoComplete="off"
+                multiline
+                maxRows={4}
+                className="w-10/12 ml-4" 
+                inputProps={{ maxLength: 250, "aria-valuemax": 250 }}
+                // className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
+                {...register("reason", registerOptions.reason)}
+              />
+            </div>
+            <div className=" w-full">
+                {errors?.reason && (
+                  <small className="text-red-500 ml-4">
+                    {errors.reason.message}
+                  </small>
+                )}
+            </div>
+
             <div className="">
               <Button
                 type="submit"

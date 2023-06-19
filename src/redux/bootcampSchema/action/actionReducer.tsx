@@ -24,6 +24,18 @@ export const resCreateBootcamp = (payload:any) => {
         payload
     }
 }
+export const reqApplyBootcamp = (payload:any) => {
+    return{
+        type : ActionType.REQ_APPLY_BOOTCAMP,
+        payload
+    }
+}
+export const resApplyBootcamp = (payload:any) => {
+    return{
+        type : ActionType.RES_APPLY_BOOTCAMP,
+        payload
+    }
+}
 
 export const reqGetBootcampById = (payload:any) => {
     return{
@@ -72,6 +84,18 @@ export const reqCloseBootcamp = (payload:any) => {
 export const resCloseBootcamp = (payload:any) => {
     return{
         type : ActionType.RES_EXTEND_BOOTCAMP,
+        payload
+    }
+}
+export const reqPendingBootcamp = (payload:any) => {
+    return{
+        type : ActionType.REQ_PENDING_BOOTCAMP,
+        payload
+    }
+}
+export const resPendingBootcamp = (payload:any) => {
+    return{
+        type : ActionType.RES_PENDING_BOOTCAMP,
         payload
     }
 }
