@@ -17,7 +17,7 @@ const Pagination = (props:any) => {
         <button
           key="first"
           onClick={() => handlePageChange(1)}
-          className="relative z-10 inline-flex items-center bg-blue-500 px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-indigo-400"
+          className="relative z-10 inline-flex items-center bg-blue-500 text-white px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-indigo-400"
         >
           First
         </button>
@@ -41,7 +41,7 @@ const Pagination = (props:any) => {
         <button
           key="last"
           onClick={() => handlePageChange(totalPages)}
-          className="relative z-10 inline-flex items-center bg-blue-500 px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-indigo-400"
+          className="relative z-10 inline-flex items-center bg-blue-500 text-white px-4 py-2 text-sm font-semibold focus:z-20 focus-visible:outline focus-visible:outline-indigo-400"
         >
           Last
         </button>

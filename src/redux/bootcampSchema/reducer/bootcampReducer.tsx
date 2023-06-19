@@ -1,4 +1,5 @@
 import ActionType from "../action/actionType";
+import alert from "@/pages/alert";
 
 const initialState = {
     bootcamp: [],
@@ -10,16 +11,23 @@ const initialState = {
 
 function bootcampReducer(state = initialState, action:any){
     let {type, payload} = action
-    // console.log('reducer',payload)
-    
+    console.log('reducermatap',payload)
+
+    if (payload?.status === 201) {
+      alert.notifySuccess(payload.result, payload.message);
+    } else if (payload?.status === 400) {
+      alert.notifyFailed(payload.status, payload.message);
+    }
     switch (type) {
         case ActionType.RES_GET_BOOTCAMP:
             return {state, bootcamp: payload.result, status: payload.status, message:payload.message, refresh: true}
         case ActionType.RES_GET_BOOTCAMP_BY_ID:
             return {state, bootcamp: payload.result, status: payload.status, message:payload.message, refresh: false}
         case ActionType.RES_CREATE_BOOTCAMP:
-            return {state, bootcamp: payload.result, status: payload.status, message:payload.message, refresh: false}
+            return {status: payload.status, message:payload.message, refresh: false}
         case ActionType.RES_EDIT_BOOTCAMP:
+            return {status: payload.status, message:payload.message, refresh: false}
+        case ActionType.RES_EXTEND_BOOTCAMP:
             return {status: payload.status, message:payload.message, refresh: false}
         case ActionType.RES_CLOSE_BOOTCAMP:
             return {status: payload.status, message:payload.message, refresh: false}

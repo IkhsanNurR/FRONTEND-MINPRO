@@ -4,7 +4,6 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import TabPanel from "./tabsComponent/tabPanel";
 import a11yProps from "./tabsComponent/a11yProps";
-import dataDummy from "../data";
 import ApplyTable from "./table/rows/apply";
 import { MyPage } from "@/components/types";
 import Content from "@/components/shared/content";

@@ -1,4 +1,4 @@
-import apiMethod from "@/pages/api/apiMethod"
+import apiMethod from "@/api/apiMethod"
 import { call, put } from "redux-saga/effects"
 import { resGetProgName } from "../action/actionReducer"
 

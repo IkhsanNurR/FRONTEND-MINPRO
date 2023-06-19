@@ -18,8 +18,14 @@ const createBootcamp = (data:any) => {
 const editBootcamp = (data: any) => {
   return axios.patch(`bootcamp/editbatch`, data)
 }
+const extendBootcamp = (data: any) => {
+  return axios.patch(`bootcamp/extendbatch`, data)
+}
+const pendingBootcamp = (data: any) => {
+  return axios.patch(`bootcamp/pendingbatch`, data)
+}
 const closeBootcamp = (data: any) => {
-  // console.log('api',data)
+  console.log('api',data)
   return axios.patch(`bootcamp/closebatch`, data
   // , {
   //   headers: {
@@ -104,6 +110,7 @@ export default {
   createBootcamp,
   editBootcamp,
   closeBootcamp,
+  extendBootcamp,
   deleteBootcamp,
   setToRunningBootcamp,
   

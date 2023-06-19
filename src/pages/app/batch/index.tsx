@@ -2,7 +2,7 @@ import { MyPage } from "@/components/types";
 import {
   reqGetBootcamp,
   reqGetBootcampDaftarApply,
-} from "@/pages/redux/bootcampSchema/action/actionReducer";
+} from "@/redux/bootcampSchema/action/actionReducer";
 import {
   Avatar,
   AvatarGroup,
@@ -32,15 +32,19 @@ import {
   MoreVertRounded,
   PlayArrowOutlined,
   DoDisturbOnOutlined,
+  Update
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import CloseBatch from "./closeBatch";
 import DeleteBatch from "./deleteBatch";
 import RunningBatch from "./runningBatch";
+import alert from "@/pages/alert";
 import Content from "@/components/shared/content";
 import Content1 from "@/components/shared/content1";
 import Pagination from "@/components/pagination";
 import { useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
+import ExtendBatch from "./extendBatch";
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
     elevation={0}
@@ -96,10 +100,11 @@ const Bootcamp: MyPage = () => {
   const [closeBatch, setCloseBatch]: any = useState(false);
   const [deleteBatch, setDeleteBatch]: any = useState(false);
   const [runningBatch, setRunningBatch]: any = useState(false);
+  const [extendsBatch, setExtendsBatch]:any = useState(false)
   const [filterData, setFilterData] = useState(bootcamp);
   const [selected, setSelected]: any = useState(0);
   const [currentPage, setCurrentPage]: any = useState(1);
-  const [itemPerPage, setItemPerPage] = useState(1);
+  const [itemPerPage, setItemPerPage] = useState(5);
   const totalPages = Math.ceil(filterData?.length / itemPerPage);
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
@@ -133,15 +138,17 @@ const Bootcamp: MyPage = () => {
   } = useForm();
 
   const handleFilter = (filter: any) => {
-    console.log(filter);
     let newData = [...bootcamp]; // Create a new array to store the filtered data
-  
+
     if (filter.batch_status_input === "" && filter.batch_status !== "null") {
       newData = newData.filter(
         (user: any) => user.batch_status === filter.batch_status
       );
       setFilterData(newData);
-    } else if (filter.batch_status_input !== "" && filter.batch_status === "null") {
+    } else if (
+      filter.batch_status_input !== "" &&
+      filter.batch_status === "null"
+    ) {
       newData = newData.filter((user: any) => {
         return (
           user.technology
@@ -156,23 +163,31 @@ const Bootcamp: MyPage = () => {
         );
       });
       setFilterData(newData);
-    } else if (filter.batch_status === "null" && filter.batch_status_input === "") {
+    } else if (
+      filter.batch_status === "null" &&
+      filter.batch_status_input === ""
+    ) {
       setFilterData(bootcamp);
-    } else if (filter.batch_status_input && filter.batch_status && filter.batch_status !== "null") {
+    } else if (
+      filter.batch_status_input &&
+      filter.batch_status &&
+      filter.batch_status !== "null"
+    ) {
       newData = newData.filter((user: any) => {
         return (
-          user.technology
+          (user.technology
             .toLowerCase()
             .includes(filter.batch_status_input.toLowerCase()) ||
-          user.batch_name
-            .toLowerCase()
-            .includes(filter.batch_status_input.toLowerCase()) ||
-          user.trainer
-            .toLowerCase()
-            .includes(filter.batch_status_input.toLowerCase())
-        ) && user.batch_status === filter.batch_status;
+            user.batch_name
+              .toLowerCase()
+              .includes(filter.batch_status_input.toLowerCase()) ||
+            user.trainer
+              .toLowerCase()
+              .includes(filter.batch_status_input.toLowerCase())) &&
+          user.batch_status === filter.batch_status
+        );
       });
-      
+
       if (newData.length === 0) {
         // Jika data tidak ditemukan, setFilterData([]) atau tampilkan pesan sesuai kebutuhan Anda
         setFilterData([]);
@@ -181,8 +196,8 @@ const Bootcamp: MyPage = () => {
         setFilterData(newData);
       }
     }
-  }
-  
+  };
+
   const router = useRouter();
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>, data: any) => {
@@ -205,7 +220,12 @@ const Bootcamp: MyPage = () => {
     setDeleteBatch(true);
     setAnchorEl(null);
   };
-
+  
+  const handleExtendBatch = () => {
+    setExtendsBatch(true)
+    setAnchorEl(null);
+  }
+ 
   const handleRunningBatch = () => {
     setRunningBatch(true);
     setAnchorEl(null);
@@ -213,14 +233,17 @@ const Bootcamp: MyPage = () => {
 
   const dispatch = useDispatch();
 
-  console.log(bootcamp);
+  // console.log("status", status);
 
+  
   useEffect(() => {
+    dispatch(reqGetBootcamp())
     setFilterData(bootcamp);
-    dispatch(reqGetBootcamp());
   }, [refresh]);
+
   return (
     <>
+        <ToastContainer />
       <Content1
         title="Batch"
         namafungsi1="Create"
@@ -365,19 +388,30 @@ const Bootcamp: MyPage = () => {
                             })
                           }
                           disableRipple
+                          disabled = {selected.batch_status === 'running' || selected.batch_status === 'closed' || selected.batch_status === 'cancelled'}
                         >
                           <Edit />
                           Edit
                         </MenuItem>
-                        <MenuItem onClick={handleCloseBatch} disableRipple>
+                        <MenuItem onClick={handleCloseBatch} disableRipple
+                        disabled = {selected.batch_status === 'closed' || selected.batch_status === 'cancelled' }
+                        >
                           <DoDisturbOnOutlined />
                           Closed Batch
                         </MenuItem>
-                        <MenuItem onClick={handleDeleteBatch} disableRipple>
+                        <MenuItem onClick={handleExtendBatch} disableRipple 
+                        disabled={selected.batch_status === 'open' || selected.batch_status === 'cancelled' || selected.batch_status === 'closed'}>
+                          <Update />
+                          Extends Batch
+                        </MenuItem>
+                        <MenuItem onClick={handleDeleteBatch} disableRipple 
+                        disabled={selected.batch_status === 'closed' || selected.batch_status === 'cancelled'}>
                           <DeleteOutlineRounded />
                           Delete Batch
                         </MenuItem>
-                        <MenuItem onClick={handleRunningBatch} disableRipple>
+                        <MenuItem onClick={handleRunningBatch} disableRipple
+                        disabled={selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'running'}
+                        >
                           <PlayArrowOutlined />
                           Set To Running
                         </MenuItem>
@@ -390,6 +424,8 @@ const Bootcamp: MyPage = () => {
                               },
                             })
                           }
+                          disabled={ selected.batch_status === 'cancelled'}
+                          
                           disableRipple
                         >
                           <GradingRounded />
@@ -401,10 +437,7 @@ const Bootcamp: MyPage = () => {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell 
-                  colSpan={8} 
-                  className="text-center ">
-
+                  <TableCell colSpan={8} className="text-center ">
                     Data tidak ada
                   </TableCell>
                 </TableRow>
@@ -421,6 +454,11 @@ const Bootcamp: MyPage = () => {
       <CloseBatch
         open={closeBatch}
         handleClose={() => setCloseBatch(false)}
+        data={selected}
+      />
+      <ExtendBatch
+        open={extendsBatch}
+        handleClose={() => setExtendsBatch(false)}
         data={selected}
       />
       <DeleteBatch

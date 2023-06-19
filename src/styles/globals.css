@@ -8,13 +8,12 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-
-.hamburger{
+.hamburger {
   display: none;
 }
 
 @media only screen and (max-width: 640px) {
-  .hamburger{
+  .hamburger {
     display: inline-block;
   }
 }
@@ -37,7 +36,58 @@ body {
     rgb(var(--background-start-rgb)); */
 }
 
+.transisi {
+  @apply transition duration-200 ease-in-out;
+}
 
-.transisi{
-  @apply transition duration-200 ease-in-out
+/* .animate-tick {
+  transition: transform 0.3s ease-in-out;
+} */
+.animate-tick {
+  opacity: 1;
+  transform: rotate(-45deg);
+  animation: rotateFadeOut rotateFadeIn 0.3s ease-in-out forwards;
+}
+
+.checked {
+  opacity: 1;
+  animation: rotateFadeIn 0.3s ease-in-out forwards;
+}
+
+@keyframes rotateFadeIn {
+  from {
+    opacity: 0;
+    transform: rotate(-45deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes rotateFadeOut {
+  from {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+  to {
+    opacity: 0;
+    transform: rotate(-45deg);
+  }
+}
+
+.checked-back {
+  opacity: 0;
+  animation: rotateFadeInBack 0.3s ease-in-out forwards;
+}
+
+@keyframes rotateFadeInBack {
+  from {
+    opacity: 0;
+    transform: rotate(-45deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
 }

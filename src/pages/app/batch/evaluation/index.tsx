@@ -20,7 +20,7 @@ import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import ReviewModal from "./editreview";
 import { MyPage } from "@/components/types";
 import { useDispatch, useSelector } from "react-redux";
-import { reqGetBootcampById } from "@/pages/redux/bootcampSchema/action/actionReducer";
+import { reqGetBootcampById } from "@/redux/bootcampSchema/action/actionReducer";
 import DetailEvaluation from "./detail";
 import StatusModal from "./status";
 import { Grading, ManageAccountsRounded } from "@mui/icons-material";

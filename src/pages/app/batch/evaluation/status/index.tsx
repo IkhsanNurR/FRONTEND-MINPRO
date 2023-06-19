@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { reqEvaluationStatus } from "@/pages/redux/bootcampSchema/action/actionReducer";
+import { reqEvaluationStatus } from "@/redux/bootcampSchema/action/actionReducer";
 
 const style = {
   position: "absolute" as "absolute",

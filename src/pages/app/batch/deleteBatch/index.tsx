@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { Divider, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { reqDeleteBootcamp } from "@/pages/redux/bootcampSchema/action/actionReducer";
+import { reqDeleteBootcamp } from "@/redux/bootcampSchema/action/actionReducer";
 
 const style = {
   position: "absolute" as "absolute",
@@ -46,9 +46,19 @@ const DeleteBatch = ({ open, handleClose, data }: any) => {
     // };
     
     const handleDelete = (formData: any) => {
-      console.log('data',formData)
+      // console.log('data',data)
       const batch_id = formData.batch_id
-      dispatch(reqDeleteBootcamp(formData))
+      const members = [data.members]
+      let member:any = []
+      {members[0].map((member1:any, i:any ) => {
+         member.push(member1.trainee_id)
+        // return member
+        // console.log(member);
+      })}
+      const gabung = {batch_id, member}
+      console.log(gabung)
+      dispatch(reqDeleteBootcamp(gabung))
+      handleClose()
   }
 
   return (

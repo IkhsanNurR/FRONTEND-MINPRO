@@ -51,19 +51,6 @@ export const resGetBootcampDaftarApply = (payload:any) => {
 
 
 
-//ProgName
-export const reqGetProgName = () => {
-    return{
-        type : ActionType.REQ_GET_PROGNAME,
-        
-    }
-}
-export const resGetProgName = (payload:any) => {
-    return{
-        type : ActionType.RES_GET_PROGNAME,
-        payload
-    }
-}
 export const reqEditBootcamp = (payload:any) => {
     return{
         type : ActionType.REQ_EDIT_BOOTCAMP,
@@ -78,13 +65,25 @@ export const resEditBootcamp = (payload:any) => {
 }
 export const reqCloseBootcamp = (payload:any) => {
     return{
-        type : ActionType.REQ_CLOSE_BOOTCAMP,
+        type : ActionType.REQ_EXTEND_BOOTCAMP,
         payload
     }
 }
 export const resCloseBootcamp = (payload:any) => {
     return{
-        type : ActionType.RES_CLOSE_BOOTCAMP,
+        type : ActionType.RES_EXTEND_BOOTCAMP,
+        payload
+    }
+}
+export const reqExtendBootcamp = (payload:any) => {
+    return{
+        type : ActionType.REQ_EXTEND_BOOTCAMP,
+        payload
+    }
+}
+export const resExtendBootcamp = (payload:any) => {
+    return{
+        type : ActionType.RES_EXTEND_BOOTCAMP,
         payload
     }
 }
@@ -114,6 +113,21 @@ export const resSetToRunningBootcamp = (payload:any) => {
 }
 
 
+
+
+//ProgName
+export const reqGetProgName = () => {
+    return{
+        type : ActionType.REQ_GET_PROGNAME,
+        
+    }
+}
+export const resGetProgName = (payload:any) => {
+    return{
+        type : ActionType.RES_GET_PROGNAME,
+        payload
+    }
+}
 
 
 //Trainer

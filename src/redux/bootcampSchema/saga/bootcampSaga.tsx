@@ -1,12 +1,12 @@
 import apiMethod from '../../../api/apiMethod'
 import {call, put} from 'redux-saga/effects'
-import { resCloseBootcamp, resCreateBootcamp, resDeleteBootcamp, resEditBootcamp, resGetBootcamp, resGetBootcampById, resGetBootcampDaftarApply, resSetToRunningBootcamp } from '../action/actionReducer'
+import { resCloseBootcamp, resCreateBootcamp, resDeleteBootcamp, resEditBootcamp, resExtendBootcamp, resGetBootcamp, resGetBootcampById, resGetBootcampDaftarApply, resSetToRunningBootcamp } from '../action/actionReducer'
 
 
 export function * handleGetBootcamp():any{
     try {
         const result = yield call(apiMethod.getBootcamp)
-        // console.log('saga',result)
+        // console.log('sagaget',result)
         yield put(resGetBootcamp(result.data))
     } catch (error) {
         yield put(resGetBootcamp({message: error, status: 404}))
@@ -15,7 +15,7 @@ export function * handleGetBootcamp():any{
 export function * handleCreateBootcamp(action:any):any{
     try {
         const result = yield call(apiMethod.createBootcamp, action.payload)
-        // console.log('saga',result)
+        console.log('sagahahal',result)
         yield put(resCreateBootcamp(result.data))
     } catch (error) {
         yield put(resCreateBootcamp({message: error, status: 404}))
@@ -47,6 +47,15 @@ export function * handleCloseBootcamp(action:any):any{
         yield put(resCloseBootcamp(result.data))
     } catch (error) {
         yield put(resCloseBootcamp({message: error, status: 404}))
+    }
+}
+export function * handleExtendBootcamp(action:any):any{
+    try {
+        const result = yield call(apiMethod.extendBootcamp, action.payload)
+        console.log('sagaClose',result)
+        yield put(resExtendBootcamp(result.data))
+    } catch (error) {
+        yield put(resExtendBootcamp({message: error, status: 404}))
     }
 }
 export function * handleDeleteBootcamp(action:any):any{

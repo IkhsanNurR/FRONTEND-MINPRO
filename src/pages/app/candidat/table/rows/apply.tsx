@@ -32,7 +32,7 @@ import {
   reqGetCandidatDisqualified,
   reqGetCandidatFiltering,
   reqGetCandidatNotResponding,
-} from "@/pages/redux/bootcampSchema/action/actionReducer";
+} from "@/redux/bootcampSchema/action/actionReducer";
 import Pagination from "@/components/pagination";
 import { promises } from "dns";
 // import Pagination from "../../../handling/pagination";

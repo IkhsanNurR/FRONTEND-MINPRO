@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { Divider, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { batch, useDispatch } from "react-redux";
-import { reqCloseBootcamp } from "@/pages/redux/bootcampSchema/action/actionReducer";
+import { reqCloseBootcamp } from "@/redux/bootcampSchema/action/actionReducer";
 
 const style = {
   position: "absolute" as "absolute",
@@ -41,7 +41,8 @@ const CloseBatch = ({ open, handleClose, data }: any) => {
   const onSubmit = (formData: any) => {
     // console.log(formData);
     const batch_id = formData.batch_id
-    const batch_status = data.batch_status
+    const batch_status = 'closed'
+    const batch_name= data.batch_name
 
     let members = data.members
     let batchTrainees:any = []
@@ -69,7 +70,7 @@ const CloseBatch = ({ open, handleClose, data }: any) => {
       // member.push(dataTalent)
     })}
     const datakirim = {
-      batch_id, batch_status, batchTrainees
+      batch_id, batch_status, batchTrainees, batch_name
     }
     // console.log(datakirim)
 
@@ -79,8 +80,9 @@ const CloseBatch = ({ open, handleClose, data }: any) => {
 
     // console.log(member)
 
+    console.log('data',datakirim)
     dispatch(reqCloseBootcamp(datakirim))
-    // handleClose();
+    handleClose();
   };
 
   return (

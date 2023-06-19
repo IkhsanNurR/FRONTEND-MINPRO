@@ -1,4 +1,4 @@
-import { reqUpdateCandidatApply, reqUpdateCandidatContract, reqUpdateCandidatDisqualified, reqUpdateCandidatFiltering, reqUpdateCandidatNotResponding } from "@/pages/redux/bootcampSchema/action/actionReducer";
+import { reqUpdateCandidatApply, reqUpdateCandidatContract, reqUpdateCandidatDisqualified, reqUpdateCandidatFiltering, reqUpdateCandidatNotResponding } from "@/redux/bootcampSchema/action/actionReducer";
 import { Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

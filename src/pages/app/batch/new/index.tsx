@@ -32,7 +32,10 @@ import {
   reqGetBootcampDaftarApply,
   reqGetProgName,
   reqGetTrainer,
-} from "@/pages/redux/bootcampSchema/action/actionReducer";
+} from "@/redux/bootcampSchema/action/actionReducer";
+import cek from "../../../../../public/cek.gif";
+import x from "../../../../../public/x.gif";
+import Image from "next/image";
 
 const newBatch: MyPage = (props: any) => {
   //reducer
@@ -131,6 +134,7 @@ const newBatch: MyPage = (props: any) => {
         type: "manual",
         message: "Trainer is required",
       });
+      return true;
     }
 
     if (trainerId && coTrainerId && trainerId === coTrainerId) {
@@ -158,6 +162,7 @@ const newBatch: MyPage = (props: any) => {
       console.log("gabungan", gabung);
       if (batch && batchTrainees && trainerPrograms.length >= 1) {
         dispatch(reqCreateBootcamp(gabung));
+        router.back();
       }
     }
   };
@@ -343,7 +348,7 @@ const newBatch: MyPage = (props: any) => {
 
   const pageCount = Math.ceil(filteredData.length / itemsPerPage);
   return (
-    <div>
+    <>
       <Content title={`CREATE BATCH`}>
         <div className="container mx-auto border-2 border-gray-300 relative rounded-xl">
           <form
@@ -717,20 +722,47 @@ const newBatch: MyPage = (props: any) => {
                   onClick={() => cekUser(user.user_entity_id)}
                 >
                   <CardContent className="flex flex-wrap items-center justify-between">
-                    <Avatar alt="Remy Sharp" src={user.foto} />
+                    <Avatar alt={user.trainee_name} src={user.foto} />
                     <Typography variant="body1" component="div">
                       {user.trainee_name}
                     </Typography>
-                    <AddRoundedIcon
-                      className={`${
-                        checked.includes(user.user_entity_id)
-                          ? "transisi rotate-45"
-                          : "transisi"
-                      }`}
-                    />
+                    {checked.includes(user.user_entity_id) ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={`h-6 w-6 text-white animate-tick ${
+                          checked.includes(user.user_entity_id) ? "checked" : ""
+                        }`}
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M7 13l3 3 7-7" />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={`h-6 w-6 ${
+                          checked.includes(user.user_entity_id)
+                            ? "text-white"
+                            : "checked-back"
+                        }`}
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M7 10h6M10 7v6" />
+                      </svg>
+                    )}
                   </CardContent>
                 </Card>
               ))}
+
               {loadedData.length == 0 && filteredData == 0 ? (
                 <Typography className="mt-5 capitalize text-white bg-red-400 rounded-lg w-fit p-4 text-center">
                   Tidak ada Data
@@ -763,7 +795,7 @@ const newBatch: MyPage = (props: any) => {
                   router.back();
                 }}
                 variant="contained"
-                className="mt-4 ml-2 mb-4 mr-4 bg-blue-500 hover:bg-blue-600 rounded-md"
+                className="mt-4 ml-2 mb-4 mr-4 bg-red-500 hover:bg-red-600 rounded-md"
               >
                 Cancel
               </Button>
@@ -771,7 +803,7 @@ const newBatch: MyPage = (props: any) => {
           </form>
         </div>
       </Content>
-    </div>
+    </>
   );
 };
 

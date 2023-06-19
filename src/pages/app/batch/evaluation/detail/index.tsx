@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { MyPage } from "@/components/types";
 import loading from "../../../../../../public/loading-infinite.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { reqEvaluationDetail, reqGetBootcampById, reqGetTraineeById } from "@/pages/redux/bootcampSchema/action/actionReducer";
+import { reqEvaluationDetail, reqGetBootcampById, reqGetTraineeById } from "@/redux/bootcampSchema/action/actionReducer";
 import { useRouter } from "next/router";
 import { format } from "date-fns";
 import { Button } from "@mui/material";
@@ -64,6 +64,8 @@ const DetailEvaluation:MyPage = (props:any) => {
 
   const handleReviewDetail = async (data: any) => {
     try {
+
+      // console.log('data', data)
       
       const values = Object.values(data);
       const jumlah: any = values.reduce((acc: any, item: any) => {
@@ -76,6 +78,31 @@ const DetailEvaluation:MyPage = (props:any) => {
     const batr_total_score = score
     const batch_id = loadedData.batch_id
     const trainee_id = loadedData.trainee_id
+    
+    type SubType = Record<string, number>;
+
+const sub: SubType = {
+  communication: parseInt(data.communication),
+  database: parseInt(data.database),
+  fundamental: parseInt(data.fundamental),
+  gerak: parseInt(data.gerak),
+  nada: parseInt(data.nada),
+  oop: parseInt(data.oop),
+  pembawaan: parseInt(data.pembawaan),
+  selfLearning: parseInt(data.selfLearning),
+  teamwork: parseInt(data.teamwork),
+};
+
+const subArray = Object.keys(sub).map((key) => ({ key, value: sub[key] }));
+
+// console.log(subArray);
+
+    
+    
+    // const subArray: [string, number][] = Object.entries(sub).map(
+    //   ([key, value]: [string, any]) => [key, parseInt(value)]
+    // );
+    // const subArray = Object.entries(sub).map(([key], [value]) => [key, value])
 
     let batr_status:any
     if(batr_total_score < 50){
@@ -84,14 +111,14 @@ const DetailEvaluation:MyPage = (props:any) => {
        batr_status = 'recommendation'
     }else{
        batr_status = 'passed'
-
     }
 
     // console.log( score)
+    // const parsingint = parseInt(sub)
 
-    const gabung = {batr_total_score, batch_id, trainee_id, batr_status}
+    const gabung = {batr_total_score, batch_id, trainee_id, batr_status, sub}
     console.log(gabung)
-    dispatch(reqEvaluationDetail(gabung))
+    // dispatch(reqEvaluationDetail(gabung))
   };
   const onChange = (event: SyntheticEvent) => {
     const target = event.target as HTMLInputElement;

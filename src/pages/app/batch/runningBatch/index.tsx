@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { Divider, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { reqSetToRunningBootcamp } from "@/pages/redux/bootcampSchema/action/actionReducer";
+import { reqSetToRunningBootcamp } from "@/redux/bootcampSchema/action/actionReducer";
 import { id } from "date-fns/locale";
 
 const style = {
@@ -40,18 +40,21 @@ const RunningBatch = ({ open, handleClose, data }: any) => {
   const dispatch = useDispatch()
   const onSubmit = (formData: any) => {
     const batch_id = formData.batch_id
+    const batch_entity_id = data.batch_entity_id
+    const batch_name = data.batch_name
     const members = [data.members] 
     let member:any = []
     {members[0].map((member1:any, i:any ) => {
-       member.push(member1.batr_id)
+       member.push(member1.trainee_id)
       // return member
       // console.log(member);
     })}
     const status = 'running'
-    const data1 = {member, batch_id, status}
-    console.log('data',data1)
+    const data1 = {member, batch_id, status, batch_entity_id, batch_name}
+    console.log('data1',data1)
+    // console.log(data, 'data')
     dispatch(reqSetToRunningBootcamp(data1))
-    // handleClose();
+    handleClose();
   };
 
   return (

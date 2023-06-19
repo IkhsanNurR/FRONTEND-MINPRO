@@ -29,11 +29,12 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { MyPage } from "@/components/types";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  reqEditBootcamp,
   reqGetBootcampById,
   reqGetBootcampDaftarApply,
   reqGetProgName,
   reqGetTrainer,
-} from "@/pages/redux/bootcampSchema/action/actionReducer";
+} from "@/redux/bootcampSchema/action/actionReducer";
 
 const EditBatch: MyPage = (props: any) => {
   //reducer
@@ -83,17 +84,22 @@ const EditBatch: MyPage = (props: any) => {
   }, [router.isReady]);
   //===================
 
-  //useEffect Trainee
+  //useEffect Loaded
+  useEffect(() => {
+    if (bootcamp) {
+      const orang = bootcamp[0]?.members;
+      const selected = orang?.map((member: any) => member.trainee_id);
+      setTraineeId(selected);
+      setLoadedData(bootcamp[0]);
+    }
+  }, [bootcamp]);
+
+  //useEffect BatchTrainees
   useEffect(() => {
     setValue(
       "batchTrainees",
       [...checked].sort((a, b) => a - b)
     );
-    setLoadedData(bootcamp[0]);
-
-    const orang = bootcamp[0]?.members;
-    const selected = orang?.map((member: any) => member.trainee_id);
-    setTraineeId(selected);
   }, [checked, bootcamp]);
   //================
 
@@ -101,8 +107,10 @@ const EditBatch: MyPage = (props: any) => {
     if (traineeId) {
       setChecked(traineeId);
     }
-    // setStartDate(parseISO(loadedData?.batch_start_date));
-    // setEndDate(parseISO(loadedData?.batch_end_date));
+    setValue("Technology", loadedData?.batch_entity_id);
+    setValue("EndPeriod", loadedData?.batch_end_date);
+    setValue("StartPeriod", loadedData?.batch_start_date);
+    // console.log('loaded', loadedData?.members[0].trainer_id[0])
   }, [router.isReady, loadedData]);
 
   //type form
@@ -163,6 +171,7 @@ const EditBatch: MyPage = (props: any) => {
       });
     } else {
       const batch = {
+        batch_id: loadedData.batch_id,
         batch_entity_id: data.Technology,
         batch_name: data.batchname,
         batch_description: data.description,
@@ -177,11 +186,13 @@ const EditBatch: MyPage = (props: any) => {
         setError("batchTrainees", { message: "Selected Members is required" });
         return true;
       }
+
       const gabung = { batch, batchTrainees, trainerPrograms };
-      // console.log("gabungan", gabung);
       if (batch && batchTrainees && trainerPrograms.length >= 1) {
-        // dispatch(reqCreateBootcamp(gabung)); //ganti ke api update
+        dispatch(reqEditBootcamp(gabung)); //ganti ke api update
+        router.back()
       }
+      console.log("gabungan", gabung);
     }
   };
 
@@ -380,6 +391,8 @@ const EditBatch: MyPage = (props: any) => {
     setCurrentPage(page);
   };
 
+  // console.log('data',loadedData)
+
   const [daftarTech, setDaftarTech] = useState(daftarapply);
   useEffect(() => {
     const newData = daftarapply.filter(
@@ -400,6 +413,13 @@ const EditBatch: MyPage = (props: any) => {
       </div>
     );
   } else {
+    console.log("trainernya", loadedData.members[0].trainer_id[0]);
+    const trainernya1 = loadedData.members[0].trainer_id[0];
+    const trainer1 = trainer.filter(
+      (orang: any) => parseInt(orang.user_entity_id) === trainernya1
+    );
+    console.log("trainer 1", trainer1);
+    // const trainernya2 = loadedData.members[0].trainer_id[1]
     return (
       <div>
         <Content
@@ -435,6 +455,7 @@ const EditBatch: MyPage = (props: any) => {
                       {...register("Technology", registerOptions.Technology)}
                       label="Technology"
                       defaultValue={loadedData.batch_entity_id}
+                      value={loadedData.batch_entity_id}
                       disabled
                     >
                       {progname.map((prog: any) => (
@@ -635,11 +656,13 @@ const EditBatch: MyPage = (props: any) => {
                   autoComplete
                   className="w-5/12"
                   includeInputInList
+                  defaultValue={trainer1[0]}
                   onChange={(event: any, value: any) => {
                     register("Trainer", {
                       ...registerOptions.Trainer,
                       value: value,
                     });
+                    console.log("valuenya", value);
                     if (!value) {
                       setValue("Trainer", ""); // Menghapus nilai "Trainer" jika value null
                     } else {
@@ -769,13 +792,41 @@ const EditBatch: MyPage = (props: any) => {
                         {user.trainee_name}
                       </Typography>
 
-                      <AddRoundedIcon
-                        className={`${
-                          checked.includes(user.user_entity_id)
-                            ? "transisi rotate-45"
-                            : "transisi"
-                        }`}
-                      />
+                      {checked.includes(user.user_entity_id) ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`h-6 w-6 text-white animate-tick ${
+                            checked.includes(user.user_entity_id)
+                              ? "checked"
+                              : ""
+                          }`}
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M7 13l3 3 7-7" />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`h-6 w-6 ${
+                            checked.includes(user.user_entity_id)
+                              ? "text-white"
+                              : "checked-back"
+                          }`}
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M7 10h6M10 7v6" />
+                        </svg>
+                      )}
                     </CardContent>
                   </Card>
                 ))}
