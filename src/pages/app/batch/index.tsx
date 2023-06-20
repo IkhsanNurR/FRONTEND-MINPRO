@@ -148,10 +148,7 @@ const Bootcamp: MyPage = () => {
         (user: any) => user.batch_status === filter.batch_status
       );
       setFilterData(newData);
-    } else if (
-      filter.batch_status_input !== "" &&
-      filter.batch_status === "null"
-    ) {
+    } else if (filter.batch_status_input !== "" && filter.batch_status === "null") {
       newData = newData.filter((user: any) => {
         return (
           user.technology
@@ -166,16 +163,9 @@ const Bootcamp: MyPage = () => {
         );
       });
       setFilterData(newData);
-    } else if (
-      filter.batch_status === "null" &&
-      filter.batch_status_input === ""
-    ) {
+    } else if (filter.batch_status === "null" && filter.batch_status_input === "") {
       setFilterData(bootcamp);
-    } else if (
-      filter.batch_status_input &&
-      filter.batch_status &&
-      filter.batch_status !== "null"
-    ) {
+    } else if (filter.batch_status_input && filter.batch_status && filter.batch_status !== "null" ) {
       newData = newData.filter((user: any) => {
         return (
           (user.technology
@@ -192,9 +182,7 @@ const Bootcamp: MyPage = () => {
       });
 
       if (newData.length === 0) {
-        // Jika data tidak ditemukan, setFilterData([]) atau tampilkan pesan sesuai kebutuhan Anda
         setFilterData([]);
-        // atau tampilkan pesan "Data tidak ditemukan" atau sesuai kebutuhan
       } else {
         setFilterData(newData);
       }

@@ -15,7 +15,7 @@ function bootcampReducer(state = initialState, action:any){
 
     if (payload?.status === 201) {
       alert.notifySuccess(payload.result, payload.message);
-    } else if (payload?.status === 400) {
+    } else if ([400,403,413].includes(payload?.status)) {
       alert.notifyFailed(payload.status, payload.message);
     }
     switch (type) {

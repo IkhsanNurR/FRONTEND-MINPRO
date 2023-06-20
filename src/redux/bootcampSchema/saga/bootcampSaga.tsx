@@ -15,7 +15,7 @@ export function * handleGetBootcamp():any{
 export function * handleCreateBootcamp(action:any):any{
     try {
         const result = yield call(apiMethod.createBootcamp, action.payload)
-        console.log('sagahahal',result)
+        // console.log('sagahahal',result)
         yield put(resCreateBootcamp(result.data))
     } catch (error) {
         yield put(resCreateBootcamp({message: error, status: 404}))
@@ -24,7 +24,6 @@ export function * handleCreateBootcamp(action:any):any{
 export function * handleApplyBootcamp(action:any):any{
     try {
         const result = yield call(apiMethod.createApplyBootcamp, action.payload)
-        console.log('sagahahal',result)
         yield put(resApplyBootcamp(result.data))
     } catch (error) {
         yield put(resApplyBootcamp({message: error, status: 404}))

@@ -29,7 +29,6 @@ const style = {
 };
 
 const StatusModal = ({ open, handleClose, data }: any) => {
-  console.log(open, handleClose, data);
   type FormValues = {
     status: string;
     user_entity_id: number;
@@ -55,7 +54,7 @@ const StatusModal = ({ open, handleClose, data }: any) => {
 
   const dispatch = useDispatch()
   const onSubmit = (formData: any) => {
-    dispatch(reqEvaluationStatus(formData))
+    // dispatch(reqEvaluationStatus(formData))
     console.log(formData);
     // handleClose();
   };
@@ -96,14 +95,9 @@ const StatusModal = ({ open, handleClose, data }: any) => {
                 id="status"
                 {...register("status", registerOptions.status)}
                 label="status"
-                defaultValue={data.status_trainee ? data.status_trainee : null}
+                // defaultValue={data.status_trainee ? data.status_trainee : null}
               >
-                <MenuItem value={"selected"} disabled={true}>
-                  Selected
-                </MenuItem>
                 <MenuItem value={"resign"}>Resign</MenuItem>
-                <MenuItem value={"passed"}>Passed</MenuItem>
-                <MenuItem value={"failed"}>Failed</MenuItem>
               </Select>
             </FormControl>
             {errors?.status && (

@@ -4,7 +4,12 @@ import axios from "../config/endpoint";
 
 //bootcamp
 const createApplyBootcamp = (data:any) => {
-  return axios.post('bootcamp/applybatch')
+  console.log('ea1',data)
+  return axios.post('bootcamp/applybatch', data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }
+  })
 }
 const getBootcamp = () => {
   return axios.get("bootcamp");

@@ -11,7 +11,9 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  makeStyles,
 } from "@mui/material";
+
 import {
   CalendarIcon,
   DatePicker,
@@ -19,22 +21,33 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "../../../../public/Bimoli.jpg";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { reqApplyBootcamp } from "@/redux/bootcampSchema/action/actionReducer";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  reqApplyBootcamp,
+  reqGetProgName,
+} from "@/redux/bootcampSchema/action/actionReducer";
+import dayjs from "dayjs";
+import { format } from "date-fns";
+import { ToastContainer } from "react-toastify";
+import alert from "@/pages/alert";
 
 const Apply: MyPage = () => {
   const router = useRouter();
-
+  let { progname, refresh } = useSelector(
+    (state: any) => state.prognameReducer
+  );
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [age, setAge] = useState("");
   const [pendidikan, setPendidikan] = useState("");
   const [programBootcamp, setProgramBootcamp] = useState("");
-  const [isError, setIsError] = useState(false);
-  const [birthDate, setBirthDate] = useState(null)
+  const [isError, setIsError] = useState("");
+  const [fileIsValid, setFileIsValid] = useState(true);
+  const [imageIsValid, setImageIsValid] = useState(true);
+  const [birthDate, setBirthDate] = useState(null);
 
   const {
     register,
@@ -47,10 +60,40 @@ const Apply: MyPage = () => {
     formState: { errors },
   } = useForm();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(reqGetProgName());
+  }, [refresh]);
   const handleApplyBootcamp = (formData: any) => {
-    console.log('data',formData);
-    // dispatch(reqApplyBootcamp(formData))
+    // console.log('data',formData);
+    if (fileIsValid && imageIsValid) {
+      const data: any = new FormData();
+
+      data.append("first_name", formData.first_name);
+      data.append("last_name", formData.last_name);
+      data.append("birth_date", formData.birth_date);
+      data.append("usdu_school", formData.usdu_school);
+      data.append("usdu_field", formData.usdu_field);
+      data.append("usdu_degree", formData.usdu_degree);
+      data.append("prog_entity_id", formData.prog_entity_id);
+      data.append("parog_comment", formData.parog_comment);
+      data.append("cv", formData.cv[0]);
+      data.append("user_entity_id", 26);
+      data.append("foto", formData.foto[0]);
+
+      console.log("ea", ...data);
+      console.log('size', formData.cv[0].size)
+      if(formData.foto[0].size >= 2097152 || formData.cv[0].size >=2097152){
+        alert.notifyFailed(413,'GAGAL, file is to large max 2MB')
+      }
+
+      // data.append()
+      dispatch(reqApplyBootcamp(data))
+      
+      // router.back()
+    } else {
+      alert.notifyFailed(415, "Harus PDF atau DOCX atau DOC dan FOTO harus JPEG atau JPG atau PNG");
+    }
   };
 
   const handleChangePendidikan = (event: SelectChangeEvent) => {
@@ -61,12 +104,14 @@ const Apply: MyPage = () => {
   };
 
   const handleDateChange = (value: any) => {
-    register('birth_date')
-    setBirthDate(value)
+    register("birth_date");
+    setBirthDate(value);
     if (value) {
+      const formattedDate: any = format(value.$d, "dd/MM/yyyy");
+      setValue("birth_date", formattedDate);
       setSelectedDate(value);
-      calculateAge(value);
-    }else {
+      calculateAge(value); // Set the value of "date" field in the form
+    } else {
       setError("birth_date", { message: "require" });
       unregister("birth_date");
     }
@@ -85,48 +130,61 @@ const Apply: MyPage = () => {
 
   const handlePhotoSelection = (event: any) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
+    const isJPEG = file?.type === "image/jpeg";
+    const isJPG = file?.type === "image/jpg";
+    const isPNG = file?.type === "image/png";
+    if (isJPEG || isJPG || isPNG) {
+      const reader = new FileReader();
 
-    reader.onload = function (e: any) {
-      setSelectedPhoto(e.target.result);
-    };
+      reader.onload = function (e: any) {
+        setSelectedPhoto(e.target.result);
+      };
 
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
+      setImageIsValid(true);
+    } else {
+      setImageIsValid(false);
+    }
   };
 
   const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
-    const isPDF = selectedFile.type === "application/pdf";
-    if (!isPDF) {
-      // File is a PDF
-      console.log("Selected file is not a PDF");
-      // setIsError(true)
-      // Do further processing for PDF file
+    const isPDF = selectedFile?.type === "application/pdf";
+    const isDOCX = selectedFile?.type === "application/docx";
+    const isDOC = selectedFile?.type === "application/doc";
+    if (!isPDF && !isDOCX && !isDOC) {
+      setIsError("File Harus PDF atau DOCX atau DOC");
+      setFileIsValid(false);
     } else {
-      // File is not a PDF
-      console.log("Selected file is a PDF");
-      // Show error message or handle accordingly
+      setIsError("");
+      setFileIsValid(true);
     }
   };
-  return (
 
+  return (
     <div className="mt-16 mb-5">
+      <ToastContainer />
       <div className="grid place-items-center mx-2 sm:my-auto">
         <div className="w-full px-6 py-10 sm:px-10 sm:py-6  rounded-lg shadow-md lg:shadow-lg">
           <h2 className=" font-bold uppercase text-2xl lg:text-2xl text-blue-800">
-            Application Process .NET Bootcamp
+            Application Process Bootcamp
           </h2>
 
           <form onSubmit={handleSubmit(handleApplyBootcamp)}>
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
+                <input
+                  type="hidden"
+                  value={26}
+                  {...register("user_entity_id")}
+                />
                 <div className="flex">
                   <TextField
                     id="outlined-basic"
                     label="First Name"
                     className="w-7/12"
                     variant="outlined"
-                    {...register('first_name')}
+                    {...register("first_name")}
                   />
 
                   <TextField
@@ -134,7 +192,7 @@ const Apply: MyPage = () => {
                     label="Last Name"
                     className="w-7/12 ml-5"
                     variant="outlined"
-                    {...register('last_name')}
+                    {...register("last_name")}
                   />
                 </div>
                 <div className="mt-5">
@@ -148,9 +206,17 @@ const Apply: MyPage = () => {
             /> */}
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
+                        slotProps={{
+                          actionBar: {
+                            actions: ["clear"],
+                          },
+                        }}
+                        format="DD/MM/YYYY"
+                        label="Birth Date"
+                        className="w-full"
                         {...register("birth_date")}
                         onChange={handleDateChange}
-                        className="w-7/12"
+                        value={dayjs(selectedDate)}
                       />
                     </LocalizationProvider>
                     {/* <input
@@ -177,7 +243,7 @@ const Apply: MyPage = () => {
                     id="outlined-basic"
                     label="University"
                     className="w-full"
-                    {...register('usdu_school')}
+                    {...register("usdu_school")}
                     variant="outlined"
                   />
                 </div>
@@ -187,7 +253,7 @@ const Apply: MyPage = () => {
                     label="Jurusan"
                     className="w-full"
                     variant="outlined"
-                    {...register('usdu_field')}
+                    {...register("usdu_field")}
                   />
                 </div>
                 <div className="mt-5">
@@ -200,12 +266,12 @@ const Apply: MyPage = () => {
                       id="demo-simple-select"
                       value={pendidikan}
                       label="Pendidikan"
-                      {...register('usdu_degree')}
+                      {...register("usdu_degree")}
                       onChange={handleChangePendidikan}
                     >
-                      <MenuItem value={'sarjana'}>Sarjana</MenuItem>
-                      <MenuItem value={'diploma'}>Diploma</MenuItem>
-                      <MenuItem value={'sma/smk'}>SMK/SMA</MenuItem>
+                      <MenuItem value={"Bachelor"}>Sarjana</MenuItem>
+                      <MenuItem value={"Diploma"}>Diploma</MenuItem>
+                      {/* <MenuItem value={'sma/smk'}>SMK/SMA</MenuItem> */}
                     </Select>
                   </FormControl>
                 </div>
@@ -219,13 +285,14 @@ const Apply: MyPage = () => {
                       id="demo-simple-select"
                       value={programBootcamp}
                       label="Program Bootcamp"
-                      {...register('prog_entity_id')}
+                      {...register("prog_entity_id")}
                       onChange={handleChangeProgramBootcamp}
                     >
-                      <MenuItem value={1}>NodeJS</MenuItem>
-                      <MenuItem value={2}>.NET</MenuItem>
-                      <MenuItem value={3}>GOLANG</MenuItem>
-                      <MenuItem value={4}>FLUTTER</MenuItem>
+                      {(progname || []).map((e: any, i: any) => (
+                        <MenuItem value={e.prog_entity_id}>
+                          {e.prog_title}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </div>
@@ -237,7 +304,7 @@ const Apply: MyPage = () => {
                     autoComplete="off"
                     multiline
                     maxRows={4}
-                    {...register('parog_comment')}
+                    {...register("parog_comment")}
                     className="w-full"
                     // className="w-10/12 ml-4"
                     inputProps={{ maxLength: 250, "aria-valuemax": 250 }}
@@ -245,36 +312,32 @@ const Apply: MyPage = () => {
                     // {...register("reason", registerOptions.reason)}
                   />
                 </div>
-                <div className="mb-5">
+                <div className="mb-10">
                   <label
                     htmlFor=""
-                    className="block text-xs font-semibold text-gray-600 uppercase mt-5  mb-1"
+                    className="block text-xs ml-1 font-semibold text-gray-600 uppercase mt-5  mb-1"
                   >
-                    Resume
+                    Resume{" "}
+                    <span className="italic text-red-400 lowercase">
+                      {" "}
+                      * only receive pdf, docx, doc
+                    </span>
                   </label>
-                  <Input
+                  <input
+                    className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm mt-3  file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                     type="file"
-                    inputProps={{
-                      accept: "application/pdf, .docx, .doc",
-                    }}
-                    {...register('cv')}
+                    {...register("cv")}
                     onChange={handleFileChange}
+                    accept="application/pdf,application/docx, application/doc"
                   />
-                  {/* <input
-                  type="file"
-                  name="upload"
-                  accept="application/pdf,application/docx"
-                /> */}
-                  {/* <input
-                  type="file"
-                  accept=".pdf, .docx, .doc"
-                  className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-blue-700 hover:file:bg-violet-100"
-                  placeholder="Pilih file PDF, DOCX, atau DOC"
-                /> */}
                 </div>
-                {/* <div>
-                  <h5>*</h5>
-                </div> */}
+                <div className="mb-5 -mt-3">
+                  {isError && (
+                    <small className="italic font-semibold text-red-500">
+                      {isError}
+                    </small>
+                  )}
+                </div>
               </div>
 
               <div className="lg:mt-0 sm:mt-8 items-end">
@@ -296,8 +359,9 @@ const Apply: MyPage = () => {
                     <span className="sr-only">Choose profile photo</span>
                     <input
                       type="file"
-                      {...register('foto')}
-                      className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-blue-700 hover:file:bg-violet-100"
+                      {...register("foto")}
+                      accept="image/jpeg, image/jpg, image/png"
+                      className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                       onChange={handlePhotoSelection}
                     />
                   </label>

@@ -24,6 +24,7 @@ import { reqGetBootcampById } from "@/redux/bootcampSchema/action/actionReducer"
 import DetailEvaluation from "./detail";
 import StatusModal from "./status";
 import { Grading, ManageAccountsRounded } from "@mui/icons-material";
+import { ToastContainer } from "react-toastify";
 // import StatusModal from "./status";
 
 const StyledMenu = styled((props: MenuProps) => (
@@ -91,7 +92,7 @@ const EvaluationBatch: MyPage = () => {
   }, [bootcamp]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected]:any = useState(0);
   const [openReviewModal, setOpenReviewModal] = useState(false);
   const [openEvaluationModal, setOpenEvaluationModal] = useState(false);
   const [openStatusModal, setOpenStatusModal] = useState(false);
@@ -124,6 +125,7 @@ const EvaluationBatch: MyPage = () => {
   } else {
     return (
       <div>
+      <ToastContainer/>
         <Content1
           title={`${loadedData.batch_name}, ${loadedData.technology} Bootcamp Evaluation`}
           fungsi1={() => router.back()}
@@ -180,7 +182,7 @@ const EvaluationBatch: MyPage = () => {
                           router.push({
                             pathname: `./evaluation/detail`,
                             query: {
-                              trainee_id: data.trainee_id,
+                              trainee_id: selected.trainee_id,
                               batch_id: loadedData.batch_id,
                               // progname1: selected.technology
                             },

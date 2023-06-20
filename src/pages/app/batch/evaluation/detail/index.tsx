@@ -17,14 +17,15 @@ import {
 } from "@/redux/bootcampSchema/action/actionReducer";
 import { useRouter } from "next/router";
 import { format } from "date-fns";
-import { Button } from "@mui/material";
-import dataDummy from '../../../../../data'
+import { Button, TextField } from "@mui/material";
+import dataDummy from "../../../../../data";
 import dayjs from "dayjs";
 
 const DetailEvaluation: MyPage = (props: any) => {
   let { trainee, message, refresh, status } = useSelector(
     (state: any) => state.traineeReducer
   );
+  const [isopen, setIsOpen] = useState<number[]>([1, 2, 3]);
 
   // console.log('datadummy',dataDummy)
 
@@ -67,27 +68,65 @@ const DetailEvaluation: MyPage = (props: any) => {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm();
   // console.log(loadedData)
 
   const handleReviewDetail = async (data: any) => {
     try {
-      // console.log('data', data)
+      let evaluation: any = [];
+      dataDummy.map((datadummy) => {
+        datadummy.skills.map((skill: any) => {
+          if (data[skill.tags]) {
+            skill.score = data[skill.tags];
+            const mappingData: any = {
+              btev_type: datadummy.type,
+              btev_header: trainee[0].batch_name,
+              btev_section: datadummy.section,
+              btev_skill: skill.name,
+              btev_week: skill.week,
+              btev_skor: +skill.score,
+              btev_note: data.note,
+              btev_batch_id: trainee[0].batch_id,
+              btev_trainee_entity_id: trainee[0].trainee_id,
+            };
+            evaluation.push(mappingData);
+          }
+          return skill;
+        });
+        return datadummy;
+      });
+      let status: any;
+      if (score < 50) {
+        status = "failed";
+      } else {
+        status = "passed";
+      }
+      console.log(trainee);
+      const gabung = {
+        batr_total_score: score,
+        status: status,
+        batr_trainee_entity_id: +trainee[0].trainee_id,
+        batr_batch_id: +trainee[0].batch_id,
+        evaluation: evaluation,
+        fullname: trainee[0].fullname,
+      };
+      console.log('asa',gabung);
+      dispatch(reqEvaluationDetail(gabung));
+      router.back();
 
-
-      const values = Object.values(data);
-      const jumlah: any = values.reduce((acc: any, item: any) => {
-        return acc + parseInt(item);
-      }, 0);
-      const Hasilscore: any = Math.ceil((jumlah / 36) * 100);
-      SetScore(Hasilscore);
+      // const values = Object.values(data);
+      // const jumlah: any = values.reduce((acc: any, item: any) => {
+      //   return acc + parseInt(item);
+      // }, 0);
+      // const Hasilscore: any = Math.ceil((jumlah / 36) * 100);
+      // SetScore(Hasilscore);
     } catch (error: any) {}
     // console.log(score)
     const batr_total_score = score;
     const batch_id = loadedData.batch_id;
     const trainee_id = loadedData.trainee_id;
     // const batch_entity_id = loadedData.batch_entity_id
-    const fullname = loadedData.fullname
+    const fullname = loadedData.fullname;
 
     // type SubType = Record<string, number>;
 
@@ -97,111 +136,115 @@ const DetailEvaluation: MyPage = (props: any) => {
       presentation: Record<string, number>;
     };
 
-    const start = dayjs(loadedData.batch_start_date)
-    const end = dayjs(loadedData.batch_end_date)
-    const btev_week = end.diff(start, 'week')
-    console.log('week',btev_week)
+    const start = dayjs(loadedData.batch_start_date);
+    const end = dayjs(loadedData.batch_end_date);
+    const btev_week = end.diff(start, "week");
+    // console.log("week", btev_week
 
     const hardskillData = [
       {
-        btev_type: 'hardskill',
+        btev_type: "hardskill",
         btev_header: loadedData.batch_name,
-        btev_section: 'technical',
-        btev_skill: 'fundamental',
+        btev_section: "technical",
+        btev_skill: "fundamental",
         btev_week: btev_week,
         btev_skor: parseInt(data.fundamental),
         btev_batch_id: data.batch_id,
         btev_trainee_entity_id: data.trainee_id,
       },
       {
-        btev_type: 'hardskill',
+        btev_type: "hardskill",
         btev_header: loadedData.batch_name,
-        btev_section: 'technical',
-        btev_skill: 'oop',
+        btev_section: "technical",
+        btev_skill: "oop",
         btev_week: btev_week,
         btev_skor: parseInt(data.oop),
         btev_batch_id: data.batch_id,
         btev_trainee_entity_id: data.trainee_id,
       },
       {
-        btev_type: 'hardskill',
+        btev_type: "hardskill",
         btev_header: loadedData.batch_name,
-        btev_section: 'technical',
-        btev_skill: 'database',
+        btev_section: "technical",
+        btev_skill: "database",
         btev_week: btev_week,
         btev_skor: parseInt(data.database),
         btev_batch_id: data.batch_id,
         btev_trainee_entity_id: data.trainee_id,
       },
     ];
-    
+
     const softskillData = [
       {
-        btev_type: 'softskill',
+        btev_type: "softskill",
         btev_header: loadedData.batch_name,
-        btev_section: 'softskill',
-        btev_skill: 'communication',
+        btev_section: "softskill",
+        btev_skill: "communication",
         btev_week: btev_week,
         btev_skor: parseInt(data.communication),
         btev_batch_id: data.batch_id,
         btev_trainee_entity_id: data.trainee_id,
       },
       {
-        btev_type: 'softskill',
+        btev_type: "softskill",
         btev_header: loadedData.batch_name,
-        btev_section: 'softskill',
-        btev_skill: 'teamwork',
+        btev_section: "softskill",
+        btev_skill: "teamwork",
         btev_week: btev_week,
         btev_skor: parseInt(data.teamwork),
         btev_batch_id: data.batch_id,
         btev_trainee_entity_id: data.trainee_id,
       },
       {
-        btev_type: 'softskill',
+        btev_type: "softskill",
         btev_header: loadedData.batch_name,
-        btev_section: 'softskill',
-        btev_skill: 'selfLearning',
+        btev_section: "softskill",
+        btev_skill: "selfLearning",
         btev_week: btev_week,
         btev_skor: parseInt(data.selfLearning),
         btev_batch_id: data.batch_id,
         btev_trainee_entity_id: data.trainee_id,
       },
     ];
-    
+
     const presentationData = [
       {
-        btev_type: 'softskill',
+        btev_type: "softskill",
         btev_header: loadedData.batch_name,
-        btev_section: 'presentation',
-        btev_skill: 'gerak',
+        btev_section: "presentation",
+        btev_skill: "gerak",
         btev_week: btev_week,
         btev_skor: parseInt(data.gerak),
         btev_batch_id: data.batch_id,
         btev_trainee_entity_id: data.trainee_id,
       },
       {
-        btev_type: 'softskill',
+        btev_type: "softskill",
         btev_header: loadedData.batch_name,
-        btev_section: 'presentation',
-        btev_skill: 'nada',
+        btev_section: "presentation",
+        btev_skill: "nada",
         btev_week: btev_week,
         btev_skor: parseInt(data.nada),
         btev_batch_id: data.batch_id,
         btev_trainee_entity_id: data.trainee_id,
       },
       {
-        btev_type: 'softskill',
+        btev_type: "softskill",
         btev_header: loadedData.batch_name,
-        btev_section: 'presentation',
-        btev_skill: 'pembawaan',
+        btev_section: "presentation",
+        btev_skill: "pembawaan",
         btev_week: btev_week,
         btev_skor: parseInt(data.pembawaan),
         btev_batch_id: data.batch_id,
         btev_trainee_entity_id: data.trainee_id,
       },
     ];
-    
-    const evaluation = [...hardskillData, ...softskillData, ...presentationData];
+
+    const evaluation = [
+      ...hardskillData,
+      ...softskillData,
+      ...presentationData,
+    ];
 
     // console.log(transformedData)
 
@@ -230,25 +273,24 @@ const DetailEvaluation: MyPage = (props: any) => {
 
     // const subArray = Object.keys(sub).map((key) => ({ key, value: sub[key] }));
     // const subArray = Object.keys(sub).map((key) => ({ key, value: sub[key as keyof SubType] }));
-    let batr_status: any;
-    if (batr_total_score < 50) {
-      batr_status = "failed";
-    } else if (batr_total_score >= 50 && batr_total_score < 75) {
-      batr_status = "recommendation";
-    } else {
-      batr_status = "passed";
-    }
 
     // console.log( score)
     // const parsingint = parseInt(sub)
 
     // const gabung = { batr_total_score, batch_id, trainee_id, batr_status, evaluation, batch_entity_id, fullname };
-    const gabung = { batr_total_score, batch_id, trainee_id, batr_status, fullname, evaluation };
-    console.log(gabung);
-    dispatch(reqEvaluationDetail(gabung))
+    // const gabung = {
+    //   batr_total_score,
+    //   batch_id,
+    //   trainee_id,
+    //   batr_status,
+    //   fullname,
+    //   evaluation,
+    // };
+    // console.log(gabung);
   };
   const onChange = (event: SyntheticEvent) => {
     const target = event.target as HTMLInputElement;
+    // console.log(target)
     const { id, value }: any = target;
     setValue(id, value);
 
@@ -328,91 +370,60 @@ const DetailEvaluation: MyPage = (props: any) => {
         </div>
         <div className="mt-10">
           <form onSubmit={handleSubmit(handleReviewDetail)}>
-            <Accordion
-              expanded={expanded.includes("panel1")}
-              onChange={handleChange("panel1")}
-              key="panel1"
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-                sx={{
-                  border: expanded !== "panel1" ? "1px solid #c2c2c2" : "none",
-                  maxHeight: "10px",
-                  // marginTop: "1px",
-                }}
-                className="shadow-b shadow-sm shadow-gray-400"
+            {dataDummy.map((datadummy, index) => (
+              <Accordion
+                expanded={expanded.includes("panel1")}
+                onChange={handleChange("panel1")}
+                key="panel1"
               >
-                <Typography
-                  sx={{ width: "33%", flexShrink: 0 }}
-                  className="font-semibold text-lg"
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                  sx={{
+                    border:
+                      expanded !== "panel1" ? "1px solid #c2c2c2" : "none",
+                    maxHeight: "10px",
+                    // marginTop: "1px",
+                  }}
+                  className="shadow-b shadow-sm shadow-gray-400"
                 >
-                  Technical
-                </Typography>
-                <Typography
-                  sx={{ color: "text.secondary", marginLeft: "auto" }}
-                  className="mr-4"
-                >
-                  (Scale 1-4)
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className="grid grid-cols-2" id="panel1bh-content">
-                  <label className="text-base mt-2" 
-                  >Fundamental</label>
-                  <input
-                    type="number"
-                    className="placeholder-text-slate-400 bg-white border border-slate-300 rounded-md py-2 pl-2 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm w-14"
-                    min="1"
-                    max="4"
-                    id="fundamental"
-                    placeholder="0"
-                    // defaultValue={1}
-                    {...register("fundamental")}
-                    // name="fundamental"
+                  <Typography
+                    sx={{ width: "33%", flexShrink: 0 }}
+                    className="font-semibold text-lg"
+                  >
+                    {datadummy.section}
+                  </Typography>
+                  <Typography
+                    sx={{ color: "text.secondary", marginLeft: "auto" }}
+                    className="mr-4"
+                  >
+                    (Scale 1-4)
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {datadummy.skills.map((subskill: any) => (
+                    <div className="grid grid-cols-2" id="panel1bh-content">
+                      <label className="text-base mt-2">{subskill.name}</label>
+                      <input
+                        type="number"
+                        className="placeholder-text-slate-400 bg-white border mt-2 border-slate-300 rounded-md py-2 pl-2 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm w-14"
+                        min="1"
+                        max="4"
+                        id={subskill.tags}
+                        placeholder="0"
+                        // defaultValue={1}
+                        {...register(subskill.tags)}
+                        // name="fundamental"
 
-                    onChange={onChange}
-                  />
-                </div>
-                <div className="grid grid-cols-2 mt-2">
-                  <label htmlFor="oop" className="mt-2">
-                    Object Oriented Programming (OOP)
-                  </label>
-                  <input
-                    type="number"
-                    className="placeholder-text-slate-400 bg-white border border-slate-300 rounded-md py-2 pl-2 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm w-14"
-                    id="oop"
-                    min="1"
-                    max="4"
-                    {...register("oop")}
-                    // defaultValue={1}
-                    placeholder="0"
-                    // name="oop"
-
-                    onChange={onChange}
-                  />
-                </div>
-                <div className="grid grid-cols-2 mt-2">
-                  <label htmlFor="database" className="mt-2">
-                    Database
-                  </label>
-                  <input
-                    type="number"
-                    className=" placeholder-text-slate-400 bg-white border border-slate-300 rounded-md py-2 pl-2 pr-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm w-14"
-                    id="database"
-                    min="1"
-                    max="4"
-                    // defaultValue={1}
-                    placeholder="0"
-                    {...register("database")}
-                    // name="database"
-                    onChange={onChange}
-                  />
-                </div>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion
+                        onChange={onChange}
+                      />
+                    </div>
+                  ))}
+                </AccordionDetails>
+              </Accordion>
+            ))}
+            {/* <Accordion
               expanded={expanded.includes("panel2")}
               onChange={handleChange("panel2")}
               key="panel2"
@@ -572,7 +583,21 @@ const DetailEvaluation: MyPage = (props: any) => {
                   />
                 </div>
               </AccordionDetails>
-            </Accordion>
+            </Accordion> */}
+            <div>
+              <TextField
+                id="note"
+                variant="outlined"
+                label="note"
+                autoComplete="off"
+                multiline
+                maxRows={4}
+                className="w-full h-10 mt-3"
+                inputProps={{ maxLength: 250, "aria-valuemax": 250 }}
+                // className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
+                {...register("note")}
+              />
+            </div>
             <div className="flex-row space-x-4 mt-4 ">
               <div className="flex justify-between">
                 <Button
