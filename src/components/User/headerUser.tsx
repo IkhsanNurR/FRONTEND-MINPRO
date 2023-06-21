@@ -6,7 +6,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Breadcrumbs, Button, Link } from "@mui/material";
 import { HomeIcon } from "@heroicons/react/24/solid";
-import Content from "./content";
+import Content from "../shared/content";
 
 export default function HeaderUser({ showNav, setShowNav, props }: any) {
   const [token, setToken] = useState("");
@@ -42,7 +42,7 @@ export default function HeaderUser({ showNav, setShowNav, props }: any) {
 
   return (
     <div
-      className={`mt-14  bg-white fixed w-full h-16 flex items-center transition-all duration-[400ms] z-30 border-2  ${
+      className={`mt-16  bg-white fixed w-full h-16 flex items-center transition-all duration-[400ms] z-30 border-2  ${
         showNav ? "pl-52 flex" : ""
       }`}
     >
@@ -54,7 +54,7 @@ export default function HeaderUser({ showNav, setShowNav, props }: any) {
       </div>
 
       <div className="ml-10 ">
-        <Breadcrumbs aria-label="breadcrumb" className="md:-ml-4 text-xs">
+        {/* <Breadcrumbs aria-label="breadcrumb" className="md:-ml-4 text-xs">
           {pathObjects.length < 3 ? (
             <div className="flex">
               <HomeIcon fontSize="small" className="-mt-1 mr-1 " />
@@ -70,7 +70,7 @@ export default function HeaderUser({ showNav, setShowNav, props }: any) {
               {mn.route}
             </Link>
           ))}
-        </Breadcrumbs>
+        </Breadcrumbs> */}
       </div>
     </div>
   );

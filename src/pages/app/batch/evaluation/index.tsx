@@ -40,7 +40,7 @@ const StyledMenu = styled((props: MenuProps) => (
     }}
     {...props}
   />
-))(({ theme }) => ({
+))(({ theme }:any) => ({
   "& .MuiPaper-root": {
     borderRadius: 6,
     marginTop: theme.spacing(1),
@@ -74,6 +74,10 @@ const EvaluationBatch: MyPage = () => {
   let { bootcamp, message, refresh, status } = useSelector(
     (state: any) => state.bootcampReducer
   );
+  let { refreshEvaluation } = useSelector(
+    (state: any) => state.evaluationReducer
+  );
+
   const router = useRouter();
   const dispatch = useDispatch();
   const [loadedData, setLoadedData]: any = useState(null);
@@ -84,12 +88,12 @@ const EvaluationBatch: MyPage = () => {
     if (router.isReady) {
       dispatch(reqGetBootcampById(batch_id));
     }
-  }, [router.isReady]);
+  }, [router.isReady, refreshEvaluation]);
 
   useEffect(() => {
     setLoadedData(bootcamp[0]);
     console.log(loadedData);
-  }, [bootcamp]);
+  }, [bootcamp, refreshEvaluation]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selected, setSelected]:any = useState(0);
@@ -116,6 +120,7 @@ const EvaluationBatch: MyPage = () => {
     setOpenStatusModal(true);
     setAnchorEl(null);
   };
+  console.log('select',selected)
   if (!loadedData) {
     return (
       <div className="mt-48 flex justify-center items-center">
@@ -153,7 +158,11 @@ const EvaluationBatch: MyPage = () => {
                       </h1>
                       <h2 className="text-lg font-semibold">{data.lastname}</h2>
                       <h3 className="text-lg font-semibold capitalize">
+                       <h1 className={`${data.status_trainee == 'resign' ? "bg-red-500" : data.status_trainee == 'selected' ? "bg-blue-500" : data.status_trainee == 'passed' ? "bg-green-500" : ""} rounded-xl w-full p-1 text-white`}>
+
                         {data.status_trainee}
+                       </h1>
+                       
                       </h3>
                       <h3 className="pt-4 text-base">
                         Total Score : {data.total_score}
@@ -189,6 +198,7 @@ const EvaluationBatch: MyPage = () => {
                           })
                         }
                         disableRipple
+                        disabled={selected.total_score > 0 || selected.status_trainee === 'resign'}
                       >
                         <Grading/>
                         Evaluation

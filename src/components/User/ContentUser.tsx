@@ -4,15 +4,13 @@ import { useRouter } from "next/router";
 import { Breadcrumbs, Link } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 
-const Content = (props: any) => {
+const ContentUser = (props: any) => {
   const { title, children, ...others } = props;
   //children ini bawaan REACT CUK
   const router = useRouter();
   const routenya = router.pathname;
   const pathArray = routenya.split("/").filter((item) => item !== ""); // Mengubah rute menjadi array dan menghapus elemen kosong
   let lastThreePaths: any;
-  console.log('query',router.query)
-  console.log('path',pathArray)
   if (pathArray[pathArray.length - 1].startsWith("[")) {
     const queryParam = router.query.name; 
     lastThreePaths = [...pathArray.slice(0, -1), queryParam];
@@ -48,15 +46,7 @@ const Content = (props: any) => {
           </Link>
         ))}
       </Breadcrumbs>
-      <div className="relative bg-blue-500 shadow-lg border-b rounded-lg border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 w-full">
-        <div className="flex-1 min-w-0 ">
-          <h1 className="text-2lg font-bold leading-6 text-white sm:truncate uppercase">
-            {title}
-          </h1>
-        </div>
-      </div>
-
-      <div className="sm:block relative">
+      <div className="mt-8 sm:block relative">
         <div className="align-middle inline-block min-w-full border-gray-200">
           {children}
         </div>
@@ -65,4 +55,4 @@ const Content = (props: any) => {
   );
 };
 
-export default Content;
+export default ContentUser;

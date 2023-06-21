@@ -60,7 +60,7 @@ const StyledMenu = styled((props: MenuProps) => (
     }}
     {...props}
   />
-))(({ theme }) => ({
+))(({ theme }:any) => ({
   "& .MuiPaper-root": {
     borderRadius: 6,
     marginTop: theme.spacing(1),

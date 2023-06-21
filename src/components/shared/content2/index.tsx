@@ -10,9 +10,20 @@ const Content2 = (props: any) => {
   const router = useRouter();
   const routenya = router.pathname;
   const pathArray = routenya.split("/").filter((item) => item !== ""); // Mengubah rute menjadi array dan menghapus elemen kosong
-  const lastThreePaths = pathArray.slice(-3); // Mengambil tiga elemen terakhir dari array
+  let lastThreePaths: any;
+  console.log('query',router.query)
+  console.log('path',pathArray)
+  if (pathArray[pathArray.length - 1].startsWith("[")) {
+    const queryParam = router.query.name; 
+    lastThreePaths = [...pathArray.slice(0, -1), queryParam];
+    console.log('',lastThreePaths)
+  } else if (pathArray[pathArray.length - 1] === "edit") {
+    lastThreePaths = pathArray.slice(0, -1);
+  } else {
+    lastThreePaths = pathArray.slice(-3);
+  }
 
-  const pathObjects: any = lastThreePaths.map((route, index) => {
+  const pathObjects: any = lastThreePaths.map((route:any, index:any) => {
     const path = `/${lastThreePaths.slice(0, index + 1).join("/")}`; // Mendapatkan jalur berdasarkan rute
 
     return {

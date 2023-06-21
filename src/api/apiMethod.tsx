@@ -11,6 +11,9 @@ const createApplyBootcamp = (data:any) => {
     }
   })
 }
+const getBootcampIndex = () => {
+  return axios.get(`bootcamp/bootcampindex`)
+} 
 const getBootcamp = () => {
   return axios.get("bootcamp");
 };
@@ -110,10 +113,16 @@ const editStatusEvaluation = (data:any) => {
   return axios.patch(`bootcamp/evaluation/editstatusevaluation`, data)
 }
 
+//talent
+const getTalentBootcamp = () => {
+  return axios.get(`bootcamp/talentbootcamp`);
+};
+
 export default {
   //bootcamp
   getBootcamp,
   createApplyBootcamp,
+  getBootcampIndex,
   getBootcampById,
   getBootcampDraftApply,
   createBootcamp,
@@ -149,5 +158,6 @@ export default {
   getCandidatDisqualified,
   updateCandidatDisqualified,
   getCandidatNotResponding,
-  updateCandidatNotResponding
+  updateCandidatNotResponding,
+  getTalentBootcamp
 };

@@ -16,7 +16,7 @@ function evaluationReducer(state = initialState, action:any){
         case ActionType.RES_EVALUATION_DETAIL:
             return {state, status: payload.status, message:payload.message, refreshEvaluation: true}
         case ActionType.RES_EVALUATION_STATUS:
-            return {status: payload.status, message:payload.message, refreshNotResponding: false}
+            return {status: payload.status, message:payload.message, refreshEvaluation: false}
         // case ActionType.RES_GET_CANDIDAT_FILTERING:
         //     return {status: payload.status, message:payload.message, refresh: false}
         default:

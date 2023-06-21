@@ -30,6 +30,7 @@ const dataDummy = [
   ];
 
 
+import { BabyChangingStation, MailOutlined, TuneOutlined } from '@mui/icons-material';
   import gambar1 from '../../public/Bimoli.jpg'
 import gambar2 from '../../public/logo.png'
 import gambar3 from '../../public/logo3.png'
@@ -172,4 +173,92 @@ export const ApplyProgressDashboard = [
   },
 ]
 
-  export default dataDummy
+export const items:any = [
+  {
+    title: 'Navigation One',
+    key: 'sub1',
+    icon: <MailOutlined />,
+    children: [
+      {
+        title: 'Option 1',
+        key: '1',
+        children: [
+          {
+            title: 'Samping 1',
+            key: '1-1',
+          },
+          {
+            title: 'Samping 2',
+            key: '1-2',
+          },
+        ],
+      },
+      {
+        title: 'Option 2',
+        key: '2',
+      },
+      {
+        title: 'Option 3',
+        key: '3',
+      },
+      {
+        title: 'Option 4',
+        key: '4',
+      },
+    ],
+  },
+  {
+    title: 'Navigation Two',
+    key: 'sub2',
+    icon: <BabyChangingStation />,
+    children: [
+      {
+        title: 'Option 5',
+        key: '5',
+      },
+      {
+        title: 'Option 6',
+        key: '6',
+      },
+      {
+        title: 'Submenu',
+        key: 'sub3',
+        children: [
+          {
+            title: 'Option 7',
+            key: '7',
+          },
+          {
+            title: 'Option 8',
+            key: '8',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Navigation Three',
+    key: 'sub4',
+    icon: <TuneOutlined />,
+    children: [
+      {
+        title: 'Option 9',
+        key: '9',
+      },
+      {
+        title: 'Option 10',
+        key: '10',
+      },
+      {
+        title: 'Option 11',
+        key: '11',
+      },
+      {
+        title: 'Option 12',
+        key: '12',
+      },
+    ],
+  },
+];
+
+  export default {dataDummy}

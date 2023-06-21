@@ -94,7 +94,7 @@ import { ToastContainer } from "react-toastify";
           </div>
         </div>
         <div className="mt-16">
-          <Carousel
+          {/* <Carousel
             showThumbs={false}
             infiniteLoop={true}
             autoPlay={true}
@@ -112,7 +112,7 @@ import { ToastContainer } from "react-toastify";
                 />
               </div>
             ))}
-          </Carousel>
+          </Carousel> */}
         </div>
   
         <div className="mt-16">
@@ -150,5 +150,5 @@ import { ToastContainer } from "react-toastify";
     );
   };
   
-  Bootcamp.Layout='User'
+  Bootcamp.Layout='Guest'
   export default Bootcamp;

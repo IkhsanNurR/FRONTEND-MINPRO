@@ -23,6 +23,8 @@ function bootcampReducer(state = initialState, action:any){
             return {state, bootcamp: payload.result, status: payload.status, message:payload.message, refresh: true}
         case ActionType.RES_GET_BOOTCAMP_BY_ID:
             return {state, bootcamp: payload.result, status: payload.status, message:payload.message, refresh: false}
+        case ActionType.RES_GET_BOOTCAMP_INDEX:
+            return {state, bootcamp: payload.result, status: payload.status, message:payload.message, refresh: false}
         case ActionType.RES_CREATE_BOOTCAMP:
             return {status: payload.status, message:payload.message, refresh: false}
         case ActionType.RES_APPLY_BOOTCAMP:

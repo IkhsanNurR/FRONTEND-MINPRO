@@ -1,6 +1,6 @@
 import apiMethod from '../../../api/apiMethod'
 import {call, put} from 'redux-saga/effects'
-import { resApplyBootcamp, resCloseBootcamp, resCreateBootcamp, resDeleteBootcamp, resEditBootcamp, resExtendBootcamp, resGetBootcamp, resGetBootcampById, resGetBootcampDaftarApply, resPendingBootcamp, resSetToRunningBootcamp } from '../action/actionReducer'
+import { resApplyBootcamp, resCloseBootcamp, resCreateBootcamp, resDeleteBootcamp, resEditBootcamp, resExtendBootcamp, resGetBootcamp, resGetBootcampById, resGetBootcampDaftarApply, resGetBootcampIndex, resPendingBootcamp, resSetToRunningBootcamp } from '../action/actionReducer'
 
 
 export function * handleGetBootcamp():any{
@@ -10,6 +10,15 @@ export function * handleGetBootcamp():any{
         yield put(resGetBootcamp(result.data))
     } catch (error) {
         yield put(resGetBootcamp({message: error, status: 404}))
+    }
+}
+export function * handleGetBootcampIndex():any{
+    try {
+        const result = yield call(apiMethod.getBootcampIndex)
+        // console.log('sagaget',result)
+        yield put(resGetBootcampIndex(result.data))
+    } catch (error) {
+        yield put(resGetBootcampIndex({message: error, status: 404}))
     }
 }
 export function * handleCreateBootcamp(action:any):any{

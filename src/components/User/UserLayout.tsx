@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
-import Topbar2 from "./topbarUser";
+import Topbar2 from "../shared/topbar2";
 import SideBarUser from "./sidebarUser";
 import { Slide } from "@mui/material";
 import HeaderUser from "./headerUser";

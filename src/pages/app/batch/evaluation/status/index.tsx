@@ -14,8 +14,8 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { reqEvaluationStatus } from "@/redux/bootcampSchema/action/actionReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { reqEvaluationStatus, reqGetBootcamp } from "@/redux/bootcampSchema/action/actionReducer";
 
 const style = {
   position: "absolute" as "absolute",
@@ -33,6 +33,7 @@ const StatusModal = ({ open, handleClose, data }: any) => {
     status: string;
     user_entity_id: number;
     review: string;
+    fullname: string
   };
   const {
     register,
@@ -41,10 +42,13 @@ const StatusModal = ({ open, handleClose, data }: any) => {
     formState: { errors },
   } = useForm<FormValues>();
 
+
+
   const registerOptions = {
     status: { required: "Status is required" },
     user_entity_id: { required: "User Id is required" },
     review: { required: "Review is required" },
+    
   };
   useEffect(() => {
     if (open) {
@@ -54,12 +58,13 @@ const StatusModal = ({ open, handleClose, data }: any) => {
 
   const dispatch = useDispatch()
   const onSubmit = (formData: any) => {
-    // dispatch(reqEvaluationStatus(formData))
     console.log(formData);
-    // handleClose();
+    dispatch(reqEvaluationStatus(formData))
+    handleClose();
   };
 
   const handleError = (errors: any) => {};
+
 
   return (
     <div>
@@ -87,6 +92,11 @@ const StatusModal = ({ open, handleClose, data }: any) => {
               type="hidden"
               {...register("user_entity_id")}
               value={data.trainee_id}
+            />
+            <input
+              type="hidden"
+              {...register("fullname")}
+              value={data.fullname}
             />
             <FormControl variant="outlined" className="w-full mt-4">
               <InputLabel id="Status">Status</InputLabel>

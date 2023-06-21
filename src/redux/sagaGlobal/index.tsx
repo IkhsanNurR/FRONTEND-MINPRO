@@ -1,16 +1,18 @@
 import {takeEvery, all} from 'redux-saga/effects'
 import ActionType from '../bootcampSchema/action/actionType'
-import { handleApplyBootcamp, handleCloseBootcamp, handleCreateBootcamp, handleDeleteBootcamp, handleEditBootcamp, handleExtendBootcamp, handleGetBootcamp, handleGetBootcampById, handlePendingBootcamp, handleSetToRunningBootcamp } from '../bootcampSchema/saga/bootcampSaga'
+import { handleApplyBootcamp, handleCloseBootcamp, handleCreateBootcamp, handleDeleteBootcamp, handleEditBootcamp, handleExtendBootcamp, handleGetBootcamp, handleGetBootcampById, handleGetBootcampIndex, handlePendingBootcamp, handleSetToRunningBootcamp } from '../bootcampSchema/saga/bootcampSaga'
 import { handleGetProgName } from '../bootcampSchema/saga/prognameSaga'
 import { handleGetBootcampDaftarApply } from '../bootcampSchema/saga/orangApplySaga'
 import { handleGetTrainer } from '../bootcampSchema/saga/trainerSaga'
 import { handleGetCandidatApply, handleGetCandidatContract, handleGetCandidatDisqualified, handleGetCandidatFiltering, handleGetCandidatNotResponding, handleUpdateCandidatApply, handleUpdateCandidatContract, handleUpdateCandidatDisqualified, handleUpdateCandidatFiltering, handleUpdateCandidatNotResponding } from '../bootcampSchema/saga/candidatSaga'
 import { handleGetTraineeById } from '../bootcampSchema/saga/traineeSaga'
 import { handleEvaluationDetail, handleEvaluationStatus } from '../bootcampSchema/saga/evaluationSaga'
+import { handleGetTalent } from '../bootcampSchema/saga/talentSaga'
 
 function * watchAll(){
     yield all([
         takeEvery(ActionType.REQ_GET_BOOTCAMP, handleGetBootcamp),
+        takeEvery(ActionType.REQ_GET_BOOTCAMP_INDEX, handleGetBootcampIndex),
         takeEvery(ActionType.REQ_CREATE_BOOTCAMP, handleCreateBootcamp),
         takeEvery(ActionType.REQ_APPLY_BOOTCAMP, handleApplyBootcamp),
         takeEvery(ActionType.REQ_GET_BOOTCAMP_BY_ID, handleGetBootcampById),
@@ -45,6 +47,9 @@ function * watchAll(){
         takeEvery(ActionType.REQ_UPDATE_CANDIDAT_DISQUALIFIED, handleUpdateCandidatDisqualified),
         takeEvery(ActionType.REQ_GET_CANDIDAT_NOTRESPONDING, handleGetCandidatNotResponding),
         takeEvery(ActionType.REQ_UPDATE_CANDIDAT_NOTRESPONDING, handleUpdateCandidatNotResponding),
+
+        //talent
+        takeEvery(ActionType.REQ_GET_TALENT, handleGetTalent),
     ])
 }
 

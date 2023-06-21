@@ -12,6 +12,17 @@ export const resGetBootcamp = (payload:any) => {
         payload
     }
 }
+export const reqGetBootcampIndex = () => {
+    return{
+        type : ActionType.REQ_GET_BOOTCAMP_INDEX
+    }
+}
+export const resGetBootcampIndex = (payload:any) => {
+    return{
+        type : ActionType.RES_GET_BOOTCAMP_INDEX,
+        payload
+    }
+}
 export const reqCreateBootcamp = (payload:any) => {
     return{
         type : ActionType.REQ_CREATE_BOOTCAMP,
@@ -209,6 +220,19 @@ export const resEvaluationStatus = (payload:any) => {
         payload
     }
 }
+
+//Talent
+export const reqGetTalent = () => {
+    return {
+      type: ActionType.REQ_GET_TALENT,
+    };
+  };
+  export const resGetTalent = (payload: any) => {
+    return {
+      type: ActionType.RES_GET_TALENT,
+      payload,
+    };
+  };
 
 
 
