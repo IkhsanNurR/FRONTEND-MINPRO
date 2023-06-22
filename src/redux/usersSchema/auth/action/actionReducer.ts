@@ -14,16 +14,30 @@ export const LoginResponse = (payload: any) => {
     }
 }
 
-export const SignUp = (payload: any) => {
+export const SignUpInternal = (payload: any) => {
     return {
-        type: AuthActionTypes.SIGNUP,
+        type: AuthActionTypes.SIGNUPINTERNAL,
         payload
     }
 }
 
-export const SignUpResponse = (payload: any) => {
+export const SignUpInternalResponse = (payload: any) => {
     return {
-        type: AuthActionTypes.SIGNUP_RESPONSE,
+        type: AuthActionTypes.SIGNUPINTERNAL_RESPONSE,
+        payload
+    }
+}
+
+export const SignUpExternal = (payload: any) => {
+    return {
+        type: AuthActionTypes.SIGNUPEXTERNAL,
+        payload
+    }
+}
+
+export const SignUpExternalResponse = (payload: any) => {
+    return {
+        type: AuthActionTypes.SIGNUPEXTERNAL_RESPONSE,
         payload
     }
 }

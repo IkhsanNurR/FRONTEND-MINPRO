@@ -1,16 +1,11 @@
 import { MyPage } from "@/components/types";
-import decodeTokenRole from "@/helper/decodeTokenRole";
 import decodeTokenName from "@/helper/decodedTokenName";
 import { getJob } from "@/redux/jobhireSchema/action/actionReducer";
-import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
 import {
-  CheckCircleOutlined,
-  CheckOutlined,
-  CloseCircleOutlined,
-  FrownOutlined,
-  InfoCircleOutlined,
-  WarningOutlined,
-} from "@ant-design/icons";
+  GetByNameOrEmail,
+  applyJob,
+} from "@/redux/usersSchema/profile/action/actionReducer";
+import { CheckOutlined } from "@ant-design/icons";
 import { Button, Card, Image, List, Progress, notification } from "antd";
 import { CookieValueTypes, getCookie } from "cookies-next";
 import { useRouter } from "next/router";
@@ -88,7 +83,7 @@ const Index: MyPage = () => {
     });
   };
 
-  const handleClick = () => {
+  const handleClick = ({ id, idPost }: any) => {
     const pathname = router.pathname.substring(1);
     if (!haveToken) {
       openNotificationWithIcon("error", "Silahkan Login");
@@ -106,7 +101,7 @@ const Index: MyPage = () => {
         completeness
       );
     } else {
-      console.log("oke");
+      dispatch(applyJob({ id, idPost }));
     }
   };
 
@@ -124,7 +119,7 @@ const Index: MyPage = () => {
     let completedAttributes = 0;
 
     requiredAttributes.forEach((attribute) => {
-      if (user.hasOwnProperty(attribute) && user[attribute]) {
+      if (user?.hasOwnProperty(attribute) && user[attribute]) {
         completedAttributes++;
       }
     });
@@ -161,7 +156,15 @@ const Index: MyPage = () => {
               title={item.jopo_title}
               actions={[
                 <div className="flex flex-col justify-center">
-                  <Button type="link" onClick={handleClick}>
+                  <Button
+                    type="link"
+                    onClick={() =>
+                      handleClick({
+                        id: users.user_entity_id,
+                        idPost: item.jopo_entity_id,
+                      })
+                    }
+                  >
                     <CheckOutlined />
                     <span>Apply</span>
                   </Button>

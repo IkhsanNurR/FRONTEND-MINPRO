@@ -20,7 +20,7 @@ const Index: MyPage = () => {
   const [name, setName] = useState<string | null>(null);
   const dispatch = useDispatch();
 
-  let { refresh } = useSelector((state: any) => state.userProfileReducers);
+  // let { refresh } = useSelector((state: any) => state.userProfileReducers);
 
   useEffect(() => {
     const decode = decodeTokenName(token);
@@ -29,19 +29,19 @@ const Index: MyPage = () => {
     if (name) {
       dispatch(GetByNameOrEmail(name));
     }
-  }, [token, name, refresh]);
+  }, [token, name]);
 
   return (
     <div className="p-20">
       <Card title="Setting Profile">
         <EditProfileCard />
-        <EmailCard />
+        {/* <EmailCard />
         <PhoneCard />
         <AddressCard />
         <EducationCard />
         <ExperiencesCard />
         <SkillsCard />
-        <ResumeCard />
+        <ResumeCard /> */}
       </Card>
     </div>
   );

@@ -1,8 +1,8 @@
 import { all, takeEvery } from 'redux-saga/effects'
 import AuthActionTypes from '../usersSchema/auth/action/actionType'
-import { handleLogin, handleSignup } from '../usersSchema/auth/saga'
+import { handleLogin, handleSignupExternal, handleSignupInternal } from '../usersSchema/auth/saga'
 import UserProfileActionType from '../usersSchema/profile/action/actionType'
-import { handleAddAddress, handleAddEducation, handleAddEmail, handleAddExperience, handleAddPhone, handleAddResume, handleAddSkill, handleDeleteAddress, handleDeleteEducation, handleDeleteEmail, handleDeleteExperience, handleDeletePhone, handleDeleteResume, handleDeleteSkil, handleEditAddress, handleEditEducation, handleEditEmail, handleEditExperience, handleEditPhone, handleGetByNameOrEmail, handleUpdateProfile } from '../usersSchema/profile/saga'
+import { handleAddAddress, handleAddEducation, handleAddEmail, handleAddExperience, handleAddPhone, handleAddResume, handleAddSkill, handleApplyJob, handleChangePassword, handleDeleteAddress, handleDeleteEducation, handleDeleteEmail, handleDeleteExperience, handleDeletePhone, handleDeleteResume, handleDeleteSkil, handleEditAddress, handleEditEducation, handleEditEmail, handleEditExperience, handleEditPhone, handleGetByNameOrEmail, handleUpdateProfile } from '../usersSchema/profile/saga'
 import pontyCodeActionType from '../usersSchema/pontycode/action/actionType'
 import { handleGetPontycode } from '../usersSchema/pontycode/saga'
 import cityActionType from '../masterSchema/city/action/actionType'
@@ -17,10 +17,12 @@ import { handleGetAllJob } from '../jobhireSchema/saga'
 function* watchAll() {
     yield all([
         takeEvery(AuthActionTypes.LOGIN, handleLogin),
-        takeEvery(AuthActionTypes.SIGNUP, handleSignup),
+        takeEvery(AuthActionTypes.SIGNUPINTERNAL, handleSignupInternal),
+        takeEvery(AuthActionTypes.SIGNUPEXTERNAL, handleSignupExternal),
 
         takeEvery(UserProfileActionType.GETBYNAMEOREMAIL, handleGetByNameOrEmail),
         takeEvery(UserProfileActionType.UPDATEPROFILE, handleUpdateProfile),
+        takeEvery(UserProfileActionType.CHANGEPASSWORD, handleChangePassword),
 
         takeEvery(pontyCodeActionType.GETPONTYCODE, handleGetPontycode),
 
@@ -49,6 +51,8 @@ function* watchAll() {
 
         takeEvery(UserProfileActionType.ADDRESUME, handleAddResume),
         takeEvery(UserProfileActionType.DELETERESUME, handleDeleteResume),
+
+        takeEvery(UserProfileActionType.APPLYJOB, handleApplyJob),
 
         //MASTER
         takeEvery(cityActionType.GET_CITY, handleGetCity),

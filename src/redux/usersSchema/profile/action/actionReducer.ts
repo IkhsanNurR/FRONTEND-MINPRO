@@ -29,6 +29,20 @@ export const updateProfileResponse = (payload: any) => {
     }
 }
 
+export const changePassword = ({ payload, id }: any) => {
+    return {
+        type: UserProfileActionType.CHANGEPASSWORD,
+        payload, id
+    }
+}
+
+export const changePasswordResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.CHANGEPASSWORD_RESPONSE,
+        payload
+    }
+}
+
 export const addEmail = ({ payload, id }: any) => {
     return {
         type: UserProfileActionType.ADDEMAIL,
@@ -298,3 +312,35 @@ export const deleteResumeResponse = (payload: any) => {
         payload
     }
 }
+
+export const applyJob = ({ payload, id, idPost }: any) => {
+    return {
+        type: UserProfileActionType.APPLYJOB,
+        payload,
+        id,
+        idPost
+    }
+}
+
+export const applyJobResponse = (payload: any) => {
+    return {
+        type: UserProfileActionType.APPLYJOB_RESPONSE,
+        payload
+    }
+}
+
+// export const editPhone = ({ payload, id, phonenumber }: any) => {
+//     return {
+//         type: UserProfileActionType.EDITPHONE,
+//         payload,
+//         id,
+//         phonenumber
+//     }
+// }
+
+// export const editPhoneResponse = (payload: any) => {
+//     return {
+//         type: UserProfileActionType.EDITPHONE_RESPONSE,
+//         payload,
+//     }
+// }

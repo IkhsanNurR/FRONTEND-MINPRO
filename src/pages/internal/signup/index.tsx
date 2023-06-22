@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Login,
-  SignUpExternal,
+  SignUpInternal,
 } from "@/redux/usersSchema/auth/action/actionReducer";
 import {
   LockOutlined,
@@ -29,7 +29,7 @@ const Index: MyPage = () => {
   const onFinish = async (values: any) => {
     try {
       await form.validateFields();
-      dispatch(SignUpExternal(values));
+      dispatch(SignUpInternal(values));
     } catch (error: any) {
       console.log(error.message);
     }
@@ -173,12 +173,6 @@ const Index: MyPage = () => {
           </div>
           <div className="mt-4 flex justify-center">
             <Button htmlType="submit">Sign up</Button>
-          </div>
-          <div className="text-center pt-4">
-            <p>
-              if you are employee code.id, click this for{" "}
-              <Link href="/internal/signup">signup</Link>
-            </p>
           </div>
         </Form>
       </div>

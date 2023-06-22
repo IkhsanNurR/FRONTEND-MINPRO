@@ -1,7 +1,7 @@
 import apiMethod from "@/pages/api/UsersSchema/Auth/apiMethod";
 import { setCookie } from "cookies-next";
 import { call, put } from 'redux-saga/effects'
-import { LoginResponse, SignUpResponse } from "../action/actionReducer";
+import { LoginResponse, SignUpExternalResponse, SignUpInternalResponse } from "../action/actionReducer";
 
 export function* handleLogin(action: any): any {
     try {
@@ -21,12 +21,23 @@ export function* handleLogin(action: any): any {
     }
 }
 
-export function* handleSignup(action: any): any {
+export function* handleSignupInternal(action: any): any {
     try {
-        const res = yield call(apiMethod.SignUp, action.payload)
-        yield put(SignUpResponse(res.data))
+        const res = yield call(apiMethod.signUpInternal, action.payload)
+        yield put(SignUpInternalResponse(res.data))
     } catch (error) {
-        yield put(SignUpResponse({
+        yield put(SignUpInternalResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+export function* handleSignupExternal(action: any): any {
+    try {
+        const res = yield call(apiMethod.signUpExternal, action.payload)
+        yield put(SignUpExternalResponse(res.data))
+    } catch (error) {
+        yield put(SignUpExternalResponse({
             message: error,
             status: 400
         }))

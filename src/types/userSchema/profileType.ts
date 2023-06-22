@@ -88,6 +88,9 @@ interface userProfile {
     users: Users
     refresh?: boolean
     msg?: string
+    status?: number
+    messageChangePassword?: string
+    statusChangePassword?: number
 }
 
 interface ModalEdit {

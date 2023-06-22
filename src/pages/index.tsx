@@ -1,7 +1,16 @@
 import { MyPage } from "@/components/types";
+import showNotification from "@/helper/notification";
+import { Button } from "antd";
 
 const Home: MyPage = () => {
-  return <h1>Welcome</h1>;
+  const handleNotification = () => {
+    showNotification("error", "Info message");
+  };
+  return (
+    <div>
+      <Button onClick={handleNotification}>Open Notification</Button>
+    </div>
+  );
 };
 
 Home.Layout = "User";

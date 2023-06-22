@@ -1,6 +1,6 @@
 import apiMethod from "@/pages/api/UsersSchema/Profile/apiMethod";
 import { call, put } from "redux-saga/effects";
-import { GetByNameOrEmailResponse, addAddressResponse, addEducationResponse, addEmailResponse, addExperienceResponse, addPhoneResponse, addResumeResponse, addSkillResponse, deleteAddressResponse, deleteEducationResponse, deleteEmailResponse, deleteExperienceResponse, deletePhoneResponse, deleteResumeResponse, deleteSkillResponse, editAddressResponse, editEducationResponse, editEmailResponse, editExperienceResponse, editPhoneResponse, updateProfileResponse } from "../action/actionReducer";
+import { GetByNameOrEmailResponse, addAddressResponse, addEducationResponse, addEmailResponse, addExperienceResponse, addPhoneResponse, addResumeResponse, addSkillResponse, applyJobResponse, changePasswordResponse, deleteAddressResponse, deleteEducationResponse, deleteEmailResponse, deleteExperienceResponse, deletePhoneResponse, deleteResumeResponse, deleteSkillResponse, editAddressResponse, editEducationResponse, editEmailResponse, editExperienceResponse, editPhoneResponse, updateProfileResponse } from "../action/actionReducer";
 
 export function* handleGetByNameOrEmail(action: any): any {
     try {
@@ -14,13 +14,24 @@ export function* handleGetByNameOrEmail(action: any): any {
     }
 }
 
-
 export function* handleUpdateProfile(action: any): any {
     try {
         const result = yield call(apiMethod.updateProfile, { data: action.payload, id: action.id })
         yield put(updateProfileResponse(result.data))
     } catch (error) {
         yield put(updateProfileResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleChangePassword(action: any): any {
+    try {
+        const result = yield call(apiMethod.changePassword, { data: action.payload, id: action.id })
+        yield put(changePasswordResponse(result.data))
+    } catch (error) {
+        yield put(changePasswordResponse({
             message: error,
             status: 400
         }))
@@ -249,6 +260,18 @@ export function* handleDeleteResume(action: any): any {
         yield put(deleteResumeResponse(result.data))
     } catch (error) {
         yield put(deleteResumeResponse({
+            message: error,
+            status: 400
+        }))
+    }
+}
+
+export function* handleApplyJob(action: any): any {
+    try {
+        const result = yield call(apiMethod.applyJob, { id: action.id, idPost: action.idPost })
+        yield put(applyJobResponse(result.data))
+    } catch (error) {
+        yield put(applyJobResponse({
             message: error,
             status: 400
         }))

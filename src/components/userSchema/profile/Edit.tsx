@@ -1,18 +1,10 @@
 import decodeTokenName from "@/helper/decodedTokenName";
+import showNotification from "@/helper/notification";
 import {
   GetByNameOrEmail,
   updateProfile,
 } from "@/redux/usersSchema/profile/action/actionReducer";
-import {
-  Button,
-  DatePicker,
-  DatePickerProps,
-  Form,
-  Input,
-  Modal,
-  Upload,
-  message,
-} from "antd";
+import { Button, DatePicker, Form, Input, Modal, Upload } from "antd";
 import { getCookie } from "cookies-next";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
@@ -135,7 +127,7 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
     },
   ]);
 
-  let { users, refresh }: userProfile = useSelector(
+  let { users, refresh, msg, status }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
 
@@ -186,7 +178,7 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
     onCancel();
   };
 
-  const handleOk = async (values: any) => {
+  const handleOk = async () => {
     await form.validateFields();
     const formData = new FormData();
     formData.append("user_name", formValues[0].value);
@@ -207,6 +199,14 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
       console.log(error.message);
     }
   };
+
+  useEffect(() => {
+    if (msg && status === 400) {
+      showNotification("error", msg);
+    } else if (msg && status === 200) {
+      showNotification("success", msg);
+    }
+  }, [refresh]);
 
   return (
     <Modal

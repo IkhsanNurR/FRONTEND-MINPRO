@@ -15,6 +15,10 @@ const updateProfile = ({ data, id }: any) => {
     return axios.patch(`/users/profile/editprofile/${id}`, data)
 }
 
+const changePassword = ({ data, id }: any) => {
+    return axios.patch(`/users/profile/changePassword/${id}`, data)
+}
+
 const getPontyCode = () => {
     return axios.get("/users/profile/pontycode")
 }
@@ -95,6 +99,10 @@ const deleteResume = (id: any) => {
     return axios.delete(`/users/profile/deleteResume/${id}`)
 }
 
+const applyJob = ({ id, idPost }: any) => {
+    return axios.post(`/users/job/apply/${id}/${idPost}`)
+}
+
 export default {
     getUsersByUsernameOrEmail,
     updateProfile,
@@ -117,5 +125,7 @@ export default {
     deleteSkill,
     addResume,
     deleteResume,
-    getPontyCode
+    applyJob,
+    getPontyCode,
+    changePassword
 }

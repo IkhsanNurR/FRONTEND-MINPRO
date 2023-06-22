@@ -4,16 +4,22 @@ const initialState = {
     users: [],
     status: "",
     refresh: "",
-    msg: ""
+    msg: "",
+    // messageChangePassword: "",
+    // statusChangePassword: ""
 }
 
 export default function userProfileReducers(state = initialState, action: any) {
     const { type, payload } = action
     switch (type) {
         case UserProfileActionType.GETBYNAMEOREMAIL_RESPONSE:
-            return { users: payload, refresh: true }
+            return { ...state, users: payload, refresh: true }
+
         case UserProfileActionType.UPDATEPROFILE_RESPONSE:
-            return { msg: payload.message, refresh: false }
+            return { ...state, msg: payload.message, status: payload.status, refresh: false }
+
+        case UserProfileActionType.CHANGEPASSWORD_RESPONSE:
+            return { ...state, msg: payload.message, status: payload.status, refresh: false }
 
         case UserProfileActionType.ADDEMAIL_RESPONSE:
             return { msg: payload.message, refresh: false }
@@ -58,6 +64,9 @@ export default function userProfileReducers(state = initialState, action: any) {
         case UserProfileActionType.ADDRESUME_RESPONSE:
             return { msg: payload.message, refresh: false }
         case UserProfileActionType.DELETERESUME_RESPONSE:
+            return { msg: payload.message, refresh: false }
+
+        case UserProfileActionType.APPLYJOB_RESPONSE:
             return { msg: payload.message, refresh: false }
 
         default:
