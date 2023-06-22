@@ -37,11 +37,10 @@ import { ToastContainer } from "react-toastify";
     const banners = [banner1, banner2, banner3];
     
     return (
-      <div className="mt-28">
+      <div className="mt-7">
         <ToastContainer/>
         <div className="bg-blue-200 mt-4 w-full p-4 flex flex-wrap">
-          {}
-          <div className="w-2/4">
+          <div className=" w-full mb-2 md:w-2/4">
             <h1 className="font-semibold text-3xl">Bootcamp Reguler</h1>
             <p className="mt-2">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga
@@ -67,7 +66,7 @@ import { ToastContainer } from "react-toastify";
           <label htmlFor="search" className="mr-2">
             Seacrh
           </label>
-          <input type="search" className="p-1 rounded-xl" />
+          <input type="search" className="p-1 rounded-xl w-28 md:w-32" />
           <button className="order-0  ml-2 inline-flex items-center px-4 py-2 border border-transparent rounded-xl bg-purple-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-1">
             Search
           </button>

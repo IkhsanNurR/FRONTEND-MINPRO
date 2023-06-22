@@ -154,7 +154,7 @@ const items = [
   
   const MultiMenu = () => {
     return (
-      <div className="ml-4 w-5/12">
+      <div className=" w-5/12 hidden md:block ml-4">
         <Menu mode="horizontal" className="bg-red-400">
           {items.map((item) => (
             <SubMenu key={item.key} title={item.title} icon={item.icon}>
@@ -172,6 +172,7 @@ const items = [
           ))}
         </Menu>
       </div>
+      
     );
   };
   

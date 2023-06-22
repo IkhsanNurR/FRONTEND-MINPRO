@@ -245,7 +245,7 @@ const Bootcamp: MyPage = () => {
         fungsi1={() => router.push("./batch/new")}
       />
 
-      <div className=" w-full p-4 text-center">
+      {/* <div className=" w-full p-4 text-center">
         <form onSubmit={handleSubmit(handleFilter)}>
           <label htmlFor="search" className="mr-2">
             Seacrh
@@ -272,7 +272,42 @@ const Bootcamp: MyPage = () => {
             Search
           </button>
         </form>
-      </div>
+      </div> */}
+
+<div className="w-full p-4 text-center">
+  <form onSubmit={handleSubmit(handleFilter)} className="grid grid-cols-1 gap-4 md:grid-cols-3">
+    <div className="md:col-span-2">
+      <label htmlFor="search" className="mr-2">
+        Search
+      </label>
+      <input
+        type="search"
+        className="px-2 py-1 rounded-xl border-gray-200 border-2"
+        {...register("batch_status_input")}
+      />
+    </div>
+    <div className="md:col-span-1 flex justify-center">
+      <select
+        id=""
+        className="w-28 border-gray-200 border-2 p-1 rounded-lg"
+        defaultValue={"null"}
+        {...register("batch_status")}
+      >
+        <option value="null">None</option>
+        {statusFilter.map((status: any, index: any) => (
+          <option value={status.status} key={index}>
+            {status.status}
+          </option>
+        ))}
+      </select>
+    </div>
+    <div className="md:col-span-3 flex justify-center">
+      <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-xl bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        Search
+      </button>
+    </div>
+  </form>
+</div>
 
       <Paper sx={{ width: "auto", overflow: "hidden" }} className="mb-10">
         <TableContainer sx={{ maxHeight: 440 }}>

@@ -25,7 +25,7 @@ const SideBar = forwardRef(({}, ref:LegacyRef<HTMLDivElement>) => {
       { to: "/", path: "/", icon: <CottageRounded/>, name: "Dashboard" },
       { to: "/app/candidat", path: "candidat", icon: <NoteAddRounded />, name: "Candidate" },
       { to: "/app/batch", path: "batch", icon: <SchoolRounded />, name: "Batch" },
-      { to: "/app/talents", path: "talents", icon: <People />, name: "Talents" },
+      { to: "/app/talent", path: "talent", icon: <People />, name: "Talents" },
       { to: "/app/curriculum", path: "curriculum", icon: <MenuBookRounded />, name: "Curriculum" },
       { to: "/app/assignment", path: "assignment", icon: <Assignment />, name: "Assignment" },
       { to: "/app/postinghiring", path: "postinghiring", icon: <BusinessCenterRounded />, name: "Posting Hiring" },

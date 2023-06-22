@@ -20,7 +20,8 @@ import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import Link from "next/link";
 import { Logout } from "@mui/icons-material";
 import Image from "next/image";
-import MultiMenu from "@/pages/app/coba";
+import MultiMenu from "@/components/coba";
+import Sidebar from "@/components/coba/sidebar";
 
 const Topbar2 = () => {
   const [token, setToken]: any = useState("");
@@ -41,101 +42,14 @@ const Topbar2 = () => {
             <Image
               src={logo}
               alt=""
-              className="w-10 h-10 py-2 rounded-full bg-white"
+              className="w-10 h-10  rounded-full bg-white"
             />
-            <div className="mt-1 text-xl font-semibold">
+            <div className="mt-1 text-xl ml-3 font-semibold">
               <h1>Code Academy</h1>
             </div>
           </div>
-              <MultiMenu/>
-          {/* <div className="mt-1 ml-4 w-96">
-            <PopupState variant="popover" popupId="demo-popup-menu">
-              {(popupState) => (
-                <Fragment> 
-                  <Button
-                    variant="text"
-                    {...bindTrigger(popupState)}
-                    // className="bg-blue-600"
-                  >
-                    Program
-                    <KeyboardArrowDownIcon />
-                  </Button>
-                  <Menu {...bindMenu(popupState)}>
-                    <MenuItem onClick={popupState.close}>Profile</MenuItem>
-                    <MenuItem onClick={popupState.close}>My account</MenuItem>
-                    <MenuItem onClick={popupState.close}>Logout</MenuItem>
-                  </Menu>
-                 </Fragment>
-              )}
-            </PopupState>
-            |
-          </div> */}
-          {/* <div className="mt-1 ml-4">
-            <PopupState variant="popover" popupId="demo-popup-menu">
-              {(popupState) => (
-                <Fragment>
-                  <Button
-                    variant="text"
-                    {...bindTrigger(popupState)}
-                    // className="bg-blue-600"
-                  >
-                    Online Course
-                    <KeyboardArrowDownIcon />
-                  </Button>
-                  <Menu {...bindMenu(popupState)}>
-                    <MenuItem onClick={popupState.close}>Profile</MenuItem>
-                    <MenuItem onClick={popupState.close}>My account</MenuItem>
-                    <MenuItem onClick={popupState.close}>Logout</MenuItem>
-                  </Menu>
-                </Fragment>
-              )}
-            </PopupState>
-            |
-          </div>
-          <div className="mt-1 ml-4">
-            <PopupState variant="popover" popupId="demo-popup-menu">
-              {(popupState) => (
-                <Fragment>
-                  <Button
-                    variant="text"
-                    {...bindTrigger(popupState)}
-                    // className="bg-blue-600"
-                  >
-                    Job Hiring
-                    <KeyboardArrowDownIcon />
-                  </Button>
-                  <Menu {...bindMenu(popupState)}>
-                    <MenuItem onClick={popupState.close}>Profile</MenuItem>
-                    <MenuItem onClick={popupState.close}>My account</MenuItem>
-                    <MenuItem onClick={popupState.close}>Logout</MenuItem>
-                  </Menu>
-                </Fragment>
-              )}
-            </PopupState>
-            |
-          </div>
-          <div className="mt-1 ml-4">
-            <PopupState variant="popover" popupId="demo-popup-menu">
-              {(popupState) => (
-                <Fragment>
-                  <Button
-                    variant="text"
-                    {...bindTrigger(popupState)}
-                    // className="bg-blue-600"
-                  >
-                    About
-                    <KeyboardArrowDownIcon />
-                  </Button>
-                  <Menu {...bindMenu(popupState)}>
-                    <MenuItem onClick={popupState.close}>Profile</MenuItem>
-                    <MenuItem onClick={popupState.close}>My account</MenuItem>
-                    <MenuItem onClick={popupState.close}>Logout</MenuItem>
-                  </Menu>
-                </Fragment>
-              )}
-            </PopupState>
-            |
-          </div> */}
+          <MultiMenu />
+
           <div className="ml-auto ">
             {token ? (
               <Fragment>
@@ -228,12 +142,15 @@ const Topbar2 = () => {
               </div>
             )}
           </div>
+
         </div>
+        <div>
+              <Sidebar/>
+            </div>
       </div>
+      
     </div>
-    // <div className="fixed bg-red-900 w-full h-10">
-    //   topbar
-    // </div>
+              
   );
 };
 

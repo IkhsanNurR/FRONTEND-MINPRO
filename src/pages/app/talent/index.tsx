@@ -108,9 +108,12 @@ const Talent: MyPage = () => {
 
   const handleFilter = (filter: any) => {
     let newData = [...talent]; 
+    console.log(newData)
+    console.log(filter)
+
     if (filter.talent_status_input === "" && filter.talent_status !== "null") {
       newData = newData.filter(
-        (user: any) => user.talent_status === filter.talent_status
+        (talent: any) => talent.talent_status === filter.talent_status
       );
       setFilterData(newData);
     } else if (filter.talent_status_input !== "" && filter.talent_status === "null") {
@@ -152,6 +155,18 @@ const Talent: MyPage = () => {
         setFilterData(newData);
       }
     }
+
+
+
+
+    // if(filter.talent_status){
+    //   newData = newData.filter((talent:any) => talent.talent_status === filter.talent_status)
+    //   setFilterData(newData)
+    // }
+    // if(!filter.talent_status){
+    //   setFilterData([])
+    // }
+    
   };
 
   const dispatch = useDispatch();
@@ -166,6 +181,7 @@ const Talent: MyPage = () => {
       <Content title="Talents" />
       <div className=" w-full p-4 text-center">
         <form
+        className="grid grid-cols-1 gap-4 md:grid-cols-3"
         onSubmit={handleSubmit(handleFilter)}
         >
           <label htmlFor="search" className="mr-2">
@@ -177,10 +193,10 @@ const Talent: MyPage = () => {
             className=" px-2 py-1 rounded-xl border-gray-200 border-2"
             {...register("talent_status_input")}
           />
-
+          <div className="md:col-span-1 flex justify-center">
           <select
             id=""
-            className="ml-4 mr-4 w-28 border-gray-200 border-2 p-1 rounded-lg"
+            className="ml-4 mr-4 w-28 border-gray-200 border-2  p-1 rounded-lg"
             defaultValue={"null"}
             {...register("talent_status")}
           >
@@ -189,9 +205,12 @@ const Talent: MyPage = () => {
             <option value="placement">Placement</option>
            
           </select>
+          </div>
+          <div className="md:col-span-3 flex justify-center">
           <button className="order-0  ml-2 inline-flex items-center px-4 py-2 border border-transparent rounded-xl bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:order-1">
             Search
           </button>
+          </div>
         </form>
       </div>
       <div>
@@ -208,8 +227,8 @@ const Talent: MyPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {talent && talent.length > 0 ? (
-                  talent.map((data: any, index: any) => (
+                {filterData && filterData.length > 0 ? (
+                  filterData.map((data: any, index: any) => (
                     <TableRow hover role="checkbox" tabIndex={-1}>
                       <TableCell className=" text-center">{index + 1}</TableCell>
                       <TableCell className=" text-center">

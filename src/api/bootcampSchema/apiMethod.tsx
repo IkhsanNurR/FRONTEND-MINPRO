@@ -1,5 +1,5 @@
 import { headers } from "next/dist/client/components/headers";
-import axios from "../config/endpoint";
+import axios from "../../config/endpoint";
 
 
 //bootcamp

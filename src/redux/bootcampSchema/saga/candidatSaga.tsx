@@ -1,4 +1,4 @@
-import apiMethod from '../../../api/apiMethod'
+import apiMethod from '../../../api/bootcampSchema/apiMethod'
 import {call, put} from 'redux-saga/effects'
 import { resGetBootcampDaftarApply, resGetCandidatApply, resGetCandidatContract, resGetCandidatDisqualified, resGetCandidatFiltering, resGetCandidatNotResponding, resUpdateCandidatApply, resUpdateCandidatContract, resUpdateCandidatDisqualified, resUpdateCandidatFiltering, resUpdateCandidatNotResponding } from '../action/actionReducer'
 
