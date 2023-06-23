@@ -32,7 +32,7 @@ import {
   MoreVertRounded,
   PlayArrowOutlined,
   DoDisturbOnOutlined,
-  Update
+  Update,
 } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import CloseBatch from "./closeBatch";
@@ -45,7 +45,7 @@ import Pagination from "@/components/pagination";
 import { useForm } from "react-hook-form";
 import { ToastContainer } from "react-toastify";
 import ExtendBatch from "./extendBatch";
-import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import PendingBatch from "./pending";
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -60,7 +60,7 @@ const StyledMenu = styled((props: MenuProps) => (
     }}
     {...props}
   />
-))(({ theme }:any) => ({
+))(({ theme }: any) => ({
   "& .MuiPaper-root": {
     borderRadius: 6,
     marginTop: theme.spacing(1),
@@ -103,7 +103,7 @@ const Bootcamp: MyPage = () => {
   const [deleteBatch, setDeleteBatch]: any = useState(false);
   const [runningBatch, setRunningBatch]: any = useState(false);
   const [pendingBatch, setPendingBatch]: any = useState(false);
-  const [extendsBatch, setExtendsBatch]:any = useState(false)
+  const [extendsBatch, setExtendsBatch]: any = useState(false);
   const [filterData, setFilterData] = useState(bootcamp);
   const [selected, setSelected]: any = useState(0);
   const [currentPage, setCurrentPage]: any = useState(1);
@@ -148,7 +148,10 @@ const Bootcamp: MyPage = () => {
         (user: any) => user.batch_status === filter.batch_status
       );
       setFilterData(newData);
-    } else if (filter.batch_status_input !== "" && filter.batch_status === "null") {
+    } else if (
+      filter.batch_status_input !== "" &&
+      filter.batch_status === "null"
+    ) {
       newData = newData.filter((user: any) => {
         return (
           user.technology
@@ -163,9 +166,16 @@ const Bootcamp: MyPage = () => {
         );
       });
       setFilterData(newData);
-    } else if (filter.batch_status === "null" && filter.batch_status_input === "") {
+    } else if (
+      filter.batch_status === "null" &&
+      filter.batch_status_input === ""
+    ) {
       setFilterData(bootcamp);
-    } else if (filter.batch_status_input && filter.batch_status && filter.batch_status !== "null" ) {
+    } else if (
+      filter.batch_status_input &&
+      filter.batch_status &&
+      filter.batch_status !== "null"
+    ) {
       newData = newData.filter((user: any) => {
         return (
           (user.technology
@@ -215,12 +225,12 @@ const Bootcamp: MyPage = () => {
     setDeleteBatch(true);
     setAnchorEl(null);
   };
-  
+
   const handleExtendBatch = () => {
-    setExtendsBatch(true)
+    setExtendsBatch(true);
     setAnchorEl(null);
-  }
- 
+  };
+
   const handleRunningBatch = () => {
     setRunningBatch(true);
     setAnchorEl(null);
@@ -230,84 +240,56 @@ const Bootcamp: MyPage = () => {
 
   // console.log("status", status);
 
-  
   useEffect(() => {
-    dispatch(reqGetBootcamp())
+    dispatch(reqGetBootcamp());
     setFilterData(bootcamp);
   }, [refresh]);
 
   return (
     <>
-        <ToastContainer />
+      <ToastContainer />
       <Content1
         title="Batch"
         namafungsi1="Create"
         fungsi1={() => router.push("./batch/new")}
       />
 
-      {/* <div className=" w-full p-4 text-center">
-        <form onSubmit={handleSubmit(handleFilter)}>
-          <label htmlFor="search" className="mr-2">
-            Seacrh
-          </label>
-
-          <input
-            type="search"
-            className=" px-2 py-1 rounded-xl border-gray-200 border-2"
-            {...register("batch_status_input")}
-          />
-
-          <select
-            id=""
-            className="ml-4 mr-4 w-28 border-gray-200 border-2 p-1 rounded-lg"
-            defaultValue={"null"}
-            {...register("batch_status")}
-          >
-            <option value="null">None</option>
-            {statusFilter.map((status: any, index: any) => (
-              <option value={status.status}>{status.status}</option>
-            ))}
-          </select>
-          <button className="order-0  ml-2 inline-flex items-center px-4 py-2 border border-transparent rounded-xl bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:order-1">
-            Search
-          </button>
+      <div className=" p-4 text-center">
+        <form
+          onSubmit={handleSubmit(handleFilter)}
+          className="flex flex-col md:flex-row md:items-center md:justify-center "
+        >
+          <div className="mb-2 sm:w-full md:w-3/12 md:mb-0">
+            <label htmlFor="search" className=" invisible md:mr-2  md:visible">
+              Search
+            </label>
+            <input
+              type="search"
+              placeholder={`Search`}
+              className="px-2 py-1 sm:w-full sm:ml-2 md:w-fit rounded-xl border-gray-200 border-2"
+              {...register("batch_status_input")}
+            />
+          </div>
+          <div className="mb-2 md:mb-0 md:mr-2 sm:ml-2 md:w-fit sm:w-full">
+            <select
+              id=""
+              className="border-gray-200  w-full justify-center border-2 p-1 rounded-xl"
+              defaultValue={"null"}
+              {...register("batch_status")}
+            >
+              <option value="null">None</option>
+              {statusFilter.map((status: any, index: any) => (
+                <option value={status.status}>{status.status}</option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-2 md:mb-0 md:mr-2">
+            <button className="order-0 ml-2 w-full justify-center inline-flex items-center text-center px-4 py-2 border border-transparent rounded-xl bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ">
+              Search
+            </button>
+          </div>
         </form>
-      </div> */}
-
-<div className="w-full p-4 text-center">
-  <form onSubmit={handleSubmit(handleFilter)} className="grid grid-cols-1 gap-4 md:grid-cols-3">
-    <div className="md:col-span-2">
-      <label htmlFor="search" className="mr-2">
-        Search
-      </label>
-      <input
-        type="search"
-        className="px-2 py-1 rounded-xl border-gray-200 border-2"
-        {...register("batch_status_input")}
-      />
-    </div>
-    <div className="md:col-span-1 flex justify-center">
-      <select
-        id=""
-        className="w-28 border-gray-200 border-2 p-1 rounded-lg"
-        defaultValue={"null"}
-        {...register("batch_status")}
-      >
-        <option value="null">None</option>
-        {statusFilter.map((status: any, index: any) => (
-          <option value={status.status} key={index}>
-            {status.status}
-          </option>
-        ))}
-      </select>
-    </div>
-    <div className="md:col-span-3 flex justify-center">
-      <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-xl bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-        Search
-      </button>
-    </div>
-  </form>
-</div>
+      </div>
 
       <Paper sx={{ width: "auto", overflow: "hidden" }} className="mb-10">
         <TableContainer sx={{ maxHeight: 440 }}>
@@ -365,26 +347,28 @@ const Bootcamp: MyPage = () => {
                     <TableCell className=" text-center">
                       {data.trainer}
                     </TableCell>
-                    <TableCell className={` text-center`}>
-                      <a
-                        className={`${
-                          data.batch_status == "open"
-                            ? "text-white bg-green-500"
-                            : data.batch_status == "closed"
-                            ? "text-white bg-orange-500"
-                            : data.batch_status == "running"
-                            ? "text-white bg-blue-500"
-                            : data.batch_status == "pending"
-                            ? "text-white bg-yellow-500"
-                            : data.batch_status == "cancelled"
-                            ? "text-white bg-red-500"
-                            : data.batch_status == "extend"
-                            ? "text-white bg-cyan-500"
-                            : ""
-                        } rounded-lg w-full p-2 capitalize`}
-                      >
-                        {data.batch_status}
-                      </a>
+                    <TableCell className="text-center">
+                      <span className="justify-center flex">
+                        <a
+                          className={`${
+                            data.batch_status == "open"
+                              ? " bg-green-500"
+                              : data.batch_status == "closed"
+                              ? " bg-orange-500"
+                              : data.batch_status == "running"
+                              ? " bg-blue-500"
+                              : data.batch_status == "pending"
+                              ? " bg-yellow-500"
+                              : data.batch_status == "cancelled"
+                              ? " bg-red-500"
+                              : data.batch_status == "extend"
+                              ? " bg-cyan-500"
+                              : ""
+                          } rounded-lg p-2 capitalize text-white w-[100px] justify-center flex`}
+                        >
+                          {data.batch_status}
+                        </a>
+                      </span>
                     </TableCell>
                     <TableCell className=" text-center">
                       <button
@@ -419,40 +403,71 @@ const Bootcamp: MyPage = () => {
                           }
                           disableRipple
                           // disabled = {selected.batch_status === 'running' || selected.batch_status === 'closed' || selected.batch_status === 'cancelled'}
-                          disabled = {selected.batch_status !== 'open' && selected.batch_status !== 'pending'}
+                          disabled={
+                            selected.batch_status !== "open" &&
+                            selected.batch_status !== "pending"
+                          }
                         >
                           <Edit />
                           Edit
                         </MenuItem>
-                        <MenuItem onClick={handleCloseBatch} disableRipple
-                        // disabled = {selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'open' || selected.batch_status === 'pending'}
-                        disabled = {selected.batch_status !== 'extend' && selected.batch_status !== 'running'}
+                        <MenuItem
+                          onClick={handleCloseBatch}
+                          disableRipple
+                          // disabled = {selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'open' || selected.batch_status === 'pending'}
+                          disabled={
+                            selected.batch_status !== "extend" &&
+                            selected.batch_status !== "running"
+                          }
                         >
                           <DoDisturbOnOutlined />
                           Closed Batch
                         </MenuItem>
-                        <MenuItem onClick={handlePendingBatch} disableRipple 
-                        disabled={selected.batch_status !== 'open' && selected.batch_status !== 'pending'}>
+                        <MenuItem
+                          onClick={handlePendingBatch}
+                          disableRipple
+                          disabled={
+                            selected.batch_status !== "open" &&
+                            selected.batch_status !== "pending"
+                          }
+                        >
                           <PendingActionsIcon />
                           Pending Batch
                         </MenuItem>
-                        <MenuItem onClick={handleExtendBatch} disableRipple 
-                        // disabled={selected.batch_status === 'open' || selected.batch_status === 'cancelled' || selected.batch_status === 'closed'}
-                        disabled={['open', 'cancelled', 'closed', 'pending'].includes(selected.batch_status)}
+                        <MenuItem
+                          onClick={handleExtendBatch}
+                          disableRipple
+                          // disabled={selected.batch_status === 'open' || selected.batch_status === 'cancelled' || selected.batch_status === 'closed'}
+                          disabled={[
+                            "open",
+                            "cancelled",
+                            "closed",
+                            "pending",
+                          ].includes(selected.batch_status)}
                         >
                           <Update />
                           Extends Batch
                         </MenuItem>
-                        <MenuItem onClick={handleDeleteBatch} disableRipple 
-                        // disabled={selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'extend' || selected.batch_status === 'running'}>
-                        disabled={selected.batch_status !== 'open' && selected.batch_status !== 'pending'}
+                        <MenuItem
+                          onClick={handleDeleteBatch}
+                          disableRipple
+                          // disabled={selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'extend' || selected.batch_status === 'running'}>
+                          disabled={
+                            selected.batch_status !== "open" &&
+                            selected.batch_status !== "pending"
+                          }
                         >
                           <DeleteOutlineRounded />
                           Delete Batch
                         </MenuItem>
-                        <MenuItem onClick={handleRunningBatch} disableRipple
-                        // disabled={selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'running'}
-                        disabled={selected.batch_status !== 'open' && selected.batch_status !== 'pending'}
+                        <MenuItem
+                          onClick={handleRunningBatch}
+                          disableRipple
+                          // disabled={selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'running'}
+                          disabled={
+                            selected.batch_status !== "open" &&
+                            selected.batch_status !== "pending"
+                          }
                         >
                           <PlayArrowOutlined />
                           Set To Running
@@ -466,8 +481,7 @@ const Bootcamp: MyPage = () => {
                               },
                             })
                           }
-                          disabled={  selected.batch_status !== 'closed'}
-                          
+                          disabled={selected.batch_status !== "closed"}
                           disableRipple
                         >
                           <GradingRounded />

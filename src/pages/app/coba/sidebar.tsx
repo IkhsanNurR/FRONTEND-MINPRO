@@ -218,7 +218,7 @@ const Sidebar = () => {
     <div className="md:hidden">
       <button
         type="button"
-        className="block text-gray-600 focus:outline-none relative focus:text-gray-800"
+        className="block text-gray-600 z-50 ml-48 focus:outline-none relative focus:text-gray-800"
         onClick={toggleMenu}
       >
         <MenuOutlined className="h-6 w-6 fill-current" />

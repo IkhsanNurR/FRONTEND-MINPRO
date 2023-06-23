@@ -27,8 +27,7 @@ import logo from "../../../../public/Bimoli.jpg";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  reqApplyBootcamp,
-  reqGetProgName,
+    reqApplyBatch,  reqGetProgName,
 } from "@/redux/bootcampSchema/action/actionReducer";
 import dayjs from "dayjs";
 import { format } from "date-fns";
@@ -79,7 +78,7 @@ const Apply: MyPage = () => {
       data.append("prog_entity_id", formData.prog_entity_id);
       data.append("parog_comment", formData.parog_comment);
       data.append("cv", formData.cv[0]);
-      data.append("user_entity_id", 26);
+      data.append("user_entity_id", 46);
       data.append("foto", formData.foto[0]);
 
       console.log("ea", ...data);
@@ -89,7 +88,7 @@ const Apply: MyPage = () => {
       }
 
       // data.append()
-      dispatch(reqApplyBootcamp(data));
+      dispatch(reqApplyBatch(data));
 
       // router.back()
     } else {
@@ -167,7 +166,7 @@ const Apply: MyPage = () => {
 
   return (
     <>
-      <ContentUser>
+      {/* <ContentUser> */}
         <ToastContainer />
         <div className="grid place-items-center mx-2 sm:my-auto">
           <div className="w-full px-6 py-10 sm:px-10 sm:py-6  rounded-lg shadow-md lg:shadow-lg">
@@ -218,7 +217,7 @@ const Apply: MyPage = () => {
                           }}
                           format="DD/MM/YYYY"
                           label="Birth Date"
-                          className="w-full"
+                          className="w-7/12"
                           {...register("birth_date")}
                           onChange={handleDateChange}
                           value={dayjs(selectedDate)}
@@ -404,9 +403,9 @@ const Apply: MyPage = () => {
             </form>
           </div>
         </div>
-      </ContentUser>
+      {/* </ContentUser> */}
     </>
   );
 };
-Apply.Layout = "User";
+Apply.Layout = "Guest";
 export default Apply;

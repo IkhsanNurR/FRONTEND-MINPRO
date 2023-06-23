@@ -158,7 +158,7 @@ const EvaluationBatch: MyPage = () => {
                       </h1>
                       <h2 className="text-lg font-semibold">{data.lastname}</h2>
                       <h3 className="text-lg font-semibold capitalize">
-                       <h1 className={`${data.status_trainee == 'resign' ? "bg-red-500" : data.status_trainee == 'selected' ? "bg-blue-500" : data.status_trainee == 'passed' ? "bg-green-500" : ""} rounded-xl w-full p-1 text-white`}>
+                       <h1 className={`mt-2 ${data.status_trainee == 'resign' ? "bg-red-500" : data.status_trainee == 'selected' ? "bg-blue-500" : data.status_trainee == 'passed' ? "bg-green-500" : ""} rounded-xl w-full p-1 text-white`}>
 
                         {data.status_trainee}
                        </h1>

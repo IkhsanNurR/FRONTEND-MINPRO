@@ -9,7 +9,7 @@ const initialState = {
 
 function traineeReducer(state = initialState, action:any){
     let {type, payload} = action
-    console.log('reducer',payload)
+    // console.log('reducer',payload)
     
     switch (type) {
         case ActionType.RES_GET_TRAINEE_BY_ID:

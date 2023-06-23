@@ -33,9 +33,6 @@ import {
   reqGetProgName,
   reqGetTrainer,
 } from "@/redux/bootcampSchema/action/actionReducer";
-import cek from "../../../../../public/cek.gif";
-import x from "../../../../../public/x.gif";
-import Image from "next/image";
 
 const newBatch: MyPage = (props: any) => {
   //reducer
@@ -339,6 +336,7 @@ const newBatch: MyPage = (props: any) => {
       newData = newData.filter(
         (user: any) => parseInt(user.program_entity) === tech.target.value
       );
+      setChecked([])
       setLoadedData(newData);
       setFilteredData(newData);
       setCurrentPage(1);
@@ -509,6 +507,7 @@ const newBatch: MyPage = (props: any) => {
                     format="DD/MM/YYYY"
                     label="Mulai"
                     className="w-full"
+                    minDate={dayjs()}
                     onChange={handleStartDateChange}
                     value={startDate}
                   />

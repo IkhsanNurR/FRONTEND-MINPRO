@@ -599,6 +599,7 @@ const EditBatch: MyPage = (props: any) => {
                       format="DD/MM/YYYY"
                       label="Mulai"
                       className="w-full"
+                      minDate={dayjs()}
                       onChange={handleStartDateChange}
                       value={
                         loadedData.batch_start_date

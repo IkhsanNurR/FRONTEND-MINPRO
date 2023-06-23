@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Content3 from "../../../components/shared/content";
+import Content3 from "../../../../components/shared/content";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
@@ -9,7 +9,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { Avatar, Divider, List, ListItem, Rating } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import { styled } from "@mui/material/styles";
-import gambar1 from "../../../../public/Bimoli.jpg";
+import gambar1 from "../../../../../public/Bimoli.jpg";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
 import React from "react";

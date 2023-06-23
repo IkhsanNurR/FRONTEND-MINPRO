@@ -3,8 +3,8 @@ import axios from "../../config/endpoint";
 
 
 //bootcamp
-const createApplyBootcamp = (data:any) => {
-  console.log('ea1',data)
+const createApplyBatch = (data:any) => {
+  console.log('api',...data)
   return axios.post('bootcamp/applybatch', data, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -121,7 +121,7 @@ const getTalentBootcamp = () => {
 export default {
   //bootcamp
   getBootcamp,
-  createApplyBootcamp,
+  createApplyBatch,
   getBootcampIndex,
   getBootcampById,
   getBootcampDraftApply,

@@ -88,7 +88,7 @@ const Talent: MyPage = () => {
   );
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selected, setSelected]: any = useState(0);
-  const [filterData, setFilterData] = useState(talent)
+  const [filterData, setFilterData] = useState(talent);
 
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -107,16 +107,19 @@ const Talent: MyPage = () => {
   } = useForm();
 
   const handleFilter = (filter: any) => {
-    let newData = [...talent]; 
-    console.log(newData)
-    console.log(filter)
+    let newData = [...talent];
+    console.log(newData);
+    console.log(filter);
 
     if (filter.talent_status_input === "" && filter.talent_status !== "null") {
       newData = newData.filter(
         (talent: any) => talent.talent_status === filter.talent_status
       );
       setFilterData(newData);
-    } else if (filter.talent_status_input !== "" && filter.talent_status === "null") {
+    } else if (
+      filter.talent_status_input !== "" &&
+      filter.talent_status === "null"
+    ) {
       newData = newData.filter((user: any) => {
         return (
           user.talent_fullname
@@ -131,9 +134,16 @@ const Talent: MyPage = () => {
         );
       });
       setFilterData(newData);
-    } else if (filter.talent_status === "null" && filter.talent_status_input === "") {
+    } else if (
+      filter.talent_status === "null" &&
+      filter.talent_status_input === ""
+    ) {
       setFilterData(talent);
-    } else if (filter.talent_status_input && filter.talent_status && filter.talent_status !== "null" ) {
+    } else if (
+      filter.talent_status_input &&
+      filter.talent_status &&
+      filter.talent_status !== "null"
+    ) {
       newData = newData.filter((user: any) => {
         return (
           (user.talent_fullname
@@ -156,9 +166,6 @@ const Talent: MyPage = () => {
       }
     }
 
-
-
-
     // if(filter.talent_status){
     //   newData = newData.filter((talent:any) => talent.talent_status === filter.talent_status)
     //   setFilterData(newData)
@@ -166,53 +173,55 @@ const Talent: MyPage = () => {
     // if(!filter.talent_status){
     //   setFilterData([])
     // }
-    
   };
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(reqGetTalent());
-    setFilterData(talent)
+    setFilterData(talent);
   }, [refresh]);
   return (
     <>
       <ToastContainer />
       <Content title="Talents" />
-      <div className=" w-full p-4 text-center">
-        <form
-        className="grid grid-cols-1 gap-4 md:grid-cols-3"
-        onSubmit={handleSubmit(handleFilter)}
-        >
-          <label htmlFor="search" className="mr-2">
-            Seacrh
-          </label>
 
-          <input
-            type="search"
-            className=" px-2 py-1 rounded-xl border-gray-200 border-2"
-            {...register("talent_status_input")}
-          />
-          <div className="md:col-span-1 flex justify-center">
-          <select
-            id=""
-            className="ml-4 mr-4 w-28 border-gray-200 border-2  p-1 rounded-lg"
-            defaultValue={"null"}
-            {...register("talent_status")}
-          >
-            <option value="null">None</option>
-            <option value="idle">Idle</option>
-            <option value="placement">Placement</option>
-           
-          </select>
+      <div className=" p-4 text-center">
+        <form
+          onSubmit={handleSubmit(handleFilter)}
+          className="flex flex-col md:flex-row md:items-center md:justify-center "
+        >
+          <div className="mb-2 sm:w-full md:w-3/12 md:mb-0">
+            <label htmlFor="search" className=" invisible md:mr-2  md:visible">
+              Search
+            </label>
+            <input
+              type="search"
+              placeholder={`Search`}
+              className="px-2 py-1 sm:w-full sm:ml-2 md:w-fit rounded-xl border-gray-200 border-2"
+              {...register("talent_status_input")}
+            />
           </div>
-          <div className="md:col-span-3 flex justify-center">
-          <button className="order-0  ml-2 inline-flex items-center px-4 py-2 border border-transparent rounded-xl bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:order-1">
-            Search
-          </button>
+          <div className="mb-2 md:mb-0 md:mr-2 sm:ml-2 md:w-fit sm:w-full">
+            <select
+              id=""
+              className="border-gray-200  w-full justify-center border-2 p-1 rounded-xl"
+              defaultValue={"null"}
+              {...register("talent_status")}
+            >
+              <option value="null">None</option>
+              <option value="idle">Idle</option>
+              <option value="placement">Placement</option>
+            </select>
+          </div>
+          <div className="mb-2 md:mb-0 md:mr-2">
+            <button className="order-0 ml-2 w-full justify-center inline-flex items-center text-center px-4 py-2 border border-transparent rounded-xl bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ">
+              Search
+            </button>
           </div>
         </form>
       </div>
+
       <div>
         <Paper sx={{ width: "auto", overflow: "hidden" }} className="mb-10">
           <TableContainer sx={{ maxHeight: 440 }}>
@@ -230,18 +239,38 @@ const Talent: MyPage = () => {
                 {filterData && filterData.length > 0 ? (
                   filterData.map((data: any, index: any) => (
                     <TableRow hover role="checkbox" tabIndex={-1}>
-                      <TableCell className=" text-center">{index + 1}</TableCell>
+                      <TableCell className=" text-center">
+                        {index + 1}
+                      </TableCell>
                       <TableCell className=" text-center">
                         {data.talent_fullname}
                       </TableCell>
-                      <TableCell className=" text-center">{data.talent_technology}</TableCell>
-                      <TableCell className=" text-center">{data.talent_batch_name}</TableCell>
                       <TableCell className=" text-center">
-                        <div>{format( new Date(data.talent_start_date), "dd MMMM yyyy")}</div>
-                        <div>{format( new Date(data.talent_end_date), "dd MMMM yyyy")}</div>
+                        {data.talent_technology}
                       </TableCell>
-                      <TableCell className=" text-center">{data.talent_trainer}</TableCell>
-                      <TableCell className=" text-center">{data.talent_status}</TableCell>
+                      <TableCell className=" text-center">
+                        {data.talent_batch_name}
+                      </TableCell>
+                      <TableCell className=" text-center">
+                        <div>
+                          {format(
+                            new Date(data.talent_start_date),
+                            "dd MMMM yyyy"
+                          )}
+                        </div>
+                        <div>
+                          {format(
+                            new Date(data.talent_end_date),
+                            "dd MMMM yyyy"
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell className=" text-center">
+                        {data.talent_trainer}
+                      </TableCell>
+                      <TableCell className=" text-center">
+                        {data.talent_status}
+                      </TableCell>
                       <TableCell className=" text-center">
                         <button
                           id="demo-customized-button"

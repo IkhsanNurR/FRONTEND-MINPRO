@@ -1,6 +1,6 @@
 import apiMethod from '../../../api/bootcampSchema/apiMethod'
 import {call, put} from 'redux-saga/effects'
-import { resApplyBootcamp, resCloseBootcamp, resCreateBootcamp, resDeleteBootcamp, resEditBootcamp, resExtendBootcamp, resGetBootcamp, resGetBootcampById, resGetBootcampDaftarApply, resGetBootcampIndex, resPendingBootcamp, resSetToRunningBootcamp } from '../action/actionReducer'
+import { resApplyBatch, resCloseBootcamp, resCreateBootcamp, resDeleteBootcamp, resEditBootcamp, resExtendBootcamp, resGetBootcamp, resGetBootcampById, resGetBootcampDaftarApply, resGetBootcampIndex, resPendingBootcamp, resSetToRunningBootcamp } from '../action/actionReducer'
 
 
 export function * handleGetBootcamp():any{
@@ -30,12 +30,13 @@ export function * handleCreateBootcamp(action:any):any{
         yield put(resCreateBootcamp({message: error, status: 404}))
     }
 }
-export function * handleApplyBootcamp(action:any):any{
+export function * handleApplyBatch(action:any):any{
     try {
-        const result = yield call(apiMethod.createApplyBootcamp, action.payload)
-        yield put(resApplyBootcamp(result.data))
+        const result = yield call(apiMethod.createApplyBatch, action.payload)
+        console.log('saga', result)
+        yield put(resApplyBatch(result.data))
     } catch (error) {
-        yield put(resApplyBootcamp({message: error, status: 404}))
+        yield put(resApplyBatch({message: error, status: 404}))
     }
 }
 

@@ -35,15 +35,15 @@ export const resCreateBootcamp = (payload:any) => {
         payload
     }
 }
-export const reqApplyBootcamp = (payload:any) => {
+export const reqApplyBatch = (payload:any) => {
     return{
-        type : ActionType.REQ_APPLY_BOOTCAMP,
+        type : ActionType.REQ_GET_APPLY_BATCH,
         payload
     }
 }
-export const resApplyBootcamp = (payload:any) => {
+export const resApplyBatch = (payload:any) => {
     return{
-        type : ActionType.RES_APPLY_BOOTCAMP,
+        type : ActionType.RES_GET_APPLY_BATCH,
         payload
     }
 }
