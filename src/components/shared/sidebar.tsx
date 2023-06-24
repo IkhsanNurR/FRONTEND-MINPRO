@@ -1,42 +1,80 @@
 import { forwardRef, LegacyRef, useState } from "react";
 import Link from "next/link";
-import CottageIcon from "@mui/icons-material/Cottage";
 import PeopleIcon from "@mui/icons-material/People";
 import React, { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import * as jwt from "jsonwebtoken";
+import {
+  Assignment,
+  AssignmentIndRounded,
+  BusinessCenterRounded,
+  CottageRounded,
+  MenuBookRounded,
+  NoteAddRounded,
+  People,
+  SchoolRounded,
+} from "@mui/icons-material";
+import Logo from "../../../public/logo3.png";
+import Image from "next/image";
 
 const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
   const [role, setRole] = useState<RoleType | null>(null);
   const listMenu = [
-    { key: 1, to: "/app", path: "/", icon: <CottageIcon />, name: "Dashboard" },
+    {
+      key: 1,
+      to: "/app",
+      path: "/",
+      icon: <CottageRounded />,
+      name: "Dashboard",
+    },
     {
       key: 2,
-      to: "/app/master",
-      path: "master",
-      icon: <PeopleIcon />,
-      name: "Master",
+      to: "/app/candidat",
+      path: "candidate",
+      icon: <NoteAddRounded />,
+      name: "Candidate",
     },
     {
       key: 3,
-      to: "/app/users",
-      path: "users",
-      icon: <PeopleIcon />,
-      name: "Users",
-    },
-    {
-      key: 4,
       to: "/app/batch",
       path: "batch",
-      icon: <PeopleIcon />,
+      icon: <SchoolRounded />,
       name: "Batch",
     },
     {
+      key: 4,
+      to: "/app/talent",
+      path: "talent",
+      icon: <People />,
+      name: "Talents",
+    },
+    {
       key: 5,
-      to: "/app/bootcamp",
-      path: "bootcamp",
-      icon: <PeopleIcon />,
-      name: "Bootcamp",
+      to: "/app/curriculum",
+      path: "curriculum",
+      icon: <MenuBookRounded />,
+      name: "Curriculum",
+    },
+    {
+      key: 6,
+      to: "/app/assignment",
+      path: "assignment",
+      icon: <Assignment />,
+      name: "Assignment",
+    },
+    {
+      key: 7,
+      to: "/app/jobs",
+      path: "jobs",
+      icon: <BusinessCenterRounded />,
+      name: "Posting Hiring",
+    },
+    {
+      key: 8,
+      to: "/app/client",
+      path: "jobs",
+      icon: <AssignmentIndRounded />,
+      name: "Posting Client",
     },
   ];
 
@@ -64,9 +102,28 @@ const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
 
   //buat filter menu sesuai role
   const filterMenu = listMenu.filter((menu) => {
-    if (menu.path === "users" && role?.role !== "Trainer") {
+    if (
+      ["candidate", "batch", "curriculum"].includes(menu.path) &&
+      role?.role !== "Trainer"
+    ) {
       return false;
     }
+    if (
+      ["jobs", "client", "assignment"].includes(menu.path) &&
+      role?.role !== "Recruiter"
+    ) {
+      return false;
+    }
+    // if (menu.path === "candidate" && role?.role !== "Recruiter") {
+    //   return false;
+    // }
+    // if (menu.path === "talent" && role?.role !== "Trainer") {
+    //   return false;
+    // }
+
+    // if (menu.path === "jobs" && role?.role !== "Recruiter") {
+    //   return false;
+    // }
 
     //tambah disini
     // contoh
@@ -76,20 +133,16 @@ const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
 
     return true;
   });
-
+  console.log(filterMenu);
   return (
-    <div
-      ref={ref}
-      className="fixed mt-[58px] w-52 h-full bg-white shadow-sm z-30 "
-    >
-      <div className="flex flex-col mt-1 ">
+    <div ref={ref} className="fixed w-52 h-full bg-blue-500 shadow-sm z-30 ">
+      <Image src={Logo} alt="gambar-logo" className="pt-6 px-3" />
+
+      <div className="flex flex-col mt-8 ">
         {(filterMenu || []).map((mn) => (
           <Link href={`${mn.to}`} key={`${mn.key}`}>
-            <div
-              className={`text-black pl-6 py-2 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors hover:bg-blue-500 hover:text-white 
-              `}
-            >
-              <div className="mr-2">{mn.icon}</div>
+            <div className="text-white pl-6 py-2 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors hover:bg-white hover:text-blue-500">
+              <div className="mr-2 ">{mn.icon}</div>
               <div>
                 <p>{mn.name}</p>
               </div>

@@ -63,7 +63,7 @@ const Layout = ({ children }: any) => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <TopBar showNav={showNav} setShowNav={setShowNav} />
       <Slide direction="right" in={showNav} timeout={400} appear={false}>
         <SideBar />

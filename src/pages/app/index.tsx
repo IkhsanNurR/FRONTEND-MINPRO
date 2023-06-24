@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
 import { getCookie } from "cookies-next";
 import decodeTokenName from "@/helper/decodedTokenName";
+import Content from "@/components/shared/content";
 
 const Index: MyPage = () => {
   let { refresh } = useSelector((state: any) => state.userProfileReducers);
@@ -23,17 +24,11 @@ const Index: MyPage = () => {
 
   return (
     <>
-      <Content2
-        title="COBA"
-        fungsi1={() => null}
-        namafungsi1="TEST1"
-        fungsi2={() => null}
-        namafungsi2="TEST2"
-      >
+      <Content title="Dashboard">
         <div className="mt-16 -ml-6 ">
           <h1>Welcome back {name}</h1>
         </div>
-      </Content2>
+      </Content>
     </>
   );
 };

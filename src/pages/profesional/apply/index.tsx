@@ -99,11 +99,19 @@ const Index: MyPage = () => {
             <Form.Item name="HP">
               <Input size="small" placeholder="HP Number" />
             </Form.Item>
-            <Form.Item name="resume">
-              <Upload accept=".pdf">
-                <Button icon={<UploadOutlined />}>Choose File PDF</Button>
-              </Upload>
-            </Form.Item>
+            {users?.resume ? (
+              <>
+                <p>{users.resume[0].usme_filelink}</p>
+              </>
+            ) : (
+              <>
+                <Form.Item name="resume">
+                  <Upload accept=".pdf">
+                    <Button icon={<UploadOutlined />}>Choose File PDF</Button>
+                  </Upload>
+                </Form.Item>
+              </>
+            )}
             <Form.Item>
               <Button type="default" htmlType="reset" style={{ width: "50%" }}>
                 Cancel

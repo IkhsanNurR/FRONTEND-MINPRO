@@ -14,6 +14,7 @@ import EducationCard from "@/components/userSchema/education";
 import ExperiencesCard from "@/components/userSchema/experiences";
 import SkillsCard from "@/components/userSchema/skills";
 import showNotification from "@/helper/notification";
+import Content from "@/components/shared/content";
 
 const Index: MyPage = () => {
   const dispatch = useDispatch();
@@ -42,8 +43,10 @@ const Index: MyPage = () => {
   }, [msg]);
 
   return (
-    <Content2>
-      <Card title="Setting Profile">
+    <Content title="Setting Profile">
+      <Card
+      // title="Setting Profile"
+      >
         {/* <EditProfileCard />
         <EmailCard />
         <PhoneCard />
@@ -75,7 +78,7 @@ const Index: MyPage = () => {
           </Collapse.Panel>
         </Collapse>
       </Card>
-    </Content2>
+    </Content>
   );
 };
 
