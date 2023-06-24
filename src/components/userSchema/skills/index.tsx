@@ -4,15 +4,22 @@ import {
   PlusCircleOutlined,
 } from "@ant-design/icons";
 import { Button, Card, Empty, List, Modal } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Add from "./add";
 import { deleteSkill } from "@/redux/usersSchema/profile/action/actionReducer";
+import showNotification from "@/helper/notification";
 
 const Index: React.FC = () => {
-  let { users }: userProfile = useSelector(
+  let { users, msg }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
+
+  useEffect(() => {
+    if (msg) {
+      showNotification("success", msg);
+    }
+  }, []);
 
   const [modalAdd, setModalAdd] = useState<boolean>(false);
   const { confirm } = Modal;

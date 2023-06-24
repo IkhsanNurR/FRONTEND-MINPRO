@@ -114,6 +114,7 @@ const Index: MyPage = () => {
             </Form.Item>
           </div>
           <Form.Item
+            name="Image"
             valuePropName="fileList"
             getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
             rules={[
@@ -123,12 +124,7 @@ const Index: MyPage = () => {
               },
             ]}
           >
-            <Upload
-              name="avatar"
-              listType="picture-circle"
-              maxCount={1}
-              accept="image/*"
-            >
+            <Upload listType="picture-circle" maxCount={1} accept="image/*">
               <div>Photo</div>
             </Upload>
           </Form.Item>

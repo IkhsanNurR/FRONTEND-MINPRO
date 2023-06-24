@@ -16,6 +16,7 @@ const Index: React.FC = () => {
   let { users }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
+
   const [modalAdd, setModalAdd] = useState<boolean>(false);
   const [modalEdit, setModalEdit] = useState<boolean>(false);
   const [idEdit, setIdEdit] = useState<number>();

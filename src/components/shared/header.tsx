@@ -1,56 +1,156 @@
-import Image from "next/image";
-import logo from "../../../public/logo3.png";
 import {
-  Avatar,
-  Badge,
-  Box,
-  Breadcrumbs,
-  Divider,
-  IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import LockIcon from "@mui/icons-material/Lock";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import HomeIcon from "@mui/icons-material/Home";
-import { useEffect, useState } from "react";
-import React from "react";
-import { Logout, PersonAdd, Settings } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
+  FileOutlined,
+  LockOutlined,
+  PoweroffOutlined,
+  SolutionOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Avatar, Button, Dropdown, Form, Input, MenuProps, Modal } from "antd";
 import { CookieValueTypes, deleteCookie, getCookie } from "cookies-next";
-import { useSelector, useDispatch } from "react-redux";
-import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  GetByNameOrEmail,
+  changePassword,
+} from "@/redux/usersSchema/profile/action/actionReducer";
+import showNotification from "@/helper/notification";
 import decodeTokenName from "@/helper/decodedTokenName";
-import { UserOutlined } from "@ant-design/icons";
+import Image from "next/image";
+import decodeTokenRole from "@/helper/decodeTokenRole";
 
-const Header = (props: any) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+export const ModalChangePassword: React.FC<ModalAdd> = ({
+  open,
+  onCancel,
+  onSubmit,
+  id,
+}) => {
+  const [form] = Form.useForm();
+  const dispatch = useDispatch();
+
+  const handleCancel = () => {
+    onCancel();
+    form.resetFields();
+  };
+
+  const handleOk = async (values: any) => {
+    try {
+      await form.validateFields();
+      dispatch({ type: "RESET_STATE" });
+      dispatch(changePassword({ payload: values, id }));
+      onSubmit();
+      form.resetFields();
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
+  return (
+    <Modal
+      title="Change Password"
+      open={open}
+      onCancel={handleCancel}
+      footer={
+        <div>
+          <Button onClick={handleCancel}>Batal</Button>
+          <Button
+            onClick={() => form.submit()}
+            className="ant-btn ant-btn-primary"
+            style={{ backgroundColor: "#1890ff", borderColor: "#1890ff" }}
+          >
+            Simpan
+          </Button>
+        </div>
+      }
+    >
+      <Form
+        form={form}
+        layout="vertical"
+        autoComplete="off"
+        onFinish={handleOk}
+      >
+        <Form.Item
+          label="Current Password"
+          name="user_password"
+          rules={[
+            {
+              required: true,
+              message: "Please input current password",
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          label="New Password"
+          name="newPassword"
+          rules={[
+            {
+              required: true,
+              message: "Please input new password",
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          label="Re-type Password"
+          name="retypePassword"
+          rules={[
+            {
+              required: true,
+              message: "Please input new re-type password",
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
+};
+
+const Header: React.FC = () => {
   const [haveToken, setHaveToken] = useState<CookieValueTypes>("");
+  const [modalChangePassword, setModalChangePassword] =
+    useState<boolean>(false);
   const [name, setName] = useState<string | null>(null);
+  const [roleTalent, setRoleTalent] = useState(true);
+  const [roleKandidat, setRoleKandidat] = useState(true);
+  const [roleStudent, setRoleStudent] = useState(true);
+
+  const showModalChangePassword = () => {
+    setModalChangePassword(true);
+  };
+  const router = useRouter();
   const token = getCookie("token");
   const dispatch = useDispatch();
-  const router = useRouter();
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  useEffect(() => {
+    setHaveToken(token);
+  }, []);
+
+  const handleLogout = () => {
+    deleteCookie("token");
+    setHaveToken("");
+    router.push("/");
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handelSubmit = () => {
+    setModalChangePassword(!modalChangePassword);
   };
 
-  let { users, refresh }: userProfile = useSelector(
+  let { users, refresh, msg, status }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
 
   useEffect(() => {
-    setHaveToken(token);
-    const decode = decodeTokenName(haveToken);
+    const decode = decodeTokenName(token);
+    const role = decodeTokenRole(token);
+    setRoleTalent(role?.role === "Talent");
+    setRoleKandidat(role?.role === "Kandidat");
+    setRoleStudent(role?.role === "Student");
     setName(decode);
 
     if (name) {
@@ -58,132 +158,131 @@ const Header = (props: any) => {
     }
   }, [token, name, refresh]);
 
-  const handleLogout = () => {
-    deleteCookie("token");
-    setHaveToken("");
-    setAnchorEl(null);
-    router.push("/signin");
-  };
+  useEffect(() => {
+    if (status === 400) {
+      showNotification("error", msg);
+    } else if (status === 200) {
+      showNotification("success", msg);
+    }
+  }, [status]);
+
+  const itemsProfile: MenuProps["items"] = [
+    {
+      label: (
+        <>
+          <Button
+            className="flex"
+            onClick={showModalChangePassword}
+            type="link"
+          >
+            <LockOutlined className="pt-1" />
+            <span className="">Change Password</span>
+          </Button>
+        </>
+      ),
+      key: "0",
+    },
+    {
+      type: "divider",
+    },
+    {
+      label: (
+        <Button type="link" onClick={handleLogout}>
+          <PoweroffOutlined className="" />
+          <span>Sign Out</span>
+        </Button>
+      ),
+      key: "1",
+    },
+  ];
+
+  if (roleTalent || roleKandidat || roleStudent) {
+    itemsProfile.splice(
+      0,
+      0,
+      {
+        label: (
+          <Link href="/users/profile" className="flex">
+            <Button type="link">
+              <SolutionOutlined />
+              <span className="pl-1">Profile</span>
+            </Button>
+          </Link>
+        ),
+        key: "2",
+      },
+      {
+        label: (
+          <>
+            <Button className="flex" type="link">
+              <FileOutlined className="pt-1" />
+              <span>My Apply</span>
+            </Button>
+          </>
+        ),
+        key: "3",
+      }
+    );
+  } else {
+    itemsProfile.splice(0, 0, {
+      label: (
+        <Link href="/app/setting" className="flex">
+          <Button type="link">
+            <SolutionOutlined />
+            <span className="pl-1">Profile</span>
+          </Button>
+        </Link>
+      ),
+      key: "2",
+    });
+  }
 
   return (
-    <div className="bg-white w-full justify-between z-30 fixed">
-      <div className="grid-cols-2 flex h-14 mt-2">
-        <div className="items-start ml-7">
+    <div className="flex fixed w-screen bg-slate-100">
+      <div className="float-left">
+        <div className="flex p-3">
           <Image
-            src={logo}
-            alt="profile picture"
-            width={180} // Ubah sesuai kebutuhan Anda
-            height={80} // Sesuaikan dengan lebar gambar
+            src="/logo3.png"
+            alt="image logo"
+            width={100}
+            height={100}
+            quality={100}
           />
         </div>
-        <div className="items-end justify-end ml-auto mr-9 ">
-          <React.Fragment>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                textAlign: "center",
-              }}
-            >
-              <Tooltip title="Account settings">
-                <IconButton
-                  onClick={handleClick}
-                  size="small"
-                  sx={{ ml: 2 }}
-                  aria-controls={open ? "account-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                >
-                  <Avatar sx={{ width: 32, height: 32 }}>
-                    {users?.user_photo !== null ? (
-                      <Image
-                        src={process.env.imageUser + `/${users?.user_photo}`}
-                        alt="image profile"
-                        width={100}
-                        height={100}
-                        quality={100}
-                        style={{
-                          borderRadius: "50%",
-                        }}
-                      />
-                    ) : (
-                      <Avatar />
-                    )}
-                  </Avatar>
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Menu
-              anchorEl={anchorEl}
-              id="account-menu"
-              open={open}
-              onClose={handleClose}
-              onClick={handleClose}
-              PaperProps={{
-                elevation: 0,
-                sx: {
-                  overflow: "visible",
-                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                  mt: 1.5,
-                  "& .MuiAvatar-root": {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-                  "&:before": {
-                    content: '""',
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: "background.paper",
-                    transform: "translateY(-50%) rotate(45deg)",
-                    zIndex: 0,
-                  },
-                },
-              }}
-              transformOrigin={{ horizontal: "right", vertical: "top" }}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-            >
-              <Link href="/app/users/setting">
-                <MenuItem>
-                  <Avatar /> Profile
-                </MenuItem>
-              </Link>
-              <MenuItem onClick={handleClose}>
-                <LockIcon /> Change Passowrd
-              </MenuItem>
-              <Divider />
-
-              <MenuItem onClick={handleLogout}>
-                <ListItemIcon>
-                  <Logout fontSize="small" />
-                </ListItemIcon>
-                Logout
-              </MenuItem>
-            </Menu>
-          </React.Fragment>
-        </div>
       </div>
-      <Divider variant="fullWidth" className="mt-1" />
-      {/* <Breadcrumbs aria-label="breadcrumb" className="md:ml-8  mb-2 mt-4">
-        {pathObjects.length < 3 ? (
-          <div>
-            <HomeIcon fontSize="small" className="-mt-1 mr-1"/>
-            <Link underline="hover" color="inherit" href="/">
-              Home
-            </Link>
+      <div className="w-full sm:block">
+        <div className="bg-red-500 flex justify-center items-center"></div>
+      </div>
+      <div className="float-right p-2">
+        {haveToken ? (
+          <>
+            <Dropdown
+              menu={{ items: itemsProfile }}
+              trigger={["click"]}
+              className="cursor-pointer"
+            >
+              <Avatar icon={<UserOutlined />} className="icon" />
+            </Dropdown>
+            <ModalChangePassword
+              open={modalChangePassword}
+              onCancel={() => setModalChangePassword(!modalChangePassword)}
+              onSubmit={handelSubmit}
+              id={users?.user_entity_id}
+            />
+          </>
+        ) : (
+          <div className="flex">
+            <Button type="link">
+              <Link href="/signin">Sign in</Link>
+            </Button>
+            <Button type="link">
+              <Link href="/external/signup">
+                <span>Sign Up</span>
+              </Link>
+            </Button>
           </div>
-        ) : null}
-        {(pathObjects || []).map((mn: any) => (
-          <Link underline="hover" color="inherit" href={mn.path}>
-            {mn.route}
-          </Link>
-        ))}
-      </Breadcrumbs> */}
+        )}
+      </div>
     </div>
   );
 };

@@ -20,6 +20,7 @@ const Index: MyPage = () => {
   const onFinish = async (values: any) => {
     try {
       await form.validateFields();
+      dispatch({ type: "RESET_STATE" });
       dispatch(Login(values));
       form.resetFields();
     } catch (error: any) {
@@ -39,7 +40,10 @@ const Index: MyPage = () => {
     } else if (
       decode?.role === "Admin" ||
       decode?.role === "Trainee" ||
-      decode?.role === "Employee"
+      decode?.role === "Employee" ||
+      decode?.role === "Trainer" ||
+      decode?.role === "Instructor" ||
+      decode?.role === "Recruiter"
     ) {
       router.push("/app");
     }
@@ -97,7 +101,6 @@ const Index: MyPage = () => {
                 >
                   <Input />
                 </Form.Item>
-
                 <Form.Item
                   label="Password"
                   name="password"
@@ -111,7 +114,7 @@ const Index: MyPage = () => {
                   <Input.Password />
                 </Form.Item>
 
-                <Form.Item>
+                {/* <Form.Item>
                   <Checkbox className="float-left">Remember Me</Checkbox>
                   <Link
                     href="#"
@@ -119,7 +122,7 @@ const Index: MyPage = () => {
                   >
                     Forgot your password ?
                   </Link>
-                </Form.Item>
+                </Form.Item> */}
                 <Form.Item wrapperCol={{ offset: 10, span: 14 }}>
                   <Button
                     type="primary"

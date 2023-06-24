@@ -21,7 +21,6 @@ const FormEdit: React.FC<FormEdit> = ({ onChange, fields, form, onFinish }) => {
       onFieldsChange={(_, allFields) => {
         onChange(allFields);
       }}
-      encType="multipart/form-data"
       onFinish={onFinish}
     >
       <div className="flex gap-10">
@@ -127,7 +126,7 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
     },
   ]);
 
-  let { users, refresh, msg, status }: userProfile = useSelector(
+  let { users, refresh }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
 
@@ -199,14 +198,6 @@ const Index: React.FC<ModalEdit> = ({ open, onCancel, onSubmit }) => {
       console.log(error.message);
     }
   };
-
-  useEffect(() => {
-    if (msg && status === 400) {
-      showNotification("error", msg);
-    } else if (msg && status === 200) {
-      showNotification("success", msg);
-    }
-  }, [refresh]);
 
   return (
     <Modal

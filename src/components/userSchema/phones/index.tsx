@@ -12,6 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { deletePhone } from "@/redux/usersSchema/profile/action/actionReducer";
 
 const Index: React.FC = () => {
+  let { users }: userProfile = useSelector(
+    (state: any) => state.userProfileReducers
+  );
+
   const [modalAddPhone, setModalAddPhone] = useState<boolean>(false);
   const [modalEditPhone, setModalEditPhone] = useState<boolean>(false);
   const [phoneNumber, setPhoneNumber] = useState<string>();
@@ -37,10 +41,6 @@ const Index: React.FC = () => {
   const handleCancelEditPhone = () => {
     setModalEditPhone(!modalEditPhone);
   };
-
-  let { users }: userProfile = useSelector(
-    (state: any) => state.userProfileReducers
-  );
 
   const showModalEditPhone = (phoneNumber: string) => {
     setModalEditPhone(!modalEditPhone);

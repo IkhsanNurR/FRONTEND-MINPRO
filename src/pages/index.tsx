@@ -6,11 +6,7 @@ const Home: MyPage = () => {
   const handleNotification = () => {
     showNotification("error", "Info message");
   };
-  return (
-    <div>
-      <Button onClick={handleNotification}>Open Notification</Button>
-    </div>
-  );
+  return <Button onClick={handleNotification}>Open Notification</Button>;
 };
 
 Home.Layout = "User";

@@ -54,6 +54,8 @@ const UserProfileActionType = {
 
     APPLYJOB: "APPLYJOB",
     APPLYJOB_RESPONSE: "APPLYJOB_RESPONSE",
+
+    RESET_STATE: "RESET_STATE",
 }
 
 export default UserProfileActionType

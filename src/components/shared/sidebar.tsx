@@ -2,7 +2,6 @@ import { forwardRef, LegacyRef, useState } from "react";
 import Link from "next/link";
 import CottageIcon from "@mui/icons-material/Cottage";
 import PeopleIcon from "@mui/icons-material/People";
-import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import * as jwt from "jsonwebtoken";
@@ -53,7 +52,10 @@ const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
             | "Kandidat"
             | "Talent"
             | "Trainee"
-            | "Student",
+            | "Student"
+            | "Instructor"
+            | "Recruiter"
+            | "Trainer",
         };
         setRole(decodeRole);
       }
@@ -62,7 +64,7 @@ const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
 
   //buat filter menu sesuai role
   const filterMenu = listMenu.filter((menu) => {
-    if (menu.path === "users" && role?.role !== "Admin") {
+    if (menu.path === "users" && role?.role !== "Trainer") {
       return false;
     }
 

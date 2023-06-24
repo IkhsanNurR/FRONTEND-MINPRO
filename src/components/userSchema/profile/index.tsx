@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EditOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Card, Image } from "antd";
 import EditProfile from "./Edit";
 import { useSelector } from "react-redux";
+import showNotification from "@/helper/notification";
 
 const Index: React.FC = () => {
   let { users }: userProfile = useSelector(

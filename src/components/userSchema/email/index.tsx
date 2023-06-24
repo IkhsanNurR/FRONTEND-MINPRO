@@ -4,8 +4,8 @@ import {
   ExclamationCircleFilled,
   PlusCircleOutlined,
 } from "@ant-design/icons";
-import { Button, Card, List, Modal, message } from "antd";
-import React, { useEffect, useState } from "react";
+import { Button, Card, List, Modal } from "antd";
+import React, { useState } from "react";
 import Add from "./Add";
 import Edit from "./Edit";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,14 +15,13 @@ const Index: React.FC = () => {
   let { users }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
+  const dispatch = useDispatch();
 
   const lengthEmail: boolean = (users?.pmail_address?.length ?? 0) > 1;
-
   const [modalAddEmail, setModalAddEmail] = useState<boolean>(false);
   const [modalEditEmail, setModalEditEmail] = useState<boolean>(false);
   const [idEditEmail, setIdEditEmail] = useState<number>();
   const { confirm } = Modal;
-  const dispatch = useDispatch();
 
   const showModalAddEmail = () => {
     setModalAddEmail(!modalAddEmail);

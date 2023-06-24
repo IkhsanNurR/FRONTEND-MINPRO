@@ -1,7 +1,8 @@
+import showNotification from "@/helper/notification";
 import { addEmail } from "@/redux/usersSchema/profile/action/actionReducer";
 import { Button, Form, Input, Modal } from "antd";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
   const [form] = Form.useForm();

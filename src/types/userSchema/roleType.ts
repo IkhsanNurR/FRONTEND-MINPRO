@@ -1,3 +1,3 @@
 interface RoleType {
-    role: "Admin" | "Employee" | "Kandidat" | "Talent" | "Trainee" | "Student";
+    role: "Admin" | "Employee" | "Kandidat" | "Talent" | "Trainee" | "Student" | "Instructor" | "Recruiter" | "Trainer";
 }
