@@ -199,6 +199,7 @@ const Bootcamp: MyPage = () => {
     }
   };
 
+  console.log('selected', selected)
   const router = useRouter();
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>, data: any) => {
@@ -416,7 +417,8 @@ const Bootcamp: MyPage = () => {
                           disableRipple
                           // disabled = {selected.batch_status === 'closed' || selected.batch_status === 'cancelled' || selected.batch_status === 'open' || selected.batch_status === 'pending'}
                           disabled={
-                            selected.batch_status !== "extend" &&
+                            selected.batch_status !== "extend" 
+                            &&
                             selected.batch_status !== "running"
                           }
                         >
@@ -481,7 +483,7 @@ const Bootcamp: MyPage = () => {
                               },
                             })
                           }
-                          disabled={selected.batch_status !== "closed"}
+                          disabled={selected.batch_status !== "running" && selected.batch_status !== "extend"}
                           disableRipple
                         >
                           <GradingRounded />

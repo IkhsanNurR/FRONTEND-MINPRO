@@ -52,6 +52,7 @@ const newBatch: MyPage = (props: any) => {
   const dispatch = useDispatch();
 
   const [checked, setChecked] = useState<number[]>([]);
+  console.log('data check', daftarapply)
   //ceklist user
   const cekUser = (index: number) => {
     if (checked.includes(index)) {

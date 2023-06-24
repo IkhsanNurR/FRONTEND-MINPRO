@@ -89,7 +89,7 @@ const Apply: MyPage = () => {
 
       // data.append()
       dispatch(reqApplyBatch(data));
-
+      router.push('/bootcamp/confirm')
       // router.back()
     } else {
       alert.notifyFailed(

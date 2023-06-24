@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 
 export const DefaultModal = ({ data, close }: any) => {
   // console.log('close',close)
+  console.log('data apply',data)
 
   const {
     register,
@@ -299,11 +300,6 @@ export const ContractModal = ({ data, close }: any) => {
 
 
 
-
-
-
-
-
 export const DisqualifiedModal = ({ data, close }: any) => {
   // console.log('close',close)
 
@@ -374,8 +370,11 @@ export const DisqualifiedModal = ({ data, close }: any) => {
     </>
   );
 };
+
+
 export const NotrespondingModal = ({ data, close }: any) => {
   // console.log('close',close)
+  console.log('data props', data)
 
   const {
     register,

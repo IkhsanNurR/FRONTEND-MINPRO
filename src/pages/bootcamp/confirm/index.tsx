@@ -42,7 +42,7 @@ const ConfirmApplyBootcamp: MyPage = () => {
           <p className="text-center">
             Terimakasih sudah apply untuk mengikuti bootcamp reguler bersama
             CodexAcademy, silahkan check email untuk step berikutnya. Click{" "}
-            <a href="/" className="text-blue-500 underline">
+            <a href="/bootcamp" className="text-blue-500 underline">
               Home
             </a>{" "}
             untuk kembali.
