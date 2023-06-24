@@ -1,10 +1,11 @@
 import React, { PropsWithChildren } from "react";
+import Header from "./header";
 
 const UserLayout = ({ children }: PropsWithChildren) => {
   return (
     <>
-      <h1>TOpbar</h1>
-      {children}
+      <Header />
+      <main className="p-10">{children}</main>
     </>
   );
 };

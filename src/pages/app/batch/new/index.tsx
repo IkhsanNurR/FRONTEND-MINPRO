@@ -23,9 +23,8 @@ import { format } from "date-fns";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import { MyPage } from "@/components/types";
 
-const NewBatch:MyPage = () => {
+const NewBatch = () => {
   const router = useRouter();
   const [checked, setChecked] = useState<number[]>([]);
 
@@ -617,5 +616,4 @@ const NewBatch:MyPage = () => {
   );
 };
 
-NewBatch.Layout="Admin"
 export default NewBatch;

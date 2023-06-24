@@ -2,19 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-}
+} */
 
-
-.hamburger{
+.hamburger {
   display: none;
 }
 
 @media only screen and (max-width: 640px) {
-  .hamburger{
+  .hamburger {
     display: inline-block;
   }
 }
@@ -37,7 +36,6 @@ body {
     rgb(var(--background-start-rgb)); */
 }
 
-
-.transisi{
-  @apply transition duration-200 ease-in-out
+.transisi {
+  @apply transition duration-200 ease-in-out;
 }
