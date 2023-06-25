@@ -35,7 +35,7 @@ import {
   reqGetTrainer,
 } from "@/redux/bootcampSchema/action/actionReducer";
 
-const EditBatch: MyPage = (props: any) => {
+const EditBatch: MyPage = () => {
   //reducer
   let { bootcamp, message, refresh, status } = useSelector(
     (state: any) => state.bootcampReducer

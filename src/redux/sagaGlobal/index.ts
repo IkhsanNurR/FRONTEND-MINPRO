@@ -39,8 +39,8 @@ import addreetypeActionType from "../masterSchema/addresstype/action/actionType"
 import { handleGetAddressType } from "../masterSchema/addresstype/saga";
 import skillTypeActionType from "../masterSchema/skillType/action/actionType";
 import { handleGetSkillType } from "../masterSchema/skillType/saga";
-import jobhireActionType from "../jobhireSchema/action/actionType";
-import { handleGetAllJob } from "../jobhireSchema/saga";
+import jobhireActionType from "../jobhireSchema/jobHireSchema/action/actionType";
+import masterJobHireActionType from "../jobhireSchema/master-jobhireSchema/action/actionType";
 import ActionType from "../bootcampSchema/action/actionType";
 import {
   handleApplyBatch,
@@ -76,6 +76,35 @@ import {
   handleUpdateCandidatNotResponding,
 } from "../bootcampSchema/saga/candidatSaga";
 import { handleGetTalent } from "../bootcampSchema/saga/talentSaga";
+import {
+  handleAddJobPost,
+  handleDeleteJobPost,
+  handleGetAllJobPost,
+  handleGetCurnumber,
+  handleGetJobPostById,
+  handleGetSearchJobPost,
+  handleUpdateJobPost,
+  handleUpdateStatus,
+} from "../jobhireSchema/jobHireSchema/saga/jobPostSaga";
+import {
+  handleGetAllClient,
+  handleGetClientById,
+  handleAddClient,
+  handleUpdateClient,
+  handleDeleteClient,
+} from "../jobhireSchema/jobHireSchema/saga/clientSaga";
+import { handleGetEmprange } from "../jobhireSchema/jobHireSchema/saga/empRangeSaga";
+import { handleGetPhoto } from "../jobhireSchema/jobHireSchema/saga/photoSaga";
+import {
+  handleGetProCandidate,
+  handleUpdateCandidate,
+} from "../jobhireSchema/jobHireSchema/saga/talentSaga";
+import { handleGetEducationJobHire } from "../jobhireSchema/master-jobhireSchema/saga/educationSaga";
+import { handleGetWorktypeJobHire } from "../jobhireSchema/master-jobhireSchema/saga/worktypeSaga";
+import { handleGetJobroleJobHire } from "../jobhireSchema/master-jobhireSchema/saga/jobroleSaga";
+import { handleGetIndustryJobHire } from "../jobhireSchema/master-jobhireSchema/saga/industrySaga";
+import { handleGetRoacJobHire } from "../jobhireSchema/master-jobhireSchema/saga/routeactionSaga";
+import { handleGetCityJobHire } from "../jobhireSchema/master-jobhireSchema/saga/citySaga";
 
 function* watchAll() {
   yield all([
@@ -123,7 +152,43 @@ function* watchAll() {
     takeEvery(skillTypeActionType.GET_SKILLTYPE, handleGetSkillType),
 
     //job-hire
-    takeEvery(jobhireActionType.GETJOB, handleGetAllJob),
+    takeEvery(jobhireActionType.REQ_GET_JOBPOST, handleGetAllJobPost),
+    takeEvery(jobhireActionType.REQ_GET_CURNUMBER, handleGetCurnumber),
+    takeEvery(jobhireActionType.REQ_ADD_JOBPOST, handleAddJobPost),
+    takeEvery(jobhireActionType.REQ_UPDATE_JOBPOST, handleUpdateJobPost),
+    takeEvery(jobhireActionType.REQ_DELETE_JOBPOST, handleDeleteJobPost),
+    takeEvery(jobhireActionType.REQ_GET_JOBPOST_BY_ID, handleGetJobPostById),
+    takeEvery(jobhireActionType.REQ_UPDATE_STATUS, handleUpdateStatus),
+    takeEvery(jobhireActionType.REQ_SEARCH_JOBPOST, handleGetSearchJobPost),
+
+    takeEvery(jobhireActionType.REQ_GET_EMPRANGE, handleGetEmprange),
+    takeEvery(jobhireActionType.REQ_GET_JOBPHOTO, handleGetPhoto),
+
+    takeEvery(jobhireActionType.REQ_GET_CANDIDATE, handleGetProCandidate),
+    takeEvery(jobhireActionType.REQ_UPDATE_CANDIDATE, handleUpdateCandidate),
+
+    takeEvery(jobhireActionType.REQ_GET_CLIENT, handleGetAllClient),
+    takeEvery(jobhireActionType.REQ_GET_CLIENT_BY_ID, handleGetClientById),
+    takeEvery(jobhireActionType.REQ_ADD_CLIENT, handleAddClient),
+    takeEvery(jobhireActionType.REQ_UPDATE_CLIENT, handleUpdateClient),
+    takeEvery(jobhireActionType.REQ_DELETE_CLIENT, handleDeleteClient),
+
+    takeEvery(
+      masterJobHireActionType.REQ_GET_EDUCATION,
+      handleGetEducationJobHire
+    ),
+    takeEvery(
+      masterJobHireActionType.REQ_GET_WORKTYPE,
+      handleGetWorktypeJobHire
+    ),
+    takeEvery(masterJobHireActionType.REQ_GET_JOBROLE, handleGetJobroleJobHire),
+    takeEvery(
+      masterJobHireActionType.REQ_GET_INDUSTRY,
+      handleGetIndustryJobHire
+    ),
+    takeEvery(masterJobHireActionType.REQ_GET_CITY, handleGetCityJobHire),
+
+    takeEvery(masterJobHireActionType.REQ_GET_ROAC, handleGetRoacJobHire),
 
     //MODULE BOOTCAMP========================================================
     takeEvery(ActionType.REQ_GET_BOOTCAMP, handleGetBootcamp),

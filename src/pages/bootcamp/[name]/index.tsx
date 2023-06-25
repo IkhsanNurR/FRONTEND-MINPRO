@@ -172,11 +172,11 @@ const DetailCurriculum: MyPage = (props: any) => {
   const handleApply = () => {
     if (!haveToken) {
       openNotificationWithIcon("error", "Silahkan Login");
-      setTimeout(() => {
-        router.push({
-          pathname: "/signin",
-        });
-      }, 2000);
+      // setTimeout(() => {
+      //   router.push({
+      //     pathname: "/signin",
+      //   });
+      // }, 2000);
     } else if (haveToken && completeness !== 100) {
       console.log("Ga 100");
       openNotificationWithIcon(
@@ -188,6 +188,10 @@ const DetailCurriculum: MyPage = (props: any) => {
       router.push("/bootcamp/apply");
     }
   };
+
+  useEffect(() => {
+    handleApply();
+  }, []);
 
   const router = useRouter();
   const a = router.query.name;
@@ -213,6 +217,7 @@ const DetailCurriculum: MyPage = (props: any) => {
             <h1 className="capitalize">{a}</h1>
           </div>
           <div className="">
+            {contextHolder}
             <h1 className="text-base w-8/12 text-justify">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo
               obcaecati quasi aliquid suscipit ratione accusantium ipsam ad

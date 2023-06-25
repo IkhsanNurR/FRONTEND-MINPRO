@@ -8,7 +8,6 @@ import pontycodeReducers from "../usersSchema/pontycode/reducer/pontycodeReducer
 import cityReducers from "../masterSchema/city/reducer/cityReducer";
 import addreetypeReducers from "../masterSchema/addresstype/reducer/addresstypeReducer";
 import skilltypeReducers from "../masterSchema/skillType/reducer/skilltypeReducer";
-import jobReducers from "../jobhireSchema/reducer/jobReducer";
 import talentReducer from "../bootcampSchema/reducer/talentReducer";
 import evaluationReducer from "../bootcampSchema/reducer/evaluationReducer";
 import candidateNotRespondingReducer from "../bootcampSchema/reducer/candidatNotResponding";
@@ -22,6 +21,18 @@ import orangApplyReducer from "../bootcampSchema/reducer/orangApplyReducer";
 import prognameReducer from "../bootcampSchema/reducer/prognameReducer";
 import bootcampReducer from "../bootcampSchema/reducer/bootcampReducer";
 
+import ClientReducers from "../jobhireSchema/jobHireSchema/reducer/clientReducer";
+import EmprangeReducers from "../jobhireSchema/jobHireSchema/reducer/empRangeReducer";
+import JobPhotoReducers from "../jobhireSchema/jobHireSchema/reducer/jobPhotoReducer";
+import JobPostReducers from "../jobhireSchema/jobHireSchema/reducer/jobPostReducer";
+import TalentReducers from "../jobhireSchema/jobHireSchema/reducer/talentReducer";
+import CityReducers from "../jobhireSchema/master-jobhireSchema/reducer/cityReducer";
+import EducationReducers from "../jobhireSchema/master-jobhireSchema/reducer/educationReducer";
+import IndustryReducers from "../jobhireSchema/master-jobhireSchema/reducer/industryReducer";
+import JobroleReducers from "../jobhireSchema/master-jobhireSchema/reducer/jobroleReducer";
+import RouteactionReducers from "../jobhireSchema/master-jobhireSchema/reducer/routeactionReducer";
+import WorktypeReducers from "../jobhireSchema/master-jobhireSchema/reducer/worktypeReducer";
+
 const logger = createLogger();
 const saga = createSagaMiddleware();
 const reducer = combineReducers({
@@ -31,7 +42,6 @@ const reducer = combineReducers({
   cityReducers,
   addreetypeReducers,
   skilltypeReducers,
-  jobReducers,
   bootcampReducer,
   prognameReducer,
   orangApplyReducer,
@@ -44,6 +54,19 @@ const reducer = combineReducers({
   traineeReducer,
   evaluationReducer,
   talentReducer,
+
+  //jobhire
+  CityReducers,
+  JobPostReducers,
+  ClientReducers,
+  TalentReducers,
+  EducationReducers,
+  WorktypeReducers,
+  JobroleReducers,
+  IndustryReducers,
+  EmprangeReducers,
+  JobPhotoReducers,
+  RouteactionReducers,
 });
 
 const store = configureStore({

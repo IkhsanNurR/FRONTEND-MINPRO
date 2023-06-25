@@ -1,6 +1,6 @@
 import { MyPage } from "@/components/types";
 import decodeTokenName from "@/helper/decodedTokenName";
-import { getJob } from "@/redux/jobhireSchema/action/actionReducer";
+import { getJob } from "@/redux/jobhireSchema/jobHireSchema/action/actionReducer";
 import {
   GetByNameOrEmail,
   applyJob,
