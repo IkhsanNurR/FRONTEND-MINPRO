@@ -4,5 +4,5 @@ interface skilltypeDetail {
 
 interface SkillType {
   skillType: skilltypeDetail[] | undefined;
-  refresh: boolean;
+  refreshSkillType?: boolean;
 }

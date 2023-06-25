@@ -33,12 +33,8 @@ import {
 } from "../usersSchema/profile/saga";
 import pontyCodeActionType from "../usersSchema/pontycode/action/actionType";
 import { handleGetPontycode } from "../usersSchema/pontycode/saga";
-import cityActionType from "../masterSchema/city/action/actionType";
-import { handleGetCity } from "../masterSchema/city/saga";
-import addreetypeActionType from "../masterSchema/addresstype/action/actionType";
-import { handleGetAddressType } from "../masterSchema/addresstype/saga";
-import skillTypeActionType from "../masterSchema/skillType/action/actionType";
-import { handleGetSkillType } from "../masterSchema/skillType/saga";
+// import { handleGetCity } from "../masterSchema/city/saga";
+// import { handleGetSkillType } from "../masterSchema/skillType/saga";
 import jobhireActionType from "../jobhireSchema/jobHireSchema/action/actionType";
 import masterJobHireActionType from "../jobhireSchema/master-jobhireSchema/action/actionType";
 import ActionType from "../bootcampSchema/action/actionType";
@@ -105,6 +101,62 @@ import { handleGetJobroleJobHire } from "../jobhireSchema/master-jobhireSchema/s
 import { handleGetIndustryJobHire } from "../jobhireSchema/master-jobhireSchema/saga/industrySaga";
 import { handleGetRoacJobHire } from "../jobhireSchema/master-jobhireSchema/saga/routeactionSaga";
 import { handleGetCityJobHire } from "../jobhireSchema/master-jobhireSchema/saga/citySaga";
+import ActionTypes from "../MasterBaruSchema/actions/actionType";
+import {
+  handleCreateCat,
+  handleDelCat,
+  handleGetCat,
+  handleupdateCat,
+} from "../MasterBaruSchema/saga/catSaga";
+import {
+  handleCreateSkillType,
+  handleDelSkillType,
+  handleGeSkillType,
+  handleUpdateSkillType,
+} from "../MasterBaruSchema/saga/skillType";
+import {
+  handleCreateSkillTemplete,
+  handleDelSkillTemplete,
+  handleGetSkillTemplete,
+  handleUpdateSkillTemplete,
+} from "../MasterBaruSchema/saga/skillTempeleteSaga";
+import {
+  handleCreateModule,
+  handleDelModule,
+  handleGetModule,
+  handleUpdateModule,
+} from "../MasterBaruSchema/saga/modulesSaga";
+import {
+  handleCreateAddressType,
+  handleDelAddressType,
+  handleGetAddressType,
+  handleUpdateAddressType,
+} from "../MasterBaruSchema/saga/addressTypeSaga";
+import {
+  handleCreateRouteActions,
+  handleDelRouteActions,
+  handleGetRouteActions,
+  handleUpdateDisplayRouteActions,
+  handleUpdateRouteActions,
+} from "../MasterBaruSchema/saga/routeActionsReduce";
+import {
+  handleCreateCountry,
+  handleDelCountry,
+  handleGetCountry,
+  handleUpdateCountry,
+} from "../MasterBaruSchema/saga/countrySaga";
+import {
+  handleCreateProv,
+  handleDelProv,
+  handleGetProv,
+  handleUpdateProv,
+} from "../MasterBaruSchema/saga/provSaga";
+import {
+  handleCreateCity,
+  handleDelCity,
+  handleGetCity,
+  handleUpdateCity,
+} from "../MasterBaruSchema/saga/citySaga";
 
 function* watchAll() {
   yield all([
@@ -145,11 +197,6 @@ function* watchAll() {
     takeEvery(UserProfileActionType.DELETERESUME, handleDeleteResume),
 
     takeEvery(UserProfileActionType.APPLYJOB, handleApplyJob),
-
-    //MASTER
-    takeEvery(cityActionType.GET_CITY, handleGetCity),
-    takeEvery(addreetypeActionType.GET_ADDRESSTYPE, handleGetAddressType),
-    takeEvery(skillTypeActionType.GET_SKILLTYPE, handleGetSkillType),
 
     //job-hire
     takeEvery(jobhireActionType.REQ_GET_JOBPOST, handleGetAllJobPost),
@@ -253,6 +300,57 @@ function* watchAll() {
 
     //talent
     takeEvery(ActionType.REQ_GET_TALENT, handleGetTalent),
+
+    //===================================================
+
+    //master
+    takeEvery(ActionTypes.GET_CAT, handleGetCat),
+    takeEvery(ActionTypes.SKILL_TYPE, handleGeSkillType),
+    takeEvery(ActionTypes.UPDATE_CAT, handleupdateCat),
+    takeEvery(ActionTypes.DELETE_CAT, handleDelCat),
+    takeEvery(ActionTypes.CREATE_CAT, handleCreateCat),
+    takeEvery(ActionTypes.CREATE_SKILLTYPE, handleCreateSkillType),
+    takeEvery(ActionTypes.DELETE_SKILLTYPE, handleDelSkillType),
+    takeEvery(ActionTypes.UPDATE_SKILLTYPE, handleUpdateSkillType),
+
+    takeEvery(ActionTypes.SKILL_TEMPLETE, handleGetSkillTemplete),
+    takeEvery(ActionTypes.DEL_SKILL_TEMPLETE, handleDelSkillTemplete),
+    takeEvery(ActionTypes.CREATE_SKILL_TEMPLETE, handleCreateSkillTemplete),
+    takeEvery(ActionTypes.UPDATE_SKILL_TEMPLETE, handleUpdateSkillTemplete),
+
+    takeEvery(ActionTypes.GET_MODULE, handleGetModule),
+    takeEvery(ActionTypes.CREATE_MODULE, handleCreateModule),
+    takeEvery(ActionTypes.DEL_MODULE, handleDelModule),
+    takeEvery(ActionTypes.UPDATE_MODULE, handleUpdateModule),
+
+    takeEvery(ActionTypes.GET_ADDRESSTYPE, handleGetAddressType),
+    takeEvery(ActionTypes.CREATE_ADDTYPE, handleCreateAddressType),
+    takeEvery(ActionTypes.DEL_ADDTYPE, handleDelAddressType),
+    takeEvery(ActionTypes.UPDATE_ADDTYPE, handleUpdateAddressType),
+
+    takeEvery(ActionTypes.GET_ROUTE_ACTIONS, handleGetRouteActions),
+    takeEvery(ActionTypes.DEL_ROUTE_ACTIONS, handleDelRouteActions),
+    takeEvery(ActionTypes.CREATE_ROUTE_ACTIONS, handleCreateRouteActions),
+    takeEvery(ActionTypes.UPDATE_ROUTE_ACTIONS, handleUpdateRouteActions),
+    takeEvery(
+      ActionTypes.UPDATE_DISPLAY_ROUTE_ACTIONS,
+      handleUpdateDisplayRouteActions
+    ),
+
+    takeEvery(ActionTypes.GET_COUNTRY, handleGetCountry),
+    takeEvery(ActionTypes.DEL_COUNTRY, handleDelCountry),
+    takeEvery(ActionTypes.CREATE_COUNTRY, handleCreateCountry),
+    takeEvery(ActionTypes.UPDATE_COUNTRY, handleUpdateCountry),
+
+    takeEvery(ActionTypes.GET_PROV, handleGetProv),
+    takeEvery(ActionTypes.DEL_PROV, handleDelProv),
+    takeEvery(ActionTypes.CREATE_PROV, handleCreateProv),
+    takeEvery(ActionTypes.UPDATE_PROV, handleUpdateProv),
+
+    takeEvery(ActionTypes.GET_CITY, handleGetCity),
+    takeEvery(ActionTypes.DEL_CITY, handleDelCity),
+    takeEvery(ActionTypes.CREATE_CITY, handleCreateCity),
+    takeEvery(ActionTypes.UPDATE_CITY, handleUpdateCity),
   ]);
 }
 

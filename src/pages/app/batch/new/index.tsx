@@ -159,7 +159,7 @@ const newBatch: MyPage = (props: any) => {
       console.log("gabungan", gabung);
       if (batch && batchTrainees && trainerPrograms.length >= 1) {
         dispatch(reqCreateBootcamp(gabung));
-        // router.back();
+        router.back();
       }
     }
   };

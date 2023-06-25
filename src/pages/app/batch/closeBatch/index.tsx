@@ -8,6 +8,7 @@ import { Divider, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { batch, useDispatch } from "react-redux";
 import { reqCloseBootcamp } from "@/redux/bootcampSchema/action/actionReducer";
+import alert from "@/alert";
 
 const style = {
   position: "absolute" as "absolute",
@@ -44,9 +45,14 @@ const CloseBatch = ({ open, handleClose, data }: any) => {
     const batch_name = data.batch_name;
 
     let members = data.members;
+    console.log("members", members);
+    const filteredData = members.filter(
+      (item: any) => item.status_trainee === "passed"
+    );
+
     let batchTrainees: any = [];
     {
-      members.map((e: any, i: any) => {
+      filteredData.map((e: any, i: any) => {
         const member: any = {
           talent_fullname: e.fullname,
           talent_user_entity_id: e.trainee_id,
@@ -57,16 +63,6 @@ const CloseBatch = ({ open, handleClose, data }: any) => {
           talent_skill: data.skills,
         };
         batchTrainees.push(member);
-
-        // const talent_fullname = e.fullname
-        // const talent_user_entity_id = e.trainee_id
-        // const talent_technology = data.technology
-        // const talent_start_date = data.batch_start_date
-        // const talent_end_date = data.batch_end_date
-        // const talent_trainer = data.trainer
-        // const talent_skill = data.skills
-        // const dataTalent = {talent_fullname, talent_user_entity_id, talent_technology, talent_start_date, talent_end_date, talent_trainer, talent_skill}
-        // member.push(dataTalent)
       });
     }
     const datakirim = {
@@ -75,17 +71,15 @@ const CloseBatch = ({ open, handleClose, data }: any) => {
       batchTrainees,
       batch_name,
     };
-    // console.log(datakirim)
-
-    // const gabung = {batch_id, batch_status, member}
-
-    // console.log('jadi',gabung)
-
-    // console.log(member)
-
-    // console.log("data", datakirim);
-    dispatch(reqCloseBootcamp(datakirim));
-    handleClose();
+    console.log("data", datakirim);
+    data.members.map((e: any, i: any) => {
+      if (e.status_trainee === "running") {
+        alert.notifyFailed(400, "Masih ada Trainee yang belum dinilai!");
+      } else {
+        dispatch(reqCloseBootcamp(datakirim));
+        handleClose();
+      }
+    });
   };
 
   return (

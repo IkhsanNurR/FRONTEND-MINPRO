@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Add from "./Add";
 import { deleteAddress } from "@/redux/usersSchema/profile/action/actionReducer";
 import Edit from "./Edit";
-import showNotification from "@/helper/notification";
 
 const Index: React.FC = () => {
   let { users }: userProfile = useSelector(

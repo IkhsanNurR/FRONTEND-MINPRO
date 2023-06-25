@@ -5,5 +5,5 @@ interface cityDetail {
 
 interface City {
   city: cityDetail[] | undefined;
-  refresh: boolean;
+  refreshCity: boolean;
 }

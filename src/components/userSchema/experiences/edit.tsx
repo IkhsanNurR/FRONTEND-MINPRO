@@ -1,18 +1,20 @@
-import { getCity } from "@/redux/masterSchema/city/action/actionReducer";
 import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TextEditor from "@/components/shared/textEditor";
 import dayjs from "dayjs";
 import { editExperience } from "@/redux/usersSchema/profile/action/actionReducer";
+import { reqGetCity } from "@/redux/MasterBaruSchema/actions/actionReducer";
 
 const FormEdit: React.FC<FormEdit> = ({ form, onChange, onFinish, fields }) => {
   const dispatch = useDispatch();
-  let { city, refresh }: City = useSelector((state: any) => state.cityReducers);
+  let { city, refreshCity }: City = useSelector(
+    (state: any) => state.cityReducer
+  );
 
   useEffect(() => {
-    dispatch(getCity());
-  }, [refresh]);
+    dispatch(reqGetCity());
+  }, [refreshCity]);
 
   return (
     <Form

@@ -1,4 +1,4 @@
-import { getSkillType } from "@/redux/masterSchema/skillType/action/actionReducer";
+import { reqSkillType } from "@/redux/MasterBaruSchema/actions/actionReducer";
 import { addSkill } from "@/redux/usersSchema/profile/action/actionReducer";
 import { Button, Form, Modal, Select } from "antd";
 import React, { useEffect } from "react";
@@ -8,8 +8,8 @@ const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
-  let { skillType, refresh }: SkillType = useSelector(
-    (state: any) => state.skilltypeReducers
+  let { skillType, refreshSkillType }: SkillType = useSelector(
+    (state: any) => state.skillTypeReducer
   );
 
   let { users }: userProfile = useSelector(
@@ -19,8 +19,8 @@ const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
   const skill = users?.skill?.map((item) => item.uski_skty_name);
 
   useEffect(() => {
-    dispatch(getSkillType());
-  }, [refresh]);
+    dispatch(reqSkillType());
+  }, [refreshSkillType]);
 
   const handleCancel = () => {
     onCancel();

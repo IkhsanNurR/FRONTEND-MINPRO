@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
-import { getCity } from "@/redux/masterSchema/city/action/actionReducer";
 import { addExperience } from "@/redux/usersSchema/profile/action/actionReducer";
 import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import TextEditor from "@/components/shared/textEditor";
+import { reqGetCity } from "@/redux/MasterBaruSchema/actions/actionReducer";
 
 const Add: React.FC<ModalAdd> = ({ open, onCancel, onSubmit, id }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  let { city, refresh }: City = useSelector((state: any) => state.cityReducers);
+  let { city, refreshCity }: City = useSelector(
+    (state: any) => state.cityReducer
+  );
 
   useEffect(() => {
-    dispatch(getCity());
-  }, [refresh]);
+    dispatch(reqGetCity());
+  }, [refreshCity]);
 
   const handleCancel = () => {
     onCancel();

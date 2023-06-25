@@ -104,6 +104,7 @@ const EvaluationBatch: MyPage = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  console.log("loaded", loadedData);
   const handleEvaluation = () => {
     // console.log(selected);
     setOpenEvaluationModal(true);
@@ -159,11 +160,15 @@ const EvaluationBatch: MyPage = () => {
                         <h1
                           className={`mt-2 ${
                             data.status_trainee == "resign"
-                              ? "bg-red-500"
+                              ? "bg-black"
                               : data.status_trainee == "selected"
                               ? "bg-blue-500"
                               : data.status_trainee == "passed"
                               ? "bg-green-500"
+                              : data.status_trainee == "running"
+                              ? "bg-amber-600"
+                              : data.status_trainee == "failed"
+                              ? "bg-red-500"
                               : ""
                           } rounded-xl w-full p-1 text-white`}
                         >

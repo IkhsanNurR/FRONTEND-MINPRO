@@ -187,7 +187,7 @@ export default function TopBar({ showNav, setShowNav }: any) {
             <div className="grid grid-cols-1">
               <h1 className="pl-3 lg:flex items-center">{name}</h1>
               <h1 className="pl-3 lg:flex items-center font-light text-sm italic">
-                {users.role_name}
+                {users?.role_name}
               </h1>
             </div>
             <ModalChangePassword

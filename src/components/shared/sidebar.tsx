@@ -16,9 +16,19 @@ import {
 } from "@mui/icons-material";
 import Logo from "../../../public/logo3.png";
 import Image from "next/image";
+import {
+  MdCategory,
+  MdLocationOn,
+  MdSportsMartialArts,
+  MdViewModule,
+} from "react-icons/md";
+import { useRouter } from "next/router";
 
 const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
   const [role, setRole] = useState<RoleType | null>(null);
+  // { to: '/skill', path: '/skill', icon: <MdSportsMartialArts />, name: 'Skill' },
+  // { to: '/modules', path: '/modules', icon: <MdViewModule />, name: 'Modules' },
+  // { to: '/locations', path: '/locations', icon: <MdLocationOn />, name: 'Locations' }
   const listMenu = [
     {
       key: 1,
@@ -76,6 +86,34 @@ const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
       icon: <AssignmentIndRounded />,
       name: "Posting Client",
     },
+    {
+      key: 9,
+      to: "/app/master/category",
+      path: "master",
+      icon: <MdCategory />,
+      name: "Category",
+    },
+    {
+      key: 10,
+      to: "/app/master/skill",
+      path: "master",
+      icon: <MdSportsMartialArts />,
+      name: "Skill",
+    },
+    {
+      key: 11,
+      to: "/app/master/modules",
+      path: "master",
+      icon: <MdViewModule />,
+      name: "Modules",
+    },
+    {
+      key: 12,
+      to: "/app/master/locations",
+      path: "master",
+      icon: <MdLocationOn />,
+      name: "Locations",
+    },
   ];
 
   useEffect(() => {
@@ -100,8 +138,18 @@ const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
     }
   }, []);
 
+  const router = useRouter();
   //buat filter menu sesuai role
   const filterMenu = listMenu.filter((menu) => {
+    //filter student
+    if (role?.role == "Student") {
+      router.push("/");
+    }
+    //filter admin
+    if (["master", "payment"].includes(menu.path) && role?.role !== "Admin") {
+      return false;
+    }
+
     if (
       ["candidate", "batch", "curriculum"].includes(menu.path) &&
       role?.role !== "Trainer"

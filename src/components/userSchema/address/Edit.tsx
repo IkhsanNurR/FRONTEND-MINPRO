@@ -1,5 +1,7 @@
-import { getAddressType } from "@/redux/masterSchema/addresstype/action/actionReducer";
-import { getCity } from "@/redux/masterSchema/city/action/actionReducer";
+import {
+  reqGetAdressType,
+  reqGetCity,
+} from "@/redux/MasterBaruSchema/actions/actionReducer";
 import { editAddress } from "@/redux/usersSchema/profile/action/actionReducer";
 import { Button, Form, Input, Modal, Select } from "antd";
 import React, { useEffect, useState } from "react";
@@ -7,16 +9,18 @@ import { useDispatch, useSelector } from "react-redux";
 
 const FormEdit: React.FC<FormEdit> = ({ form, onChange, fields, onFinish }) => {
   const dispatch = useDispatch();
-  let { city, refresh }: City = useSelector((state: any) => state.cityReducers);
+  let { city, refreshCity }: City = useSelector(
+    (state: any) => state.cityReducer
+  );
 
   let { addressType }: addressType = useSelector(
-    (state: any) => state.addreetypeReducers
+    (state: any) => state.addressTypeReducer
   );
 
   useEffect(() => {
-    dispatch(getCity());
-    dispatch(getAddressType());
-  }, [refresh]);
+    dispatch(reqGetCity());
+    dispatch(reqGetAdressType());
+  }, [refreshCity]);
 
   return (
     <Form

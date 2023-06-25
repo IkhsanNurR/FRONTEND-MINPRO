@@ -1,6 +1,6 @@
 import { MyPage } from "@/components/types";
 import decodeTokenName from "@/helper/decodedTokenName";
-import { getJob } from "@/redux/jobhireSchema/jobHireSchema/action/actionReducer";
+import { doRequestGetJobPost } from "@/redux/jobhireSchema/jobHireSchema/action/actionReducer";
 import {
   GetByNameOrEmail,
   applyJob,
@@ -19,7 +19,7 @@ const Index: MyPage = () => {
 
   const dispatch = useDispatch();
 
-  let { job_post }: Job = useSelector((state: any) => state.jobReducers);
+  let { job_post }: Job = useSelector((state: any) => state.JobPostReducers);
   let { users, refresh }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
@@ -36,7 +36,7 @@ const Index: MyPage = () => {
 
     setHaveToken(token);
 
-    dispatch(getJob());
+    dispatch(doRequestGetJobPost());
   }, [token, name, refresh]);
 
   type NotificationType = "success" | "info" | "warning" | "error";

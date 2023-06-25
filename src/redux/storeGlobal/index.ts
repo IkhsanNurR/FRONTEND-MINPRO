@@ -5,9 +5,6 @@ import authReducers from "../usersSchema/auth/reducer/authReducer";
 import userProfileReducers from "../usersSchema/profile/reducer/profileReducer";
 import rootSaga from "@/redux/sagaGlobal";
 import pontycodeReducers from "../usersSchema/pontycode/reducer/pontycodeReducer";
-import cityReducers from "../masterSchema/city/reducer/cityReducer";
-import addreetypeReducers from "../masterSchema/addresstype/reducer/addresstypeReducer";
-import skilltypeReducers from "../masterSchema/skillType/reducer/skilltypeReducer";
 import talentReducer from "../bootcampSchema/reducer/talentReducer";
 import evaluationReducer from "../bootcampSchema/reducer/evaluationReducer";
 import candidateNotRespondingReducer from "../bootcampSchema/reducer/candidatNotResponding";
@@ -32,6 +29,15 @@ import IndustryReducers from "../jobhireSchema/master-jobhireSchema/reducer/indu
 import JobroleReducers from "../jobhireSchema/master-jobhireSchema/reducer/jobroleReducer";
 import RouteactionReducers from "../jobhireSchema/master-jobhireSchema/reducer/routeactionReducer";
 import WorktypeReducers from "../jobhireSchema/master-jobhireSchema/reducer/worktypeReducer";
+import CatReduce from "../MasterBaruSchema/reducer/categoryReduce";
+import SkillTempeleteReduce from "../MasterBaruSchema/reducer/skillTempleteReduce";
+import SkillTypeReduce from "../MasterBaruSchema/reducer/skilltypeReduce";
+import ModulesReduce from "../MasterBaruSchema/reducer/modulesReduce";
+import AddressTypeReduce from "../MasterBaruSchema/reducer/addressTypeReduce";
+import routeActionsReduce from "../MasterBaruSchema/reducer/routeActionsReducer";
+import CountryReduce from "../MasterBaruSchema/reducer/countryReducer";
+import ProvReduce from "../MasterBaruSchema/reducer/provReducer";
+import CityReduce from "../MasterBaruSchema/reducer/cityReducer";
 
 const logger = createLogger();
 const saga = createSagaMiddleware();
@@ -39,9 +45,6 @@ const reducer = combineReducers({
   authReducers,
   userProfileReducers,
   pontycodeReducers,
-  cityReducers,
-  addreetypeReducers,
-  skilltypeReducers,
   bootcampReducer,
   prognameReducer,
   orangApplyReducer,
@@ -67,6 +70,17 @@ const reducer = combineReducers({
   EmprangeReducers,
   JobPhotoReducers,
   RouteactionReducers,
+
+  //masterade
+  catReducer: CatReduce,
+  skillTempeleteReducer: SkillTempeleteReduce,
+  skillTypeReducer: SkillTypeReduce,
+  modulesReducer: ModulesReduce,
+  addressTypeReducer: AddressTypeReduce,
+  routeActionsReducer: routeActionsReduce,
+  countryReducer: CountryReduce,
+  provReducer: ProvReduce,
+  cityReducer: CityReduce,
 });
 
 const store = configureStore({
