@@ -76,6 +76,13 @@ body {
   }
 }
 
+.divider {
+  border: none;
+  height: 1px;
+  background-color: #000;
+  margin: 16px 0;
+}
+
 .checked-back {
   opacity: 0;
   animation: rotateFadeInBack 0.3s ease-in-out forwards;

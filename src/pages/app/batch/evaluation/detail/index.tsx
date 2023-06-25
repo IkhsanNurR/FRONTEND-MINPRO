@@ -74,7 +74,7 @@ const DetailEvaluation: MyPage = (props: any) => {
   const handleReviewDetail = async (data: any) => {
     try {
       let evaluation: any = [];
-      dataDummy.map((datadummy) => {
+      dataDummy.map((datadummy:any) => {
         datadummy.skills.map((skill: any) => {
           if (data[skill.tags]) {
             skill.score = data[skill.tags];
@@ -370,7 +370,7 @@ const DetailEvaluation: MyPage = (props: any) => {
         </div>
         <div className="mt-10">
           <form onSubmit={handleSubmit(handleReviewDetail)}>
-            {dataDummy.map((datadummy, index) => (
+            {dataDummy.map((datadummy:any, index:number) => (
               <Accordion
                 expanded={expanded.includes("panel1")}
                 onChange={handleChange("panel1")}

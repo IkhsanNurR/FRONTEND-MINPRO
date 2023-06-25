@@ -186,7 +186,7 @@ const Talent: MyPage = () => {
       <ToastContainer />
       <Content title="Talents" />
 
-      <div className=" p-4 text-center">
+      {/* <div className=" p-4 text-center">
         <form
           onSubmit={handleSubmit(handleFilter)}
           className="flex flex-col md:flex-row md:items-center md:justify-center "
@@ -203,6 +203,42 @@ const Talent: MyPage = () => {
             />
           </div>
           <div className="mb-2 md:mb-0 md:mr-2 sm:ml-2 md:w-fit sm:w-full">
+            <select
+              id=""
+              className="border-gray-200  w-full justify-center border-2 p-1 rounded-xl"
+              defaultValue={"null"}
+              {...register("talent_status")}
+            >
+              <option value="null">None</option>
+              <option value="idle">Idle</option>
+              <option value="placement">Placement</option>
+            </select>
+          </div>
+          <div className="mb-2 md:mb-0 md:mr-2">
+            <button className="order-0 ml-2 w-full justify-center inline-flex items-center text-center px-4 py-2 border border-transparent rounded-xl bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ">
+              Search
+            </button>
+          </div>
+        </form>
+      </div> */}
+
+      <div className=" p-4 text-center">
+        <form
+          onSubmit={handleSubmit(handleFilter)}
+          className="flex flex-col md:flex-row md:items-center md:justify-center "
+        >
+          <div className="mb-2 sm:w-full md:w-4/12 md:mb-0 ml-2">
+            <label htmlFor="search" className=" invisible md:mr-2  md:visible">
+              Search
+            </label>
+            <input
+              type="search"
+              placeholder={`Search`}
+              className="px-2 py-1 sm:w-full sm:ml-2 md:w-fit w-full rounded-xl border-gray-200 border-2"
+              {...register("talent_status_input")}
+            />
+          </div>
+          <div className="mb-2 md:mb-0 md:mr-2 sm:ml-2 md:w-fit sm:w-full ml-2">
             <select
               id=""
               className="border-gray-200  w-full justify-center border-2 p-1 rounded-xl"

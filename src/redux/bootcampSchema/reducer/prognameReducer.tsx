@@ -7,7 +7,7 @@ const initialState = {
     refresh: ''
 }
 
-function bootcampReducer(state = initialState, action:any){
+function PrognameReducer(state = initialState, action:any){
     let {type, payload} = action
     // console.log('reducer',payload)
     
@@ -22,4 +22,4 @@ function bootcampReducer(state = initialState, action:any){
 }
 
 
-export default bootcampReducer
+export default PrognameReducer

@@ -17,14 +17,17 @@ import React from "react";
 import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
+// import styles from '@/gl';
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import { SyntheticEvent, useState } from "react";
 import Image from "next/image";
 import { MyPage } from "@/components/types";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
-const ReactPlayer = dynamic(() => import('react-player/youtube'), { ssr: false });
+const ReactPlayer = dynamic(() => import("react-player/youtube"), {
+  ssr: false,
+});
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -75,12 +78,12 @@ const DetailCurriculum: MyPage = (props: any) => {
       );
     };
 
-    const router = useRouter()
-    const a = router.query.name
-    console.log(router.query)
+  const router = useRouter();
+  const a = router.query.name;
+  console.log(router.query);
   return (
-    <div className="">
-      <div className="mt-4 bg-green-600 w-full p-4 text-center">
+    <div className="flex flex-col">
+      <div className="mt-4 bg-green-600 w-full  p-4 text-center">
         <label htmlFor="search" className="mr-2">
           Search
         </label>
@@ -89,8 +92,12 @@ const DetailCurriculum: MyPage = (props: any) => {
           Search
         </button>
       </div>
-      <div className="mt-5 ml-10 flex" id="kiri">
-        <div className="w-8/12">
+      {/* <div className="mt-5 ml-10 flex" id="kiri"> */}
+
+      {/* <div className="mt-5 lg:w-8/12"> */}
+
+      <div className="mt-5 lg:flex">
+        <div className="mt-5 lg:w-8/12" id="bawah">
           <div className="text-3xl mb-2">
             <h1 className="capitalize">{a}</h1>
           </div>
@@ -272,8 +279,8 @@ const DetailCurriculum: MyPage = (props: any) => {
             </div>
           </div>
         </div>
-        <div className="bg-gray-200 pl-6 pr-6  mt-[75px] w-4/12">
-          <div className=" bg-white h-52 w-full mt-5 mb-10" id="video">
+        <div className="bg-gray-200 h-full pl-6 pr-6 mt-5 lg:mt-0 lg:w-4/12 ">
+          <div className="bg-white h-52 w-full mb-10 mt-5" id="video">
             <>
               <ReactPlayer
                 url="https://www.youtube.com/watch?v=haI_6ypWWI0"
@@ -303,6 +310,30 @@ const DetailCurriculum: MyPage = (props: any) => {
               Apply Reguler Bootcamp
             </button>
           </div>
+          <div
+            style={{ display: "flex", alignItems: "center" }}
+            className="mt-5 "
+          >
+            <Divider
+              style={{ flexGrow: 1, color: "black" }}
+              className="bg-black"
+            />
+            <Typography
+              variant="body1"
+              style={{ margin: "0 16px", fontWeight: "bold", color: "black" }}
+            >
+              or
+            </Typography>
+            <Divider style={{ flexGrow: 1 }} className="bg-black" />
+          </div>
+          <div className="">
+            <button
+              type="button"
+              className="mt-4  w-full h-12 order-0 inline-flex text-center items-center justify-center border border-transparent rounded-md bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:order-1"
+            >
+              Buy This Course
+            </button>
+          </div>
           <div className="mt-4 font-semibold">
             <h1>Persyaratan :</h1>
             <div className="w-full bg-white p-2" id="video">
@@ -313,7 +344,7 @@ const DetailCurriculum: MyPage = (props: any) => {
           </div>
           <div className="mt-4 font-semibold">
             <h1>Benifit :</h1>
-            <div className="w-full bg-white p-2" id="video">
+            <div className="w-full mb-5 bg-white p-2" id="video">
               Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure,
               praesentium minus aspernatur ipsam, magnam saepe veritatis autem
               possimus quia id nam, architecto repudiandae incidunt porro harum

@@ -300,7 +300,31 @@ const DetailCurriculum: MyPage = (props: any) => {
               type="button"
               className="mt-7  w-full h-12 order-0 inline-flex text-center items-center justify-center border border-transparent rounded-md bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:order-1"
             >
-              Apply Reguler Bootcamp
+              Apply Online Bootcamp
+            </button>
+          </div>
+          <div
+            style={{ display: "flex", alignItems: "center" }}
+            className="mt-5 "
+          >
+            <Divider
+              style={{ flexGrow: 1, color: "black" }}
+              className="bg-black"
+            />
+            <Typography
+              variant="body1"
+              style={{ margin: "0 16px", fontWeight: "bold", color: "black" }}
+            >
+              or
+            </Typography>
+            <Divider style={{ flexGrow: 1 }} className="bg-black" />
+          </div>
+          <div className="">
+            <button
+              type="button"
+              className="mt-4  w-full h-12 order-0 inline-flex text-center items-center justify-center border border-transparent rounded-md bg-blue-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:order-1"
+            >
+              Buy This Course
             </button>
           </div>
           <div className="mt-4 font-semibold">
