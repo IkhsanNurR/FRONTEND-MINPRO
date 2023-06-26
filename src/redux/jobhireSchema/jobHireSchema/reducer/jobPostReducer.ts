@@ -15,7 +15,7 @@ function JobPostReducers(state = initialState, action: any) {
   const { type, payload, cur_number } = action;
   switch (type) {
     case ActionTypes.RES_GET_JOBPOST:
-      return { state, job_post: payload, refresh: true };
+      return { ...state, job_post: payload, refresh: true };
 
     case ActionTypes.RES_SEARCH_JOBPOST:
       return { state, search_jobpost: payload, refresh: true };

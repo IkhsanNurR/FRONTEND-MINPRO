@@ -1,3 +1,21 @@
+import {
+  BabyChangingStation,
+  MailOutlined,
+  TuneOutlined,
+} from "@mui/icons-material";
+import gambar1 from "../../public/Bimoli.jpg";
+import gambar2 from "../../public/logo.png";
+import gambar3 from "../../public/logo3.png";
+import mahakam from "../../public/mahakax.png";
+import astra from "../../public/astra.png";
+import bumn from "../../public/bumn.png";
+import ibm from "../../public/ibm.png";
+import mandiri from "../../public/mandiri.png";
+import bsi from "../../public/bsi.png";
+import sinarmas from "../../public/sinarmas.png";
+import ot from "../../public/ot.png";
+import codeid from "../../public/codeid.png";
+
 const dataDummy = [
   {
     section: "Technical",
@@ -27,15 +45,6 @@ const dataDummy = [
     ],
   },
 ];
-
-import {
-  BabyChangingStation,
-  MailOutlined,
-  TuneOutlined,
-} from "@mui/icons-material";
-import gambar1 from "../../public/Bimoli.jpg";
-import gambar2 from "../../public/logo.png";
-import gambar3 from "../../public/logo3.png";
 
 export const DataCarousel = [
   {
@@ -254,6 +263,100 @@ export const items: any = [
         key: "12",
       },
     ],
+  },
+];
+
+export const partnerShip = [
+  {
+    nama: "mahakam",
+    gambar: mahakam,
+  },
+  {
+    nama: "bsi",
+    gambar: bsi,
+  },
+  {
+    nama: "mandiri",
+    gambar: mandiri,
+  },
+  {
+    nama: "astra",
+    gambar: astra,
+  },
+  {
+    nama: "bumn",
+    gambar: bumn,
+  },
+  {
+    nama: "ibm",
+    gambar: ibm,
+  },
+  {
+    nama: "sinarmas",
+    gambar: sinarmas,
+  },
+  {
+    nama: "ot",
+    gambar: ot,
+  },
+  {
+    nama: "codeid",
+    gambar: codeid,
+  },
+  {
+    nama: "gambar2",
+    gambar: gambar2,
+  },
+];
+
+export const alumniTestimoni = [
+  {
+    gambar:
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    nama: "Aji",
+    batch: "BATCH#1",
+    review:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
+  },
+  {
+    gambar:
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    nama: "Oji",
+    batch: "BATCH#1",
+    review:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
+  },
+  {
+    gambar:
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    nama: "Ojan",
+    batch: "BATCH#1",
+    review:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
+  },
+  {
+    gambar:
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    nama: "Dian",
+    batch: "BATCH#2",
+    review:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
+  },
+  {
+    gambar:
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    nama: "Dafa",
+    batch: "BATCH#1",
+    review:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
+  },
+  {
+    gambar:
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    nama: "Efen",
+    batch: "BATCH#1",
+    review:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
   },
 ];
 

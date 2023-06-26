@@ -38,6 +38,15 @@ import routeActionsReduce from "../MasterBaruSchema/reducer/routeActionsReducer"
 import CountryReduce from "../MasterBaruSchema/reducer/countryReducer";
 import ProvReduce from "../MasterBaruSchema/reducer/provReducer";
 import CityReduce from "../MasterBaruSchema/reducer/cityReducer";
+import EmployeeReducer from "../hrSchema/reducer/employeeReducer";
+import TalentBootcampReducer from "../hrSchema/reducer/talentBootcampReducer";
+import bankReducer from "../paymentSchema/reducer/BankReducer";
+import fintechReducer from "../paymentSchema/reducer/FintechReducer";
+import AccountReducer from "../paymentSchema/reducer/AccountReducer";
+import transactionReducer from "../paymentSchema/reducer/TransactionReducer";
+import topupReducer from "../paymentSchema/reducer/TopupReducer";
+import curriculumReducer from "../CurriculumSchema/reducer/curriculumReducer";
+import masterReducer from "../CurriculumSchema/MasterSchema/reducer/masterReducer";
 
 const logger = createLogger();
 const saga = createSagaMiddleware();
@@ -57,6 +66,10 @@ const reducer = combineReducers({
   traineeReducer,
   evaluationReducer,
   talentReducer,
+
+  //Curriculum//
+  curriculumReducer,
+  masterReducer,
 
   //jobhire
   CityReducers,
@@ -81,6 +94,17 @@ const reducer = combineReducers({
   countryReducer: CountryReduce,
   provReducer: ProvReduce,
   cityReducer: CityReduce,
+
+  //Employee Reducer
+  EmployeeReducer,
+  TalentBootcampReducer,
+
+  //Payment Reducer
+  bankReducer,
+  fintechReducer,
+  AccountReducer,
+  transactionReducer,
+  topupReducer,
 });
 
 const store = configureStore({

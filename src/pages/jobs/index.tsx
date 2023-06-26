@@ -361,7 +361,7 @@ const JobPost: MyPage = () => {
         </div>
         <h2 className="py-5 text-lg ">100 Lowongan Pekerjaan di Indonesia</h2>
         <div className=" p-2.5 ">
-          <div className="flex flex-wrap lg:flex-none lg:justify-center">
+          <div className="flex flex-wrap lg:flex-nowrap">
             <FilterComp
               handleToggle={handleToggle}
               valueCheck={isToggleChecked}

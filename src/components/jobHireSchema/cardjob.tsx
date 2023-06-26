@@ -61,7 +61,7 @@ const CardJob = (props: any) => {
       className={`${
         path[2] == "jobdetail"
           ? `grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1`
-          : `grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2`
+          : `grid grid-cols-1 gap-4 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2`
       }`}
     >
       {(props.dataArray || []).map((data: any) => {

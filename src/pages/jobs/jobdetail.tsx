@@ -18,17 +18,35 @@ import {
 } from "@/redux/jobhireSchema/jobHireSchema/action/actionReducer";
 import CardJob from "@/components/jobHireSchema/cardjob";
 import { MyPage } from "@/components/types";
+import { CookieValueTypes, getCookie } from "cookies-next";
+import decodeTokenName from "@/helper/decodedTokenName";
+import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
+import { Progress, notification } from "antd";
 
 const JobDetail: MyPage = () => {
   const router = useRouter();
+
   const dispatch = useDispatch();
   const [loadedData, setLoadedData]: any = useState(null);
-
+  let { users, msg, status, refresh }: userProfile = useSelector(
+    (state: any) => state.userProfileReducers
+  );
   let { job_post_id } = useSelector((state: any) => state.JobPostReducers);
 
-  let { job_post, refresh } = useSelector(
-    (state: any) => state.JobPostReducers
-  );
+  let { job_post } = useSelector((state: any) => state.JobPostReducers);
+
+  console.log("JOBPOST ID", job_post_id);
+  console.log("JOBPOST", job_post);
+
+  useEffect(() => {
+    dispatch({ type: "RESET_STATE" });
+    if (router.isReady) {
+      const { id }: any = router.query;
+      console.log("INI ID");
+      dispatch(doRequestGetJobPostById(id));
+      dispatch(doRequestGetJobPost());
+    }
+  }, [router]);
 
   const filtered = job_post?.filter(
     (item: any) =>
@@ -47,25 +65,118 @@ const JobDetail: MyPage = () => {
   const currentItems = filtered?.slice(startIndex, endIndex);
 
   useEffect(() => {
-    dispatch({ type: "RESET_STATE" });
-    if (router.isReady) {
-      const { id }: any = router.query;
-      dispatch(doRequestGetJobPostById(id));
-      dispatch(doRequestGetJobPost());
-    }
-  }, [router]);
-
-  useEffect(() => {
     setLoadedData(job_post_id);
   }, [job_post_id]);
+
+  /*  CHECK USER  */
+  const [name, setName] = useState<string | null>(null);
+  const [haveToken, setHaveToken] = useState<CookieValueTypes>("");
+
+  function calculateDataCompleteness(user: Users): number {
+    const requiredAttributes: (keyof Users)[] = [
+      "user_first_name",
+      "user_last_name",
+      "user_birth_date",
+      "user_photo",
+      "phone",
+      "education",
+      "resume",
+    ];
+    const totalAttributes = requiredAttributes.length;
+    let completedAttributes = 0;
+
+    requiredAttributes.forEach((attribute) => {
+      if (user?.hasOwnProperty(attribute) && user[attribute]) {
+        completedAttributes++;
+      }
+    });
+
+    const completenessPercentage =
+      (completedAttributes / totalAttributes) * 100;
+    return Number(completenessPercentage.toFixed());
+  }
+  const token = getCookie("token");
+  useEffect(() => {
+    const decode = decodeTokenName(token);
+    setName(decode);
+
+    if (name) dispatch(GetByNameOrEmail(name));
+    setHaveToken(token);
+  }, [token, refresh]);
+  const completeness = calculateDataCompleteness(users);
+  type NotificationType = "success" | "info" | "warning" | "error";
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotificationWithIcon = (
+    type: NotificationType,
+    msg: string,
+    completeness?: number
+  ) => {
+    let message = "";
+    let description = null;
+
+    switch (type) {
+      case "success":
+        message = "Success Notification";
+        description = "This is a success notification.";
+        break;
+      case "info":
+        message = "Info Notification";
+        description = "This is an info notification.";
+        break;
+      case "warning":
+        message = msg;
+        break;
+      case "error":
+        message = msg;
+        break;
+      default:
+        return null;
+    }
+
+    api[type]({
+      message,
+      description: (
+        <>
+          {description}
+          {completeness !== undefined && (
+            <Progress type="circle" percent={completeness} size={40} />
+          )}
+        </>
+      ),
+      duration: 2,
+    });
+  };
+
+  /*  ```````````````CHECK USER```````````````  */
 
   /* HANDLE BUTTON APPLY */
   const [isPressed, setIsPressed] = useState(false);
 
   const handleClick = () => {
-    setIsPressed(true);
+    if (!haveToken) {
+      openNotificationWithIcon("error", "Silahkan Login");
+      setTimeout(() => {
+        router.push({
+          pathname: "/signin",
+        });
+      }, 2000);
+    } else if (haveToken && completeness !== 100) {
+      openNotificationWithIcon(
+        "warning",
+        "Silahkan Lengkapi Data Diri Anda",
+        completeness
+      );
+    } else {
+      const dataUserJob = {
+        taap_user_entity_id: users.user_entity_id,
+        taap_entity_id: job_post_id.jopo_entity_id,
+      };
+      // router.push("/bootcamp/apply");
+      setIsPressed(true);
+      alert(users);
+    }
 
-    alert("BUTTON DI TEKAN");
     // Lakukan tindakan atau fungsi lain yang diinginkan saat tombol ditekan
   };
 
@@ -108,13 +219,14 @@ const JobDetail: MyPage = () => {
 
     return (
       <div className="container grid lg:grid-cols-2">
+        {contextHolder}
         <div>
           {/* Section Nama Perusahaan Start    */}
           <section className="pt-28 pb-6 border-b-2">
             <div className="container">
               <div className="flex">
                 <img
-                  src={`http://localhost:3003/images/${loadedData.jopho_filename}`}
+                  src={`http://localhost:3001/public/jobhire/${loadedData.jopho_filename}`}
                   alt="gambar"
                   height={80}
                   width={80}

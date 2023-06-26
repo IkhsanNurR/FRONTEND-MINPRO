@@ -172,11 +172,11 @@ const DetailCurriculum: MyPage = (props: any) => {
   const handleApply = () => {
     if (!haveToken) {
       openNotificationWithIcon("error", "Silahkan Login");
-      // setTimeout(() => {
-      //   router.push({
-      //     pathname: "/signin",
-      //   });
-      // }, 2000);
+      setTimeout(() => {
+        router.push({
+          pathname: "/signin",
+        });
+      }, 2000);
     } else if (haveToken && completeness !== 100) {
       console.log("Ga 100");
       openNotificationWithIcon(
@@ -189,13 +189,14 @@ const DetailCurriculum: MyPage = (props: any) => {
     }
   };
 
-  useEffect(() => {
-    handleApply();
-  }, []);
+  // useEffect(() => {
+  //   handleApply();
+  // }, []);
 
   const router = useRouter();
   const a = router.query.name;
   console.log(router.query);
+
   return (
     <div className="flex flex-col">
       <div className="mt-4 bg-green-600 w-full  p-4 text-center">

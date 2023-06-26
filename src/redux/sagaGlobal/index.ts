@@ -37,7 +37,7 @@ import { handleGetPontycode } from "../usersSchema/pontycode/saga";
 // import { handleGetSkillType } from "../masterSchema/skillType/saga";
 import jobhireActionType from "../jobhireSchema/jobHireSchema/action/actionType";
 import masterJobHireActionType from "../jobhireSchema/master-jobhireSchema/action/actionType";
-import ActionType from "../bootcampSchema/action/actionType";
+import ActionTypeBootcamp from "../bootcampSchema/action/actionType";
 import {
   handleApplyBatch,
   handleCloseBootcamp,
@@ -158,6 +158,61 @@ import {
   handleUpdateCity,
 } from "../MasterBaruSchema/saga/citySaga";
 
+import ActionTypesEmployee from "@/redux/hrSchema/action/actionType";
+import {
+  getJobtype,
+  handleCreateEmployeeBootcamp,
+  handleCreateEmployeeInternal,
+  handleDepartmentHistory,
+  handleEmployee,
+  handleFilterDepartment,
+  handleFilterJobRole,
+  handleFilterUserRole,
+  handleFindEmployee,
+  handleForEmployee,
+  handleGetTalentJobPost,
+  handlePayHistory,
+  handleTalent,
+  handleTalentBootcamp,
+  handleUpdate,
+} from "../hrSchema/saga/employeeSaga";
+import ActionTypePayment from "../paymentSchema/action/ActionTypes";
+import {
+  handleAddBank,
+  handleDeleteBank,
+  handleUpdateBank,
+  handlegetAllBank,
+} from "../paymentSchema/saga/bankSaga";
+import {
+  handleAddFintech,
+  handleDeleteFintech,
+  handleUpdateFintech,
+  handlegetAllFintech,
+} from "../paymentSchema/saga/fintechSaga";
+import {
+  handleDeleteUsersAccount,
+  handleUpdateUsersAccount,
+  handleaddUserAccount,
+  handlegetAllUsersAccount,
+} from "../paymentSchema/saga/usersAccountSaga";
+import { handlegetTOPUP } from "../paymentSchema/saga/topupSaga";
+import { handlegetAllTransaction } from "../paymentSchema/saga/transactionSaga";
+
+import CurriculumActionType from "../CurriculumSchema/action/actionType";
+import MasterActionType from "../CurriculumSchema/MasterSchema/action/actionType";
+import {
+  handleCreateCurriculum,
+  handleCreateSection,
+  handleCreateSectionDetail,
+  handleGetCurrNum,
+  handleGetCurriculum,
+  handleGetCurriculumByid,
+  handleGetSectionMerge,
+  handleGetUserEmployee,
+  handleUpdateCurriculum,
+} from "../CurriculumSchema/saga/curriculumSaga";
+import { handleGetMaster } from "../CurriculumSchema/MasterSchema/saga/masterSaga";
+
 function* watchAll() {
   yield all([
     takeEvery(AuthActionTypes.LOGIN, handleLogin),
@@ -238,68 +293,83 @@ function* watchAll() {
     takeEvery(masterJobHireActionType.REQ_GET_ROAC, handleGetRoacJobHire),
 
     //MODULE BOOTCAMP========================================================
-    takeEvery(ActionType.REQ_GET_BOOTCAMP, handleGetBootcamp),
-    takeEvery(ActionType.REQ_GET_BOOTCAMP_INDEX, handleGetBootcampIndex),
-    takeEvery(ActionType.REQ_CREATE_BOOTCAMP, handleCreateBootcamp),
-    takeEvery(ActionType.REQ_GET_APPLY_BATCH, handleApplyBatch),
-    takeEvery(ActionType.REQ_GET_BOOTCAMP_BY_ID, handleGetBootcampById),
-    takeEvery(ActionType.REQ_GET_PROGNAME, handleGetProgName),
-    takeEvery(ActionType.REQ_GET_DAFTAR_APPLY, handleGetBootcampDaftarApply),
-    takeEvery(ActionType.REQ_EDIT_BOOTCAMP, handleEditBootcamp),
-    takeEvery(ActionType.REQ_EXTEND_BOOTCAMP, handleExtendBootcamp),
-    takeEvery(ActionType.REQ_CLOSE_BOOTCAMP, handleCloseBootcamp),
-    takeEvery(ActionType.REQ_PENDING_BOOTCAMP, handlePendingBootcamp),
-    takeEvery(ActionType.REQ_DELETE_BOOTCAMP, handleDeleteBootcamp),
+    takeEvery(ActionTypeBootcamp.REQ_GET_BOOTCAMP, handleGetBootcamp),
     takeEvery(
-      ActionType.REQ_SET_TO_RUNNING_BOOTCAMP,
+      ActionTypeBootcamp.REQ_GET_BOOTCAMP_INDEX,
+      handleGetBootcampIndex
+    ),
+    takeEvery(ActionTypeBootcamp.REQ_CREATE_BOOTCAMP, handleCreateBootcamp),
+    takeEvery(ActionTypeBootcamp.REQ_GET_APPLY_BATCH, handleApplyBatch),
+    takeEvery(ActionTypeBootcamp.REQ_GET_BOOTCAMP_BY_ID, handleGetBootcampById),
+    takeEvery(ActionTypeBootcamp.REQ_GET_PROGNAME, handleGetProgName),
+    takeEvery(
+      ActionTypeBootcamp.REQ_GET_DAFTAR_APPLY,
+      handleGetBootcampDaftarApply
+    ),
+    takeEvery(ActionTypeBootcamp.REQ_EDIT_BOOTCAMP, handleEditBootcamp),
+    takeEvery(ActionTypeBootcamp.REQ_EXTEND_BOOTCAMP, handleExtendBootcamp),
+    takeEvery(ActionTypeBootcamp.REQ_CLOSE_BOOTCAMP, handleCloseBootcamp),
+    takeEvery(ActionTypeBootcamp.REQ_PENDING_BOOTCAMP, handlePendingBootcamp),
+    takeEvery(ActionTypeBootcamp.REQ_DELETE_BOOTCAMP, handleDeleteBootcamp),
+    takeEvery(
+      ActionTypeBootcamp.REQ_SET_TO_RUNNING_BOOTCAMP,
       handleSetToRunningBootcamp
     ),
 
     //trainer
-    takeEvery(ActionType.REQ_GET_TRAINER, handleGetTrainer),
+    takeEvery(ActionTypeBootcamp.REQ_GET_TRAINER, handleGetTrainer),
 
     // trainee
-    takeEvery(ActionType.REQ_GET_TRAINEE_BY_ID, handleGetTraineeById),
+    takeEvery(ActionTypeBootcamp.REQ_GET_TRAINEE_BY_ID, handleGetTraineeById),
 
     //evaluation
-    takeEvery(ActionType.REQ_EVALUATION_DETAIL, handleEvaluationDetail),
-    takeEvery(ActionType.REQ_EVALUATION_STATUS, handleEvaluationStatus),
+    takeEvery(ActionTypeBootcamp.REQ_EVALUATION_DETAIL, handleEvaluationDetail),
+    takeEvery(ActionTypeBootcamp.REQ_EVALUATION_STATUS, handleEvaluationStatus),
 
     //CandidateApply
-    takeEvery(ActionType.REQ_GET_CANDIDAT_APPLY, handleGetCandidatApply),
-    takeEvery(ActionType.REQ_UPDATE_CANDIDAT_APPLY, handleUpdateCandidatApply),
     takeEvery(
-      ActionType.REQ_GET_CANDIDAT_FILTERING,
+      ActionTypeBootcamp.REQ_GET_CANDIDAT_APPLY,
+      handleGetCandidatApply
+    ),
+    takeEvery(
+      ActionTypeBootcamp.REQ_UPDATE_CANDIDAT_APPLY,
+      handleUpdateCandidatApply
+    ),
+    takeEvery(
+      ActionTypeBootcamp.REQ_GET_CANDIDAT_FILTERING,
       handleGetCandidatFiltering
     ),
     takeEvery(
-      ActionType.REQ_UPDATE_CANDIDAT_FILTERING,
+      ActionTypeBootcamp.REQ_UPDATE_CANDIDAT_FILTERING,
       handleUpdateCandidatFiltering
     ),
-    takeEvery(ActionType.REQ_GET_CANDIDAT_CONTRACT, handleGetCandidatContract),
     takeEvery(
-      ActionType.REQ_UPDATE_CANDIDAT_CONTRACT,
+      ActionTypeBootcamp.REQ_GET_CANDIDAT_CONTRACT,
+      handleGetCandidatContract
+    ),
+    takeEvery(
+      ActionTypeBootcamp.REQ_UPDATE_CANDIDAT_CONTRACT,
       handleUpdateCandidatContract
     ),
     takeEvery(
-      ActionType.REQ_GET_CANDIDAT_DISQUALIFIED,
+      ActionTypeBootcamp.REQ_GET_CANDIDAT_DISQUALIFIED,
       handleGetCandidatDisqualified
     ),
     takeEvery(
-      ActionType.REQ_UPDATE_CANDIDAT_DISQUALIFIED,
+      ActionTypeBootcamp.REQ_UPDATE_CANDIDAT_DISQUALIFIED,
       handleUpdateCandidatDisqualified
     ),
     takeEvery(
-      ActionType.REQ_GET_CANDIDAT_NOTRESPONDING,
+      ActionTypeBootcamp.REQ_GET_CANDIDAT_NOTRESPONDING,
       handleGetCandidatNotResponding
     ),
     takeEvery(
-      ActionType.REQ_UPDATE_CANDIDAT_NOTRESPONDING,
+      ActionTypeBootcamp.REQ_UPDATE_CANDIDAT_NOTRESPONDING,
       handleUpdateCandidatNotResponding
     ),
 
     //talent
-    takeEvery(ActionType.REQ_GET_TALENT, handleGetTalent),
+    takeEvery(ActionTypeBootcamp.REQ_GET_TALENT, handleGetTalent),
 
     //===================================================
 
@@ -351,6 +421,85 @@ function* watchAll() {
     takeEvery(ActionTypes.DEL_CITY, handleDelCity),
     takeEvery(ActionTypes.CREATE_CITY, handleCreateCity),
     takeEvery(ActionTypes.UPDATE_CITY, handleUpdateCity),
+
+    /////-----------------HR
+
+    takeEvery(ActionTypesEmployee.REQ_GET_EMPLOYEE, handleEmployee),
+    takeEvery(ActionTypesEmployee.REQ_TALENT_JOB_POST, handleGetTalentJobPost),
+    takeEvery(ActionTypesEmployee.REQ_GET_FOR_EMPLOYEE, handleForEmployee),
+    takeEvery(
+      ActionTypesEmployee.REQ_GET_FILTER_DEPARTMENT,
+      handleFilterDepartment
+    ),
+    takeEvery(ActionTypesEmployee.REQ_GET_FILTER_JOBROLE, handleFilterJobRole),
+    takeEvery(
+      ActionTypesEmployee.REQ_GET_FILTER_USERROLE,
+      handleFilterUserRole
+    ),
+    takeEvery(
+      ActionTypesEmployee.REQ_CREATE_EMPLOYE_INTERNAL,
+      handleCreateEmployeeInternal
+    ),
+    takeEvery(ActionTypesEmployee.REQ_TALENT, handleTalent),
+    takeEvery(ActionTypesEmployee.REQ_CLIENT_BOOTCAMP, handleTalentBootcamp),
+    takeEvery(
+      ActionTypesEmployee.REQ_CREATE_BOOTCAMP,
+      handleCreateEmployeeBootcamp
+    ),
+    takeEvery(ActionTypesEmployee.REQ_JOBTYPE, getJobtype),
+    takeEvery(ActionTypesEmployee.REQ_FIND_EMPLOYEE, handleFindEmployee),
+    takeEvery(ActionTypesEmployee.REQ_UPDATE, handleUpdate),
+    takeEvery(
+      ActionTypesEmployee.REQ_DEPARTMENT_HISTORY,
+      handleDepartmentHistory
+    ),
+    takeEvery(ActionTypesEmployee.REQ_PAY_HISTORY, handlePayHistory),
+
+    //payment
+    takeEvery(ActionTypePayment.REQ_GET_BANK, handlegetAllBank),
+    takeEvery(ActionTypePayment.ADD_BANK, handleAddBank),
+    takeEvery(ActionTypePayment.UPDATE_BANK, handleUpdateBank),
+    takeEvery(ActionTypePayment.DELETE_BANK, handleDeleteBank),
+
+    takeEvery(ActionTypePayment.REQ_GET_FINTECH, handlegetAllFintech),
+    takeEvery(ActionTypePayment.ADD_FINTECH, handleAddFintech),
+    takeEvery(ActionTypePayment.UPDATE_FINTECH, handleUpdateFintech),
+    takeEvery(ActionTypePayment.DELETE_FINTECH, handleDeleteFintech),
+
+    takeEvery(ActionTypePayment.REQ_GET_ACCOUNT, handlegetAllUsersAccount),
+    takeEvery(ActionTypePayment.ADD_ACCOUNT, handleaddUserAccount),
+    takeEvery(ActionTypePayment.UPDATE_ACCOUNT, handleUpdateUsersAccount),
+    takeEvery(ActionTypePayment.DELETE_ACCOUNT, handleDeleteUsersAccount),
+
+    takeEvery(ActionTypePayment.ADD_TOPUP, handlegetTOPUP),
+
+    takeEvery(ActionTypePayment.REQ_GET_TRANSACTION, handlegetAllTransaction),
+
+    //////////////-------------BATAS
+
+    //--CURRICULUM--//
+    takeEvery(CurriculumActionType.REQ_GET_CURRICULUM, handleGetCurriculum),
+    takeEvery(CurriculumActionType.REQ_GET_CURRNUM, handleGetCurrNum),
+    takeEvery(
+      CurriculumActionType.REQ_CREATE_CURRICULUM,
+      handleCreateCurriculum
+    ),
+    takeEvery(
+      CurriculumActionType.REQ_GET_CURRICULUM_BY_ID,
+      handleGetCurriculumByid
+    ),
+    takeEvery(
+      CurriculumActionType.REQ_UPDATE_CURRICULUM,
+      handleUpdateCurriculum
+    ),
+    takeEvery(CurriculumActionType.REQ_CREATE_SECTION, handleCreateSection),
+    takeEvery(
+      CurriculumActionType.REQ_CREATE_SECTION_DETAIL,
+      handleCreateSectionDetail
+    ),
+    takeEvery(CurriculumActionType.REQ_GET_MERGE, handleGetSectionMerge),
+    takeEvery(CurriculumActionType.GETEMPLOYEE, handleGetUserEmployee),
+    takeEvery(MasterActionType.REQ_GET_MASTER, handleGetMaster),
   ]);
 }
 

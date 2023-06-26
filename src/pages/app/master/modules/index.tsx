@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Modules from "./module/modules";
 import RouteActions from "./routeAction/routeActions";
-import BreadcrumbsSlice from "../shared/breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
 import {
   reqGetModule,
@@ -26,7 +25,6 @@ const index: MyPage = () => {
 
   return (
     <>
-      <BreadcrumbsSlice />
       <div>
         <div className="rounded bg-blue h-auto shadow-sm py-2">
           <Modules module={modules} />

@@ -22,7 +22,7 @@ const style = {
 };
 
 const CloseBatch = ({ open, handleClose, data }: any) => {
-  // console.log('props', data);
+  console.log("props", data);
 
   const {
     register,
