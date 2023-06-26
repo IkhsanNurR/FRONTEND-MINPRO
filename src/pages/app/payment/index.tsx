@@ -414,47 +414,47 @@ const Payment: MyPage = () => {
   }, [selectedAccountNumberBank, usersaccount, selectedAccountNumberFinttech]);
 
   useEffect(() => {
-    if (status === 200 && message) {
-      setTimeout(() => {
-        alert.notifySuccess(status, message);
-      }, 500);
-    }
-    if (status >= 400 && message) {
-      setTimeout(() => {
-        alert.notifyFailed(status, message);
-      }, 500);
-    }
-    if (statusfintech === 200 && messagefintech) {
-      setTimeout(() => {
-        alert.notifySuccess(statusfintech, messagefintech);
-      }, 500);
-    }
-    if (statusfintech >= 400 && messagefintech) {
-      setTimeout(() => {
-        alert.notifyFailed(statusfintech, messagefintech);
-      }, 500);
-    }
-    if (statusaccount === 200 && messageaccount) {
-      setTimeout(() => {
-        alert.notifySuccess(statusaccount, messageaccount);
-      }, 500);
-    }
-    if (statusaccount >= 400 && messageaccount) {
-      setTimeout(() => {
-        alert.notifyFailed(statusfintech, messagefintech);
-      }, 500);
-    }
+    // if (status === 200 && message) {
+    //   setTimeout(() => {
+    //     alert.notifySuccess(status, message);
+    //   }, 500);
+    // }
+    // if (status >= 400 && message) {
+    //   setTimeout(() => {
+    //     alert.notifyFailed(status, message);
+    //   }, 500);
+    // }
+    // if (statusfintech === 200 && messagefintech) {
+    //   setTimeout(() => {
+    //     alert.notifySuccess(statusfintech, messagefintech);
+    //   }, 500);
+    // }
+    // if (statusfintech >= 400 && messagefintech) {
+    //   setTimeout(() => {
+    //     alert.notifyFailed(statusfintech, messagefintech);
+    //   }, 500);
+    // }
+    // if (statusaccount === 200 && messageaccount) {
+    //   setTimeout(() => {
+    //     alert.notifySuccess(statusaccount, messageaccount);
+    //   }, 500);
+    // }
+    // if (statusaccount >= 400 && messageaccount) {
+    //   setTimeout(() => {
+    //     alert.notifyFailed(statusfintech, messagefintech);
+    //   }, 500);
+    // }
 
-    if (statustopup === 200 && messagetopup) {
-      setTimeout(() => {
-        alert.notifySuccess(statustopup, messagetopup);
-      }, 500);
-    }
-    if (statustopup >= 400 && messagetopup) {
-      setTimeout(() => {
-        alert.notifyFailed(statustopup, messagetopup);
-      }, 500);
-    }
+    // if (statustopup === 200 && messagetopup) {
+    //   setTimeout(() => {
+    //     alert.notifySuccess(statustopup, messagetopup);
+    //   }, 500);
+    // }
+    // if (statustopup >= 400 && messagetopup) {
+    //   setTimeout(() => {
+    //     alert.notifyFailed(statustopup, messagetopup);
+    //   }, 500);
+    // }
 
     dispatch(doRequestGetBank());
     dispatch(doRequestGetFintech());

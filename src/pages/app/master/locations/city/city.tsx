@@ -48,7 +48,7 @@ const City = (props: any) => {
           <div className="overflow-hidden">
             <div className="border font-bold text-lg">City</div>
             <table className="min-w-full text-left text-sm font-light">
-              <thead className="border-b bg-white-100 font-medium dark:border-neutral-500 dark:bg-neutral-600 bg-gray-400">
+              <thead className="border-b bg-white-100 font-medium  bg-neutral-600 dark:border-neutral-500">
                 <tr>
                   <th scope="col" className="px-6 py-4">
                     City Name
@@ -79,8 +79,8 @@ const City = (props: any) => {
                       key={index}
                       className={
                         index % 2 === 0
-                          ? "bg-neutral-100 dark:bg-neutral-700"
-                          : "bg-white dark:bg-neutral-600"
+                          ? "bg-neutral-100 dark:bg-neutral-400"
+                          : "bg-white dark:bg-neutral-300"
                       }
                     >
                       <td className="whitespace-nowrap px-6 py-4 font-medium">

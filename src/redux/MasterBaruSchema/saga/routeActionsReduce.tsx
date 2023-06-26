@@ -29,6 +29,7 @@ function* handleDelRouteActions(action: any): any {
 function* handleCreateRouteActions(action: any): any {
   try {
     const result = yield call(apiMethod.createRA, action.payload);
+    console.log("saga", result);
     yield put(resCreateRouteActions(result.data));
   } catch (error) {
     yield put(resCreateRouteActions({ message: error, status: 400 }));

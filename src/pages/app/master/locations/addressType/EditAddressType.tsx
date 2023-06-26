@@ -71,10 +71,7 @@ const EditAddressType = (props: any) => {
                     <input
                       type="hidden"
                       defaultValue={props.data.adty_id}
-                      placeholder="address type"
-                      {...register("adty_name", {
-                        required: "Address Type is required",
-                      })}
+                      {...register("adty_id")}
                     />
                     {errors.adty_name && (
                       <div className="w-3/4 text-xs text-red-500">
@@ -85,7 +82,7 @@ const EditAddressType = (props: any) => {
                       className="text-gray-500 font-bold md:text-right flex-shrink-0 w-1/3 pr-2"
                       htmlFor="inline-full-name"
                     >
-                      Skill Type Name
+                      Address Type
                     </label>
                     <div className="w-2/3">
                       <input
@@ -93,7 +90,10 @@ const EditAddressType = (props: any) => {
                         id="inline-full-name"
                         type="text"
                         defaultValue={props.data.adty_name}
-                        {...register("adty_name")}
+                        placeholder="address type"
+                        {...register("adty_name", {
+                          required: "Address Type is required",
+                        })}
                       />
                     </div>
                   </div>

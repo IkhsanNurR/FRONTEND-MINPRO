@@ -45,7 +45,7 @@ export function* handleCreateBootcamp(action: any): any {
 export function* handleApplyBatch(action: any): any {
   try {
     const result = yield call(apiMethod.createApplyBatch, action.payload);
-    console.log("saga", result);
+    // console.log("saga", result);
     yield put(resApplyBatch(result.data));
   } catch (error) {
     yield put(resApplyBatch({ message: error, status: 404 }));

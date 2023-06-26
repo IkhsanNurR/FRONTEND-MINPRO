@@ -26,7 +26,7 @@ function* handleCreateAddressType(action: any): any {
 }
 
 function* handleUpdateAddressType(action: any): any {
-  console.log("sampe sini ", action);
+  // console.log("sampe sini ", action);
   try {
     const result = yield call(apiMethod.updateAddressType, action.payload);
     yield put(resUpdateAddressType(result));

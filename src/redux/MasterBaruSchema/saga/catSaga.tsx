@@ -27,10 +27,10 @@ function* handleCreateCat(action: any): any {
 }
 
 function* handleupdateCat(action: any): any {
-  console.log("ct", action);
+  // console.log("ct", action);
   try {
     const result = yield call(apiMethod.updateCat, action.payload);
-    console.log("ct", action.payload);
+    // console.log("ct", action.payload);
     yield put(resUpdateCat(result.data));
   } catch (error) {
     yield put(resUpdateCat({ message: error, status: 400 }));

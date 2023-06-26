@@ -9,7 +9,7 @@ const initialState = {
 
 export default function CityReduce(state = initialState, action: any) {
   const { type, payload } = action;
-  console.log(payload);
+  // console.log(payload);
   switch (type) {
     case ActionType.GET_CITY_RESPONSE:
       return {

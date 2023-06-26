@@ -19,9 +19,12 @@ const AddCategory = (props: any) => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const handleRegistration = async (data: FormValues) => {
-    console.log("ini", data);
-    dispatch(reqCreateCat(data));
+  const handleRegistration = async (dataForm: FormValues) => {
+    const cate_cate_id: any = dataForm.cate_cate_id;
+    parseInt(cate_cate_id);
+    const data = { cae_name: dataForm.cate_name, cate_cate_id };
+    // console.log("ini", data);
+    dispatch(reqCreateCat(dataForm));
     props.closeModal();
   };
   return (
@@ -98,14 +101,15 @@ const AddCategory = (props: any) => {
                     </label>
                     <div className="w-2/3">
                       <select
-                        {...(e: any) => {
-                          e.target.value
-                            ? { ...register("cate_cate_id") }
-                            : null;
-                        }}
                         className="rounded-md border-solid-gray-400 border-2 p-3 md:text-md w-full text-gray-900"
+                        // {...(e: any) => {
+                        //   e.target.value
+                        //     ? { ...register("cate_cate_id") }
+                        //     : null;
+                        // }}
+                        {...register("cate_cate_id")}
                       >
-                        <option></option>
+                        <option value={0}></option>
                         {props.data[0]?.map((dt: any) => (
                           <option key={dt.cate_id} value={dt.cate_id}>
                             {dt.cate_name}

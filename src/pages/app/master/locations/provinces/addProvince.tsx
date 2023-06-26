@@ -88,7 +88,7 @@ const AddProv = (props: any) => {
                         required: "Province Code is required",
                         pattern: {
                           value: /^[A-Z]{5}$/,
-                          message: "Code must be 3 uppercase letters",
+                          message: "Code must be 5 uppercase letters",
                         },
                       })}
                     />

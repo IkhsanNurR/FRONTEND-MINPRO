@@ -69,8 +69,8 @@ const AddressType = (props: any) => {
                       key={index}
                       className={
                         index % 2 === 0
-                          ? "bg-neutral-100 dark:bg-neutral-700"
-                          : "bg-white dark:bg-neutral-600"
+                          ? "bg-neutral-100 dark:bg-neutral-400"
+                          : "bg-white dark:bg-neutral-300"
                       }
                     >
                       <td className="whitespace-nowrap px-6 py-4 font-medium">

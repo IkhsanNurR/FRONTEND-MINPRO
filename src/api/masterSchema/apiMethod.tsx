@@ -18,7 +18,7 @@ const getallSkillType = () => {
     });
 };
 const updateCat = (data: any) => {
-  // console.log('DATA API',data)
+  // console.log("DATA API", data);
   return axios.patch(`category/${data.cate_id}`, data);
 };
 
@@ -128,7 +128,7 @@ const delRouteActions = (id: number) => {
 };
 
 const createRA = (data: any) => {
-  console.log("object", data);
+  console.log("api", data);
   return axios.post("route-actions", data);
 };
 
@@ -183,6 +183,7 @@ const delCity = (data: any) => {
 };
 
 const createCity = (data: any) => {
+  console.log("city", data);
   return axios.post("city", data);
 };
 

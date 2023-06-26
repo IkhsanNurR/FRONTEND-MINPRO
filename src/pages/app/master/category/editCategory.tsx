@@ -113,11 +113,13 @@ const EditCategory = (props: any) => {
                     <div className="w-2/3">
                       <select
                         defaultValue={selectedValue}
-                        // {...(e:any)=>{e.target.value?
-                        {...register("cate_cate_id")}
-                        // :null}}
+                        {...(e: any) => {
+                          e.target.value
+                            ? { ...register("cate_cate_id") }
+                            : null;
+                        }}
                         className="rounded-md border-solid-gray-400 border-2 p-3 md:text-md w-full text-gray-900"
-                        // onChange={(e)=>setSelectedValue(e.target.value)}
+                        onChange={(e) => setSelectedValue(e.target.value)}
                       >
                         <option></option> {/*Empty string to represent null*/}
                         {props.list[0]?.map((ct: any) => (

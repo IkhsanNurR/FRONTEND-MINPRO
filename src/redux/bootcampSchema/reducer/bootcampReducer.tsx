@@ -11,7 +11,7 @@ const initialState = {
 
 function bootcampReducer(state = initialState, action: any) {
   let { type, payload } = action;
-  console.log("reducermatap", payload);
+  // console.log("reducermatap", payload);
 
   if (payload?.status === 201) {
     alert.notifySuccess(payload.result, payload.message);

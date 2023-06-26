@@ -12,7 +12,7 @@ import apiMethod from "@/api/masterSchema/apiMethod";
 function* handleGeSkillType(): any {
   try {
     const result = yield call(apiMethod.getallSkillType);
-    console.log(result);
+    // console.log(result);
     yield put(resSkillType(result));
   } catch (error) {
     yield put(resSkillType({ message: error, status: 400 }));

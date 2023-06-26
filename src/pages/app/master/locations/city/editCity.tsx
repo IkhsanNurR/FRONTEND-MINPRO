@@ -12,7 +12,7 @@ type FormValues = {
 
 const EditCity = (props: any) => {
   console.log(props.dataCity);
-  const [selectedValue, setSelectedValue] = useState(props.dataCity.prov_id);
+  const [selectedValue, setSelectedValue] = useState(props.dataCity.city_id);
   const dispatch = useDispatch();
 
   const {
