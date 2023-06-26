@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import Content from "@/pages/shared/content";
 import { useForm } from "react-hook-form";
 import { Divider, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -20,7 +19,7 @@ const style = {
 };
 
 const ReviewModal = ({ open, handleClose, data }: any) => {
-  console.log(open, handleClose, data);
+  // console.log(open, handleClose, data);
   const {
     register,
     handleSubmit,
@@ -35,8 +34,9 @@ const ReviewModal = ({ open, handleClose, data }: any) => {
   }, [open, reset]);
 
   const onSubmit = (formData: any) => {
+    
     console.log(formData);
-    handleClose();
+    // handleClose();
   };
 
   return (

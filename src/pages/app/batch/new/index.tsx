@@ -1,6 +1,7 @@
-import Content from "@/components/shared/content";
+import Content from "../../../../components/shared/content";
 import {
   Autocomplete,
+  Avatar,
   Box,
   Button,
   Card,
@@ -13,7 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -24,52 +25,146 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { MyPage } from "@/components/types";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  reqCreateBootcamp,
+  reqGetBootcampById,
+  reqGetBootcampDaftarApply,
+  reqGetProgName,
+  reqGetTrainer,
+} from "@/redux/bootcampSchema/action/actionReducer";
+import cek from "../../../../../public/cek.gif";
+import x from "../../../../../public/x.gif";
+import Image from "next/image";
 
-const NewBatch:MyPage = () => {
+const newBatch: MyPage = (props: any) => {
+  //reducer
+  let { bootcamp, message, refresh, status } = useSelector(
+    (state: any) => state.bootcampReducer
+  );
+  let { daftarapply } = useSelector((state: any) => state.orangApplyReducer);
+
+  let { progname } = useSelector((state: any) => state.prognameReducer);
+
+  let { trainer } = useSelector((state: any) => state.trainerReducer);
+
+  //===============================================================
+
+  //router
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const [checked, setChecked] = useState<number[]>([]);
+  //ceklist user
+  const cekUser = (index: number) => {
+    if (checked.includes(index)) {
+      setChecked(checked.filter((item) => item !== index));
+      // console.log(`${index} tidak di cek`);
+    } else {
+      setChecked([...checked, index]);
+      // console.log(`${index} di cek`);
+    }
+  };
+
+  console.log(checked);
+  //useEffect API
+  useEffect(() => {
+    dispatch(reqGetProgName());
+    dispatch(reqGetBootcampDaftarApply());
+    dispatch(reqGetTrainer());
+  }, []);
+  //===================
+
+  //useEffect Trainee
+  useEffect(() => {
+    setValue(
+      "batchTrainees",
+      [...checked].sort((a, b) => a - b)
+    );
+  }, [checked]);
+  //================
 
   //type form
   type FormValues = {
-    BatchName: string;
+    batchname: string;
     Technology: string;
+    description: string;
+    reason: string;
     StartPeriod: Date;
     EndPeriod: Date;
     Trainer: string;
     CoTrainer: string;
-    SelectedMembers: [];
+    batchTrainees: number[];
+    batch_id: number;
+    batch_type: string;
   };
+  //================
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
+    setError,
+    unregister,
   } = useForm<FormValues>();
 
   //submit
+
   const handleRegistration = async (data: any) => {
-    // try {
-    console.log(data);
-    data.selectedMembers = checked.sort((a, b) => a - b);
-    if (data.selectedMembers.length < 1) {
-      console.log("pilih membernya");
+    if (!data.StartPeriod) {
+      setError("StartPeriod", { message: "require" });
     }
-    console.log(data);
-    //       // const result = await apiMethod.createUserCustomer(data);
-    //       const result = dispatch(doAddUserCustomer(data));
-    //       // if (result.status) {
-    //       //   if (status === 200) {
-    //       //     alert.notifySuccess("Sukses!", "User berhasil dibuat!");
-    //       //
-    //       //   } else if (status === 400) {
-    //       //     alert.notifyFailed(status, statustext);
-    //       //
-    //       //   }
-    //       // }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    if (!data.EndPeriod) {
+      setError("EndPeriod", { message: "require" });
+    }
+    if (!data.EndPeriod || !data.StartPeriod) {
+      return true;
+    }
+    const trainerId = data.Trainer?.user_entity_id;
+    const coTrainerId = data.CoTrainer?.user_entity_id;
+    let trainerPrograms: any[] = [];
+    if (coTrainerId) {
+      trainerPrograms.push(coTrainerId);
+    }
+    if (trainerId) {
+      trainerPrograms.push(trainerId);
+    } else {
+      setError("Trainer", {
+        type: "manual",
+        message: "Trainer is required",
+      });
+      return true;
+    }
+
+    if (trainerId && coTrainerId && trainerId === coTrainerId) {
+      setError("Trainer", {
+        type: "manual",
+        message: "Trainer and CoTrainer must be different",
+      });
+    } else {
+      const batch = {
+        batch_entity_id: data.Technology,
+        batch_name: data.batchname,
+        batch_description: data.description,
+        batch_start_date: data.StartPeriod,
+        batch_end_date: data.EndPeriod,
+        batch_type: data.batch_type,
+        batch_status: "open",
+        batch_pic_id: 1,
+      };
+      const batchTrainees = data.batchTrainees;
+      if (batchTrainees.length == 0) {
+        setError("batchTrainees", { message: "Selected Members is required" });
+        return true;
+      }
+      const gabung = { batch, batchTrainees, trainerPrograms };
+      console.log("gabungan", gabung);
+      if (batch && batchTrainees && trainerPrograms.length >= 1) {
+        dispatch(reqCreateBootcamp(gabung));
+        router.back();
+      }
+    }
   };
 
   //Date
@@ -77,58 +172,49 @@ const NewBatch:MyPage = () => {
   const [endDate, setEndDate] = useState(null);
   //handle start date
   const handleStartDateChange = (date: any) => {
+    register("StartPeriod", registerOptions.StartPeriod);
     setStartDate(date);
     setEndDate(null);
     if (date) {
       const formattedDate: any = format(date.$d, "dd/MM/yyyy");
       setValue("StartPeriod", formattedDate); // Set the value of "StartPeriod" field in the form
+    } else {
+      setError("StartPeriod", { message: "require" });
+      unregister("StartPeriod");
     }
   };
 
   //handle end date
   const handleEndDateChange = (date: any) => {
+    register("EndPeriod", registerOptions.EndPeriod);
     setEndDate(date);
     if (date) {
       const formattedDate: any = format(date.$d, "dd/MM/yyyy");
       setValue("EndPeriod", formattedDate); // Set the value of "StartPeriod" field in the form
+    } else {
+      setError("EndPeriod", { message: "require" });
+      unregister("EndPeriod");
     }
   };
-
   //End Date > start Date
   const isEndDateDisabled = !startDate;
   const minEndDate = startDate ? dayjs(startDate).add(1, "day") : null;
 
-  //ceklist user
-  const ngecek = (index: number) => {
-    if (checked.includes(index)) {
-      setChecked(checked.filter((item) => item !== index));
-      console.log(`${index} tidak di cek`);
-    } else {
-      setChecked([...checked, index]);
-      console.log(`${index} di cek`);
-    }
-  };
-
-  console.log(checked);
+  //=================================================================================
 
   const registerOptions = {
-    BatchName: { required: "Batch Name is required" },
-    Technology: { required: "Firstname is required" },
+    batchname: { required: "required" },
+    Technology: { required: "required" },
+    description: { required: "description is required" },
+    reason: { required: "reason is required" },
     StartPeriod: { required: "Start Period is required" },
     EndPeriod: { required: "End Period is required" },
     Trainer: { required: "Trainer is required" },
-    CoTrainer: { required: "Co-Trainer is required" },
-    SelectedMembers: { required: "Selected Members is required" },
+    batch_id: { required: "batch id is  required" },
+    batch_type: { required: "batch_type is  required" },
   };
 
-  //contoh data
-  const data = [
-    { name: "Ikhsan Nur R", asal: "Purwokerto" },
-    { name: "Aji Prakoso N", asal: "Jakarta" },
-    { name: "Dany Utama R", asal: "Depok" },
-    { name: "Rani Dwi H", asal: "Jakarta" },
-  ];
-
+  //data bulan
   const dataBulan = [
     { id: 1, bulan: "Januari" },
     { id: 2, bulan: "Februari" },
@@ -144,35 +230,32 @@ const NewBatch:MyPage = () => {
     { id: 12, bulan: "Desember" },
   ];
 
-  const dataTahun = [
-    { id: 1, tahun: 1999, tahunnya: "1999" },
-    { id: 2, tahun: 2000, tahunnya: "2000" },
-    { id: 3, tahun: 2001, tahunnya: "2001" },
-    { id: 4, tahun: 2002, tahunnya: "2002" },
-    { id: 5, tahun: 2003, tahunnya: "2003" },
-    { id: 6, tahun: 2004, tahunnya: "2004" },
-    { id: 7, tahun: 2005, tahunnya: "2005" },
-  ];
+  const tahunArray = daftarapply
+    .map((item: any) => parseInt(item.applied_year))
+    .filter(
+      (tahun: any, index: any, array: any) => array.indexOf(tahun) === index
+    )
+    .map((tahun: any) => ({
+      id: tahun,
+      tahun: tahun,
+      tahunnya: tahun.toString(),
+    }));
 
-  const dataUser = [
-    { id: 1, bulan: "Januari", tahun: 1999, name: "nama" },
-    { id: 2, bulan: "Januari", tahun: 1999, name: "nama2" },
-    { id: 3, bulan: "Februari", tahun: 2000, name: "nama3" },
-    { id: 4, bulan: "Maret", tahun: 2000, name: "nama4" },
-    { id: 5, bulan: "Maret", tahun: 2001, name: "nama5" },
-    { id: 6, bulan: "April", tahun: 2001, name: "nama6" },
-    { id: 7, bulan: "Mei", tahun: 2001, name: "nama7" },
-    { id: 8, bulan: "Juni", tahun: 2002, name: "nama8" },
-    { id: 9, bulan: "Juli", tahun: 2003, name: "nama9" },
-    { id: 10, bulan: "Februari", tahun: 2000, name: "nama10" },
-    { id: 11, bulan: "Maret", tahun: 2000, name: "nama11" },
-    { id: 12, bulan: "Juli", tahun: 2003, name: "nama12" },
-  ];
+  const bulanArray = daftarapply
+    .map((item: any) => parseInt(item.applied_year))
+    .filter(
+      (tahun: any, index: any, array: any) => array.indexOf(tahun) === index
+    )
+    .map((tahun: any) => ({
+      id: tahun,
+      tahun: tahun,
+      tahunnya: tahun.toString(),
+    }));
 
   //props
   const propsData = {
-    options: data,
-    getOptionLabel: (option: TrainerType) => option.name,
+    options: trainer,
+    getOptionLabel: (option: TrainerType) => option.trainer_name,
   };
 
   const propsBulan = {
@@ -181,14 +264,14 @@ const NewBatch:MyPage = () => {
   };
 
   const propsTahun = {
-    options: dataTahun,
+    options: tahunArray,
     getOptionLabel: (option: TahunType) => option.tahunnya,
   };
 
   //interface
   interface TrainerType {
-    name: string;
-    asal: string;
+    trainer_name: string;
+    user_entity_id: number;
   }
 
   interface BulanType {
@@ -206,24 +289,30 @@ const NewBatch:MyPage = () => {
   //pagination dan filtering
   const [selectedBulan, setSelectedBulan] = useState(null);
   const [selectedTahun, setSelectedTahun] = useState(null);
-  const [filteredData, setFilteredData] = useState(dataUser);
+  const [loadedData, setLoadedData] = useState(daftarapply);
+  const [filteredData, setFilteredData] = useState(loadedData);
+  // const [filteredData, setFilteredData] = useState(daftarapply);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
 
   const handleFilter = (selectedBulan: any, selectedTahun: any) => {
-    let newData = dataUser;
+    let newData = [...loadedData];
+
     if (selectedBulan) {
-      newData = newData.filter((user) => user.bulan == selectedBulan.bulan);
+      newData = newData.filter(
+        (user: any) => parseInt(user.applied_month) === selectedBulan.id
+      );
     }
 
     if (selectedTahun) {
-      newData = newData.filter((user) => user.tahun == selectedTahun?.tahun);
+      newData = newData.filter(
+        (user: any) => parseInt(user.applied_year) === selectedTahun.tahun
+      );
     }
 
     setFilteredData(newData);
-    setCurrentPage(1); // Reset halaman ke halaman pertama setelah filtering
+    setCurrentPage(1);
 
-    // Reset selectedBulan and selectedTahun when they are null
     if (!selectedBulan && !selectedTahun) {
       setSelectedBulan(null);
       setSelectedTahun(null);
@@ -244,92 +333,23 @@ const NewBatch:MyPage = () => {
     setCurrentPage(page);
   };
 
+  const handleTechChange = (tech: any) => {
+    let newData = [...daftarapply];
+    if (tech) {
+      newData = newData.filter(
+        (user: any) => parseInt(user.program_entity) === tech.target.value
+      );
+      setLoadedData(newData);
+      setFilteredData(newData);
+      setCurrentPage(1);
+    }
+    console.log("newData", newData);
+  };
+
   const pageCount = Math.ceil(filteredData.length / itemsPerPage);
-
   return (
-    <div>
-      <Content title="CREATE BATCH">
-        {/* <div className="mt-2">
-          <form onSubmit={handleSubmit(handleRegistration, handleError)}>
-            <div className="grid grid-cols-1 gap-4 max-w-xl m-auto">
-              <div className="col-span-1">
-                <input
-                  {...register("BatchName", registerOptions.BatchName)}
-                  className="border-solid-gray-400 border-2 p-3 md:text-md w-full"
-                  placeholder="Batch Name"
-                  autoComplete="off"
-                />
-                <small className="text-danger">
-                  {errors?.BatchName && errors.BatchName.message}
-                </small>
-              </div>
-            </div>
-          </form>
-        </div> */}
-
-        {/* <div className="container mx-auto">
-          <form
-            onSubmit={handleSubmit(handleRegistration, handleError)}
-            className="mt-2"
-          >
-            <div className="border border-gray-300 rounded p-4 flex items-center">
-              <TextField
-                id="batchName"
-                variant="outlined"
-                label="Batch Name"
-                autoComplete="off"
-                className="w-2/6"
-                {...register("BatchName", registerOptions.BatchName)}
-              />
-              <div className="w-8" />
-              <FormControl variant="outlined" className="w-2/6">
-                <InputLabel id="Technology">Technology</InputLabel>
-                <Select
-                  labelId="Technology"
-                  id="Technology"
-                  //   value={selectedOption}
-                  {...register("Technology", registerOptions.Technology)}
-                  label="Technology"
-                >
-                  <MenuItem value="Aji Ganteng Sekali">
-                    Aji Ganteng Sekali
-                  </MenuItem>
-                  <MenuItem value="Ikram Kalah 7-0">Ikram Kalah 7-0</MenuItem>
-                  <MenuItem value="Barcelona Peringkat pertama dari bawah">
-                    Barcelona Peringkat pertama dari bawah
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <div className="w-10" />
-              <div className="w-2/6 flex justify-center items-center">
-                <GroupsIcon style={{ fontSize: 80 }} />
-              </div>
-              <div className="flex justify-center items-start">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    format="DD/MM/YYYY"
-                    label="Mulai"
-                    className="w-3/6"
-                  />
-                  <div className="w-8"></div>
-                  <DatePicker
-                    format="DD/MM/YYYY"
-                    label="Selesai"
-                    className="w-3/6"
-                  />
-                </LocalizationProvider>
-              </div>
-            </div>
-            <Button
-              type="submit"
-              variant="contained"
-              className="mt-4 bg-blue-500 hover:bg-blue-600"
-            >
-              Submit
-            </Button>
-          </form>
-        </div> */}
-
+    <>
+      <Content title={`CREATE BATCH`}>
         <div className="container mx-auto border-2 border-gray-300 relative rounded-xl">
           <form
             onSubmit={handleSubmit(handleRegistration, handleError)}
@@ -338,12 +358,12 @@ const NewBatch:MyPage = () => {
             <div className=" rounded p-4 flex items-center relative ">
               <div className="w-2/6">
                 <TextField
-                  id="batchName"
+                  id="batchname"
                   variant="outlined"
                   label="Batch Name"
                   autoComplete="off"
                   className="w-full "
-                  {...register("BatchName", registerOptions.BatchName)}
+                  {...register("batchname", registerOptions.batchname)}
                 />
               </div>
               <div className="w-6"></div>
@@ -355,12 +375,16 @@ const NewBatch:MyPage = () => {
                     id="Technology"
                     {...register("Technology", registerOptions.Technology)}
                     label="Technology"
+                    onChange={handleTechChange}
                   >
-                    <MenuItem value={1}>Aji Ganteng Sekali</MenuItem>
-                    <MenuItem value={2}>Ikram Kalah 7-0</MenuItem>
-                    <MenuItem value={3}>
-                      Barcelona Peringkat pertama dari bawah
-                    </MenuItem>
+                    {progname.map((prog: any) => (
+                      <MenuItem
+                        key={prog.prog_entity_id}
+                        value={prog.prog_entity_id}
+                      >
+                        {prog.prog_title}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -369,8 +393,108 @@ const NewBatch:MyPage = () => {
                 <GroupsIcon style={{ fontSize: "8vw" }} className="relative" />
               </div>
             </div>
+            <div className={`w-full flex ml-4`}>
+              <div className="w-2/6">
+                {errors?.batchname && (
+                  <small className="text-red-500 absolute -mt-5 lg:-mt-10 md:-mt-6 sm:-mt-4">
+                    {errors.batchname.message}
+                  </small>
+                )}
+              </div>
+              <div className="w-2/6">
+                {errors?.Technology && (
+                  <small className="text-red-500 absolute -mt-5 lg:-mt-10 md:-mt-6 sm:-mt-4">
+                    {errors.Technology.message}
+                  </small>
+                )}
+              </div>
+            </div>
+            <div className="w-full mb-8 flex ">
+              <TextField
+                id="description"
+                variant="outlined"
+                label="Description"
+                autoComplete="off"
+                multiline
+                maxRows={4}
+                inputProps={{ maxLength: 120, "aria-valuemax": 120 }}
+                className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
+                {...register("description", registerOptions.description)}
+              />
+              <div className="w-2/6 flex justify-center items-center">
+                <a
+                  className={`text-6xl ml-2 ${
+                    checked.length == 0 ? "hidden" : ""
+                  }`}
+                >
+                  {checked.length}
+                </a>
+              </div>
+              <div className="absolute w-full">
+                {errors?.description && (
+                  <small className="text-red-500 ml-4">
+                    {errors.description.message}
+                  </small>
+                )}
+              </div>
+            </div>
+            {/* <div className="w-full mt-10 mb-8 flex ">
+              <TextField
+                id="reason"
+                variant="outlined"
+                label="Reason"
+                autoComplete="off"
+                multiline
+                maxRows={4}
+                inputProps={{ maxLength: 120, "aria-valuemax": 120 }}
+                className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
+                {...register("reason", registerOptions.reason)}
+              />
+              <div className="w-2/6 flex justify-center items-center">
+                <a
+                  className={`text-6xl ml-2 -mt-36 ${
+                    checked.length == 0 ? "hidden" : ""
+                  }`}
+                >
+                  {checked.length}
+                </a>
+              </div>
+              <div className="absolute w-full ml-4 mt-14">
+                {errors?.reason && (
+                  <small className="text-red-500">
+                    {errors.reason.message}
+                  </small>
+                )}
+              </div>
+            </div> */}
+            <div className="w-full mb-8 mt-8">
+              <FormControl
+                variant="outlined"
+                className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
+              >
+                <InputLabel id="batch_type">Batch Type</InputLabel>
+                <Select
+                  labelId="batch_type"
+                  id="batch_type"
+                  {...register("batch_type", registerOptions.batch_type)}
+                  label="batch_type"
+                >
+                  <MenuItem value={"online"}>Online</MenuItem>
+                  <MenuItem value={"offline"}>Offline</MenuItem>
+                  <MenuItem value={"corporate"}>Corporate</MenuItem>
+                </Select>
+              </FormControl>
+              <div className="ml-6"></div>
+            </div>
+            <div className="w-full ml-4 -mt-4 mb-1">
+              {errors?.batch_type && (
+                <small className="text-red-500">
+                  {errors.batch_type.message}
+                </small>
+              )}
+            </div>
             <div className="w-4/6 text-center"></div>
-            <a className="sm:text-sm md:text-base text-sm h-auto ml-4 ">
+            <a className="sm:text-sm md:text-base text-sm h-auto ml-4 mt-4">
               Periode
             </a>
             <div className=" p-4 flex items-center -mt-2">
@@ -386,6 +510,7 @@ const NewBatch:MyPage = () => {
                     label="Mulai"
                     className="w-full"
                     onChange={handleStartDateChange}
+                    value={startDate}
                   />
                 </div>
                 <div className="w-6"></div>
@@ -402,18 +527,27 @@ const NewBatch:MyPage = () => {
                     minDate={minEndDate}
                     disabled={isEndDateDisabled}
                     onChange={handleEndDateChange}
+                    value={endDate}
                   />
                 </div>
               </LocalizationProvider>
               <div className="w-6"></div>
-              <div className="w-2/6 flex justify-center items-center">
-                <a
-                  className={`text-4xl -mt-32 ${
-                    checked.length == 0 ? "hidden" : ""
-                  }`}
-                >
-                  {checked.length}
-                </a>
+            </div>
+            <div className=" w-full -mt-4 flex">
+              <div className="w-2/6">
+                {errors.StartPeriod && (
+                  <small className="text-red-500 ml-4">
+                    {errors?.StartPeriod.message}
+                  </small>
+                )}
+              </div>
+              <div className="w-4"></div>
+              <div className="w-2/6">
+                {errors.EndPeriod && (
+                  <small className="text-red-500 ml-4">
+                    {errors?.EndPeriod.message}
+                  </small>
+                )}
               </div>
             </div>
             <div className=" p-4 flex items-center w-full relative">
@@ -424,7 +558,15 @@ const NewBatch:MyPage = () => {
                 className="w-5/12"
                 includeInputInList
                 onChange={(event: any, value: any) => {
-                  register("Trainer", { value: value });
+                  register("Trainer", {
+                    ...registerOptions.Trainer,
+                    value: value,
+                  });
+                  if (!value) {
+                    setValue("Trainer", ""); // Menghapus nilai "Trainer" jika value null
+                  } else {
+                    setValue("Trainer", value);
+                  }
                 }}
                 renderInput={(params) => (
                   <TextField
@@ -441,7 +583,51 @@ const NewBatch:MyPage = () => {
                 autoComplete
                 className="w-5/12"
                 includeInputInList
-                isOptionEqualToValue={(option, value) => option === value}
+                onChange={(event: any, value: any) => {
+                  register("CoTrainer");
+                  if (!value) {
+                    setValue("CoTrainer", "");
+                  } else {
+                    setValue("CoTrainer", value);
+                  }
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search Co-Trainer"
+                    variant="standard"
+                  />
+                )}
+              />
+            </div>
+            {/* <div className=" p-4 flex items-center w-full relative">
+              <Autocomplete
+                {...propsData}
+                id="Trainer"
+                autoComplete
+                className="w-5/12"
+                includeInputInList
+                onChange={(event: any, value: any) => {
+                  register("Trainer", {
+                    ...registerOptions.Trainer,
+                    value: value
+                  });
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search Trainer"
+                    variant="standard"
+                  />
+                )}
+              />
+              <div className="w-8"></div>
+              <Autocomplete
+                {...propsData}
+                id="CoTrainer"
+                autoComplete
+                className="w-5/12"
+                includeInputInList
                 onChange={(event: any, value: any) => {
                   register("CoTrainer", { value: value });
                 }}
@@ -453,57 +639,15 @@ const NewBatch:MyPage = () => {
                   />
                 )}
               />
+            </div> */}
+            <div className="w-full">
+              {errors.Trainer && (
+                <small className="text-red-500 ml-4 -mt-2">
+                  {errors?.Trainer.message}
+                </small>
+              )}
             </div>
             <div className="mt-6"></div>
-            {/* <div className=" p-4 flex items-center w-8/12 justify-center relative">
-                <Autocomplete
-                  {...defaultProps}
-                  id="Trainer"
-                  autoComplete
-                  className="w-6/12"
-                  includeInputInList
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Search Trainer"
-                      variant="standard"
-                    />
-                  )}
-                />
-                <div className="w-6"></div>
-                <Autocomplete
-                  {...defaultProps}
-                  id="Trainer"
-                  autoComplete
-                  className="w-6/12"
-                  includeInputInList
-                  renderInput={(params) => (
-                    <TextField
-                    {...params}
-                    label="Search Co-Trainer"
-                    variant="standard"
-                    />
-                    )}
-                />
-                <div className="w-6"></div>
-                <Autocomplete
-                  {...defaultProps}
-                  id="Trainer"
-                  autoComplete
-                  className="w-6/12"
-                  includeInputInList
-                  renderInput={(params) => (
-                    <TextField
-                    {...params}
-                    label="Search Co-Trainer"
-                    variant="standard"
-                    />
-                    )}
-                />
-                <div className="w-6"></div>
-              <div className="flex justify-center items-center relative">
-              </div>
-            </div> */}
             <a className="sm:text-sm md:text-base text-sm h-auto ml-4 relative">
               Recommended Bootcamp Members
             </a>
@@ -525,7 +669,6 @@ const NewBatch:MyPage = () => {
                     />
                   )}
                 />
-
                 <div className="w-10"></div>
                 <Autocomplete
                   {...propsTahun}
@@ -554,33 +697,79 @@ const NewBatch:MyPage = () => {
                 </Button>
               </div>
             </div>
+            <div className="w-full">
+              {errors.batchTrainees && (
+                <small className="text-red-500 ml-4 -mt-2">
+                  {errors?.batchTrainees.message}
+                </small>
+              )}
+            </div>
+            {/* Filter orangnya, ketika filtered.length = 0, maka pake yang lama */}
             <div className="flex flex-wrap w-full items-center justify-center">
-              {(currentData || []).map((user) => (
+              {/* {(
+                (filteredData.length == 0 ? currentData : filteredData) || []
+              ).map((user: any) => ( */}
+              {currentData?.map((user: any) => (
+                //batchTrainees digunakan jika sudah ada datanya
                 <Card
-                  key={user.id}
+                  key={user.user_entity_id}
                   className={`m-3 rounded-lg ${
-                    checked.includes(user.id)
-                      ? "transisi bg-green-500"
+                    checked.includes(user.user_entity_id)
+                      ? "transisi bg-green-400"
                       : "transisi  bg-white"
                   }`}
                   sx={{ minWidth: 250 }}
-                  onClick={() => ngecek(user.id)}
+                  onClick={() => cekUser(user.user_entity_id)}
                 >
                   <CardContent className="flex flex-wrap items-center justify-between">
-                    <Typography variant="h5" component="div">
-                      {user.name}
+                    <Avatar alt={user.trainee_name} src={user.foto} />
+                    <Typography variant="body1" component="div">
+                      {user.trainee_name}
                     </Typography>
-
-                    <AddRoundedIcon
-                      className={`${
-                        checked.includes(user.id)
-                          ? "transisi rotate-45"
-                          : "transisi"
-                      }`}
-                    />
+                    {checked.includes(user.user_entity_id) ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={`h-6 w-6 text-white animate-tick ${
+                          checked.includes(user.user_entity_id) ? "checked" : ""
+                        }`}
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M7 13l3 3 7-7" />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={`h-6 w-6 ${
+                          checked.includes(user.user_entity_id)
+                            ? "text-white"
+                            : "checked-back"
+                        }`}
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M7 10h6M10 7v6" />
+                      </svg>
+                    )}
                   </CardContent>
                 </Card>
               ))}
+
+              {loadedData.length == 0 && filteredData == 0 ? (
+                <Typography className="mt-5 capitalize text-white bg-red-400 rounded-lg w-fit p-4 text-center">
+                  Tidak ada Data
+                </Typography>
+              ) : (
+                ""
+              )}
             </div>
             <div className="flex justify-center mt-3">
               <Pagination
@@ -590,6 +779,7 @@ const NewBatch:MyPage = () => {
                 color="primary"
               />
             </div>
+            <input type="hidden" {...register("batchTrainees")} />
             <div className="flex items-center justify-end">
               <Button
                 type="submit"
@@ -605,7 +795,7 @@ const NewBatch:MyPage = () => {
                   router.back();
                 }}
                 variant="contained"
-                className="mt-4 ml-2 mb-4 mr-4 bg-blue-500 hover:bg-blue-600 rounded-md"
+                className="mt-4 ml-2 mb-4 mr-4 bg-red-500 hover:bg-red-600 rounded-md"
               >
                 Cancel
               </Button>
@@ -613,9 +803,9 @@ const NewBatch:MyPage = () => {
           </form>
         </div>
       </Content>
-    </div>
+    </>
   );
 };
 
-NewBatch.Layout="Admin"
-export default NewBatch;
+newBatch.Layout = "Admin";
+export default newBatch;

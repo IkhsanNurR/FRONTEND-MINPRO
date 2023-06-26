@@ -1,4 +1,4 @@
-import Content1 from "@/pages/shared/content1";
+import Content1 from "@/components/shared/content1";
 import {
   Button,
   Card,
@@ -12,11 +12,19 @@ import {
   alpha,
   styled,
 } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import loading from "../../../../../public/loading-infinite.svg";
 import { useRouter } from "next/router";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import ReviewModal from "./editreview";
 import { MyPage } from "@/components/types";
+import { useDispatch, useSelector } from "react-redux";
+import { reqGetBootcampById } from "@/redux/bootcampSchema/action/actionReducer";
+import DetailEvaluation from "./detail";
+import StatusModal from "./status";
+import { Grading, ManageAccountsRounded } from "@mui/icons-material";
+// import StatusModal from "./status";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -61,132 +69,32 @@ const StyledMenu = styled((props: MenuProps) => (
   },
 }));
 
-const EvaluationBatch:MyPage = () => {
-  const dataUser = [
-    {
-      id: 1,
-      user_id: 1,
-      bulan: "Januari",
-      tahun: 1999,
-      firstname: "Aji",
-      lastname: "Sasongko",
-      nilai: 90,
-      image: "https://i.pravatar.cc/300",
-    },
-    {
-      id: 2,
-      user_id: 2,
-      bulan: "Januari",
-      tahun: 1999,
-      firstname: "Aji",
-      lastname: "Badongko",
-      nilai: 85,
-      image: "https://i.pravatar.cc/300",
-    },
-    {
-      id: 3,
-      user_id: 3,
-      bulan: "Februari",
-      tahun: 2000,
-      firstname: "Aji",
-      lastname: "Muludin",
-      nilai: 80,
-      image: "https://i.pravatar.cc/300",
-    },
-    {
-      id: 4,
-      user_id: 4,
-      bulan: "Maret",
-      tahun: 2000,
-      firstname: "Bagas",
-      lastname: "Pratama S",
-      nilai: 86,
-      image: "https://i.pravatar.cc/300",
-    },
-    {
-      id: 5,
-      user_id: 5,
-      bulan: "Maret",
-      tahun: 2001,
-      firstname: "Dany",
-      lastname: "Utama R",
-      nilai: 83,
-      image: "https://i.pravatar.cc/300",
-    },
-    {
-      id: 6,
-      user_id: 6,
-      bulan: "April",
-      tahun: 2001,
-      firstname: "Dewi",
-      lastname: "Sri S",
-      nilai: 82,
-      image: "https://i.pravatar.cc/300",
-    },
-    {
-      id: 7,
-      user_id: 7,
-      bulan: "Mei",
-      tahun: 2001,
-      firstname: "Ade",
-      lastname: "Kurnia Sari",
-      nilai: 87,
-      image: "https://i.pravatar.cc/300",
-    },
-    {
-      id: 8,
-      user_id: 8,
-      bulan: "Juni",
-      tahun: 2002,
-      firstname: "Welly",
-      lastname: "Putri K",
-      nilai: 88,
-      image: "https://i.pravatar.cc/300",
-    },
-    {
-      id: 9,
-      user_id: 9,
-      bulan: "Juli",
-      tahun: 2003,
-      firstname: "Dani",
-      lastname: "Putra",
-      nilai: 89,
-      image: "https://i.pravatar.cc/300",
-    },
-    {
-      id: 10,
-      user_id: 10,
-      bulan: "Februari",
-      tahun: 2000,
-      firstname: "Annisa",
-      lastname: "Dewi",
-      nilai: 92,
-      image: "https://i.pravatar.cc/300",
-    },
-    {
-      id: 11,
-      user_id: 11,
-      bulan: "Maret",
-      tahun: 2000,
-      firstname: "Wulan",
-      lastname: "Arienza",
-      nilai: 95,
-      image: "https://i.pravatar.cc/300",
-    },
-    {
-      id: 12,
-      user_id: 12,
-      bulan: "Juli",
-      tahun: 2003,
-      firstname: "Fany",
-      lastname: "Putri",
-      nilai: 97,
-      image: "https://i.pravatar.cc/300",
-    },
-  ];
+const EvaluationBatch: MyPage = () => {
+  let { bootcamp, message, refresh, status } = useSelector(
+    (state: any) => state.bootcampReducer
+  );
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [loadedData, setLoadedData]: any = useState(null);
+  const { batch_id } = router.query;
+
+  useEffect(() => {
+    dispatch({ type: "RESET_STATE" });
+    if (router.isReady) {
+      dispatch(reqGetBootcampById(batch_id));
+    }
+  }, [router.isReady]);
+
+  useEffect(() => {
+    setLoadedData(bootcamp[0]);
+    console.log(loadedData);
+  }, [bootcamp]);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selected, setSelected] = useState(0);
   const [openReviewModal, setOpenReviewModal] = useState(false);
+  const [openEvaluationModal, setOpenEvaluationModal] = useState(false);
+  const [openStatusModal, setOpenStatusModal] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>, user: any) => {
     setSelected(user);
@@ -194,7 +102,8 @@ const EvaluationBatch:MyPage = () => {
   };
 
   const handleEvaluation = () => {
-    console.log(selected);
+    // console.log(selected);
+    setOpenEvaluationModal(true);
     setAnchorEl(null);
   };
 
@@ -202,84 +111,109 @@ const EvaluationBatch:MyPage = () => {
     setOpenReviewModal(true);
     setAnchorEl(null);
   };
-  const handleResign = () => {
-    console.log(selected);
+  const handleStatus = () => {
+    setOpenStatusModal(true);
     setAnchorEl(null);
   };
-  const router = useRouter();
-
-  return (
-    <div>
-      <Content1
-        title={`BATCH#13, Bootcamp Net Framework Evaluation`}
-        fungsi1={() => router.back()}
-        namafungsi1="Back"
-      >
-        <div className="flex flex-wrap w-full items-center justify-center">
-          {(dataUser || []).map((data: any) => (
-            <Card
-              key={data.id}
-              className={`m-3 rounded-b-xl`}
-              sx={{ minWidth: 250 }}
-            >
-              <CardMedia
-                component="img"
-                sx={{ height: 170 }} // Mengatur tinggi gambar menjadi 100px
-                image={data.image}
-                alt="green iguana"
-                className="-mt-1"
-              />
-              <CardContent className=" flex flex-wrap text-center">
-                <div className="flex flex-wrap w-full justify-center">
-                  <div>
-                    <h1 className="text-lg font-semibold">{data.firstname}</h1>
-                    <h2 className="text-lg font-semibold">{data.lastname}</h2>
-                    <h3 className="pt-4 text-base">
-                      Total Score: {data.nilai}
-                    </h3>
+  if (!loadedData) {
+    return (
+      <div className="mt-48 flex justify-center items-center">
+        <Image src={loading} alt="loading" className="text-center" />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Content1
+          title={`${loadedData.batch_name}, ${loadedData.technology} Bootcamp Evaluation`}
+          fungsi1={() => router.back()}
+          namafungsi1="Back"
+        >
+          <div className="flex flex-wrap w-full items-center justify-center">
+            {(loadedData.members || []).map((data: any) => (
+              <Card
+                key={data.trainee_id}
+                className={`m-3 rounded-b-xl rounded-t-lg border-gray-300 shadow-xl`}
+                sx={{ minWidth: 250 }}
+              >
+                <CardMedia
+                  component="img"
+                  sx={{ height: 170 }} // Mengatur tinggi gambar menjadi 100px
+                  image={data.user_photo}
+                  alt="green iguana"
+                  className="-mt-1"
+                />
+                <CardContent className=" flex flex-wrap text-center">
+                  <div className="flex flex-wrap w-full justify-center">
+                    <div>
+                      <h1 className="text-lg font-semibold">
+                        {data.firstname}
+                      </h1>
+                      <h2 className="text-lg font-semibold">{data.lastname}</h2>
+                      <h3 className="pt-4 text-base">
+                        Total Score : {data.total_score}
+                      </h3>
+                    </div>
+                    <button
+                      className="pl-[200px] absolute"
+                      aria-controls={open ? "demo-customized-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={(e) => handleClick(e, data)}
+                    >
+                      <MoreVertRoundedIcon className="h-7 w-7 items-center transition durataion-300 ease-in-out bg-transparent rounded-full hover:bg-slate-100" />
+                    </button>
+                    <StyledMenu
+                      id="demo-customized-menu"
+                      MenuListProps={{
+                        "aria-labelledby": "demo-customized-button",
+                      }}
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={() => setAnchorEl(null)}
+                    >
+                      <MenuItem
+                        onClick={() =>
+                          router.push({
+                            pathname: `./evaluation/detail`,
+                            query: {
+                              trainee_id: data.trainee_id,
+                              batch_id: loadedData.batch_id,
+                              // progname1: selected.technology
+                            },
+                          })
+                        }
+                        disableRipple
+                      >
+                        <Grading/>
+                        Evaluation
+                      </MenuItem>
+                      <MenuItem onClick={handleStatus} disableRipple>
+                        <ManageAccountsRounded/>
+                        Status
+                      </MenuItem>
+                    </StyledMenu>
                   </div>
-                  <button
-                    className="pl-[200px] absolute"
-                    aria-controls={open ? "demo-customized-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={(e) => handleClick(e, data)}
-                  >
-                    <MoreVertRoundedIcon className="h-7 w-7 items-center transition durataion-300 ease-in-out bg-transparent rounded-full hover:bg-slate-100" />
-                  </button>
-                  <StyledMenu
-                    id="demo-customized-menu"
-                    MenuListProps={{
-                      "aria-labelledby": "demo-customized-button",
-                    }}
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={() => setAnchorEl(null)}
-                  >
-                    <MenuItem onClick={handleEvaluation} disableRipple>
-                      Evaluation
-                    </MenuItem>
-                    <MenuItem onClick={handleReview} disableRipple>
-                      Review
-                    </MenuItem>
-                    <MenuItem onClick={handleResign} disableRipple>
-                      Status
-                    </MenuItem>
-                  </StyledMenu>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-          <ReviewModal
-            open={openReviewModal}
-            handleClose={() => setOpenReviewModal(false)}
-            data={selected}
-          />
-        </div>
-      </Content1>
-    </div>
-  );
+                </CardContent>
+              </Card>
+            ))}
+            <ReviewModal
+              open={openReviewModal}
+              handleClose={() => setOpenReviewModal(false)}
+              data={selected}
+            />
+
+            <StatusModal
+              open={openStatusModal}
+              handleClose={() => setOpenStatusModal(false)}
+              data={selected}
+            />
+          </div>
+        </Content1>
+      </div>
+    );
+  }
 };
 
-EvaluationBatch.Layout="Admin"
+EvaluationBatch.Layout = "Admin";
 export default EvaluationBatch;

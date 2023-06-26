@@ -1,10 +1,12 @@
 import React from "react";
 import Content2 from "../../components/shared/content2";
 import { MyPage } from "@/components/types";
+import { ToastContainer } from "react-toastify";
 
 const Index: MyPage = () => {
   return (
     <>
+    <ToastContainer/>
       <Content2
         title="COBA"
         fungsi1={() => null}
