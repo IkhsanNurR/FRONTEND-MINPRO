@@ -151,9 +151,9 @@ const JoinPlacement = (props: any) => {
   const handleRegistration = async (data: any) => {
     register;
 
+    console.log("isi data placemnet", data);
     dispatch(doRequestCreateEmployeeBootcamp(data));
-
-    console.log(data);
+    props.closeModal();
 
     // const isiData: any = new FormData()
 

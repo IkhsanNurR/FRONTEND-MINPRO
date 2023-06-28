@@ -55,15 +55,15 @@ const Content1 = (props: any) => {
             {title}
           </h1>
         </div>
-        <div className="mt-4 flex sm:mt-0 sm:ml-4">
-          <Link
+        <div className="mt-4 flex sm:mt-0 sm:ml-4 ml-auto text-end justify-end">
+          <button
             onClick={() => others.fungsi1()}
             // href={others.fungsi1}
             type="button"
             className="order-0 inline-flex items-center px-4 py-2 border border-transparent rounded-md bg-blue-500 hover:bg-blue-600 text-sm font-medium text-white sm:order-1 "
           >
             {others.namafungsi1}
-          </Link>
+          </button>
         </div>
       </div>
 

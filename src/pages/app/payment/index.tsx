@@ -186,11 +186,11 @@ const Payment: MyPage = () => {
   const handleTypeChange = (event: SelectChangeEvent) => {
     const selectedType = event.target.value as string;
     setSelectedType(selectedType);
-    handleFilterTransaction({ selectedType }); // Memanggil handleFilterTransaction dengan filter yang diperbarui
+    handleFilterTransaction({ selectedType });
   };
 
   const handleFilterFintech = (filter: any) => {
-    let newDataFintech = [...fintech]; // Create a new array to store the filtered data
+    let newDataFintech = [...fintech];
     if (filter.fintech_status_input) {
       newDataFintech = newDataFintech.filter((finte) =>
         finte.fint_name
@@ -202,7 +202,7 @@ const Payment: MyPage = () => {
   };
 
   const handleFilterBank = (filter: any) => {
-    let newDatabank = [...bank]; // Create a new array to store the filtered data
+    let newDatabank = [...bank];
     if (filter.bank_status_input) {
       newDatabank = newDatabank.filter((gudang) =>
         gudang.bank_name
@@ -214,9 +214,8 @@ const Payment: MyPage = () => {
   };
 
   const handleFilterTransaction = (filter: any) => {
-    let newDatatransaction = [...transaction]; // Create a new array to store the filtered data
+    let newDatatransaction = [...transaction];
 
-    // Filter based on transaction number
     if (filter.transaction_status_input) {
       const inputValue = filter.transaction_status_input.toLowerCase();
       newDatatransaction = newDatatransaction.filter((list) =>
@@ -224,7 +223,6 @@ const Payment: MyPage = () => {
       );
     }
 
-    // Filter based on transaction type
     if (filter.selectedType) {
       newDatatransaction = newDatatransaction.filter(
         (list) => list.trpa_type === filter.selectedType
@@ -414,48 +412,6 @@ const Payment: MyPage = () => {
   }, [selectedAccountNumberBank, usersaccount, selectedAccountNumberFinttech]);
 
   useEffect(() => {
-    // if (status === 200 && message) {
-    //   setTimeout(() => {
-    //     alert.notifySuccess(status, message);
-    //   }, 500);
-    // }
-    // if (status >= 400 && message) {
-    //   setTimeout(() => {
-    //     alert.notifyFailed(status, message);
-    //   }, 500);
-    // }
-    // if (statusfintech === 200 && messagefintech) {
-    //   setTimeout(() => {
-    //     alert.notifySuccess(statusfintech, messagefintech);
-    //   }, 500);
-    // }
-    // if (statusfintech >= 400 && messagefintech) {
-    //   setTimeout(() => {
-    //     alert.notifyFailed(statusfintech, messagefintech);
-    //   }, 500);
-    // }
-    // if (statusaccount === 200 && messageaccount) {
-    //   setTimeout(() => {
-    //     alert.notifySuccess(statusaccount, messageaccount);
-    //   }, 500);
-    // }
-    // if (statusaccount >= 400 && messageaccount) {
-    //   setTimeout(() => {
-    //     alert.notifyFailed(statusfintech, messagefintech);
-    //   }, 500);
-    // }
-
-    // if (statustopup === 200 && messagetopup) {
-    //   setTimeout(() => {
-    //     alert.notifySuccess(statustopup, messagetopup);
-    //   }, 500);
-    // }
-    // if (statustopup >= 400 && messagetopup) {
-    //   setTimeout(() => {
-    //     alert.notifyFailed(statustopup, messagetopup);
-    //   }, 500);
-    // }
-
     dispatch(doRequestGetBank());
     dispatch(doRequestGetFintech());
     dispatch(doRequestGetUsersAccount());
@@ -868,7 +824,6 @@ const Payment: MyPage = () => {
           <TabPanel value={value} index={3}>
             <Box sx={{ minWidth: 120 }}>
               <div>
-                {/* <form onSubmit={handleSubmit(handleRegistrationTopup)}> */}
                 <div className="flex bg-white-100">
                   <div className="w-1/2 text-center bg-gray-100">
                     <h2 className="text-3xl font-bold mb-4 bg-blue-300">
@@ -946,7 +901,6 @@ const Payment: MyPage = () => {
                         <div className="mt-4">
                           <button
                             onClick={handleRegistrationTopup}
-                            // type="submit"
                             className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                           >
                             Transfer
@@ -1046,7 +1000,6 @@ const Payment: MyPage = () => {
                     </div>
                   </div>
                 </div>
-                {/* </form> */}
                 <Transfer
                   open={transfer}
                   handleClose={() => setTransfer(false)}

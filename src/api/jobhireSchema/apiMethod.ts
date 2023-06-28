@@ -58,13 +58,28 @@ const searchPostJob = (data: any) => {
 
 /*-------- TALENT APPLY ---------*/
 
-const findProCandidate = () => {
-  return axios.get("/job-hire/talent");
+const createProCandidate = (data: any) => {
+  console.log("api", data);
+  return axios.post("/job-hire/talent", data);
 };
 
-const updateCandidate = (data: any) => {
-  console.log("API DATA UPDATE", data);
-  return axios.patch(`/job-hire/talent/${data.id}`, data);
+const findProCandidateApply = () => {
+  return axios.get("/job-hire/talent/apply");
+};
+
+const findProCandidateInterview = () => {
+  return axios.get("/job-hire/talent/interview");
+};
+const findProCandidateContract = () => {
+  return axios.get("/job-hire/talent/contract");
+};
+const findProCandidateFailed = () => {
+  return axios.get("/job-hire/talent/failed");
+};
+
+const updateTalentStatus = (data: any) => {
+  // console.log('API UPDATE',data)
+  return axios.patch("/job-hire/talent/update", data);
 };
 
 /*-------- CRUD CLIENT ---------*/
@@ -149,6 +164,10 @@ export default {
   findCity,
   findRouteaction,
 
-  findProCandidate,
-  updateCandidate,
+  createProCandidate,
+  findProCandidateApply,
+  findProCandidateInterview,
+  findProCandidateContract,
+  findProCandidateFailed,
+  updateTalentStatus,
 };

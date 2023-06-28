@@ -53,13 +53,13 @@ export const resGetCurrNum = (currnumber: any) => {
 
 export const getEmployee = () => {
   return {
-    type: actionType.GETEMPLOYEE,
+    type: actionType.REQ_EMPLOYEE,
   };
 };
 
 export const getEmployeeResponse = (payload: any) => {
   return {
-    type: actionType.GETEMPLOYEE_RESPONSE,
+    type: actionType.RES_EMPLOYEE,
     payload,
   };
 };
@@ -100,9 +100,10 @@ export const resCreateSectionDetail = (payload: any) => {
   };
 };
 
-export const reqCreateSectionDetail = (payload: any) => {
+export const reqCreateSectionDetail = (id: any, payload: any) => {
   return {
     type: actionType.REQ_CREATE_SECTION_DETAIL,
+    id,
     payload,
   };
 };

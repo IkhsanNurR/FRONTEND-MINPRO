@@ -15,6 +15,65 @@ import bsi from "../../public/bsi.png";
 import sinarmas from "../../public/sinarmas.png";
 import ot from "../../public/ot.png";
 import codeid from "../../public/codeid.png";
+import user1 from "../../public/g1.jpeg";
+import user2 from "../../public/g2.jpeg";
+
+export const Testimoni = [
+  {
+    gambar: user1,
+    nama: "Putri",
+    review:
+      "Bootcamp ini benar-benar mengubah hidup saya! Saya belajar banyak keterampilan teknis dan juga soft skills yang sangat berharga. Instruktur yang berpengalaman dan lingkungan belajar yang mendukung membuat pengalaman ini luar biasa.",
+  },
+  {
+    gambar: user2,
+    nama: "Aji",
+    review:
+      "Bootcamp ini sangat intensif tetapi sepadan dengan usaha yang saya lakukan. Saya merasa dipersiapkan dengan baik untuk dunia kerja setelah menyelesaikan bootcamp ini. Materi yang diajarkan sangat relevan dengan industri dan saya dapat langsung mengaplikasikannya.",
+  },
+  {
+    gambar: user1,
+    nama: "Dani",
+    review:
+      "Saya sangat puas dengan pengalaman saya di bootcamp ini. Kurikulumnya terstruktur dengan baik dan mendalam. Saya juga mendapatkan kesempatan untuk bekerja pada proyek nyata dan berkolaborasi dengan sesama peserta bootcamp.",
+  },
+  {
+    gambar: user2,
+    nama: "Ikhsan Hamid",
+    review:
+      "Salah satu hal terbaik tentang bootcamp ini adalah jaringan kontak yang saya bangun. Saya bertemu dengan banyak profesional di industri yang sama dan dapat belajar dari pengalaman mereka. Hal ini sangat berharga dalam membangun karier di bidang ini.",
+  },
+  {
+    gambar: user1,
+    nama: "Ikhsan Nur Rahmaan",
+    review:
+      "Saya awalnya tidak memiliki latar belakang teknis yang kuat, tetapi bootcamp ini membantu saya untuk mempelajari keterampilan baru secara intensif. Instruktur yang sabar dan dukungan teman-teman sekelas membuat proses belajar menjadi lebih mudah.",
+  },
+  {
+    gambar: user2,
+    nama: "Farrel Rizky",
+    review:
+      "Bootcamp ini memberikan pendekatan yang sangat praktis dalam pembelajaran. Saya dapat langsung mengaplikasikan apa yang saya pelajari dalam proyek-proyek praktis. Ini membantu saya memahami konsep dengan lebih baik dan meningkatkan keterampilan saya secara signifikan.",
+  },
+  {
+    gambar: user1,
+    nama: "Ade Kurniawan",
+    review:
+      "Saya mengikuti bootcamp ini dengan harapan mendapatkan pekerjaan baru dan saya tidak kecewa. Setelah menyelesaikan bootcamp, saya mendapatkan tawaran pekerjaan yang sangat menarik. Ini adalah investasi terbaik yang pernah saya lakukan untuk karier saya.",
+  },
+  {
+    gambar: user2,
+    nama: "Mike",
+    review:
+      "Bootcamp ini memberikan lingkungan yang sangat inklusif dan mendukung. Saya merasa nyaman untuk bertanya dan berbagi pendapat dengan instruktur dan teman-teman sekelas. Semua orang saling membantu dalam proses belajar.",
+  },
+  {
+    gambar: user1,
+    nama: "Zufar",
+    review:
+      "Bootcamp ini memberikan lingkungan yang sangat inklusif dan mendukung. Saya merasa nyaman untuk bertanya dan berbagi pendapat dengan instruktur dan teman-teman sekelas. Semua orang saling membantu dalam proses belajar.",
+  },
+];
 
 const dataDummy = [
   {
@@ -49,72 +108,57 @@ const dataDummy = [
 export const DataCarousel = [
   {
     judul: "Bootcamp Reguler",
-    isi: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga
-      doloribus ullam ratione repellat iusto voluptatem animi consectetur
-      architecto molestias impedit quisquam, praesentium odit corporis
-      esse quibusdam at earum? Minima consequuntur architecto provident
-      culpa repellat cum error totam mollitia perferendis eligendi sequi
-      eveniet adipisci eum suscipit qui, natus exercitationem tenetur
-      nostrum veritatis in. Ipsum animi, nobis incidunt quis tempore
-      asperiores tempora voluptates consequuntur minima eius sit? Ducimus,
-      placeat asperiores. Totam nisi, laboriosam est nihil molestias
-      sapiente placeat quas maiores tenetur ducimus molestiae quisquam
-      repellendus rem harum minima exercitationem doloribus? Nulla tempora
-      facilis et expedita eligendi quaerat cupiditate? Sed ipsum labore
-      ullam?`,
+    isi: `Bootcamp reguler adalah program pelatihan intensif yang dirancang
+     untuk membekali peserta dengan keterampilan dan pengetahuan yang diperlukan dalam bidang tertentu
+      dalam waktu relatif singkat. Dalam bootcamp ini, peserta akan mengikuti serangkaian sesi pelatihan
+       yang terstruktur dan terfokus, dengan tujuan memberikan pemahaman mendalam dan keterampilan praktis
+        yang dapat langsung diterapkan. Selama bootcamp reguler, peserta akan berpartisipasi dalam berbagai
+         kegiatan pembelajaran, seperti kuliah, presentasi, proyek, dan latihan praktis. Bootcamp ini dipandu
+          oleh instruktur yang berpengalaman dan ahli di bidangnya, yang memberikan panduan, umpan balik, dan
+           dukungan kepada peserta selama masa pelatihan.`,
     label: "San Francisco – Oakland Bay Bridge, United States",
-    imgPath: "../../../public/Bimoli.jpg",
+    gambar: gambar2,
   },
   {
     judul: "Bootcamp Online",
-    isi: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga
-      doloribus ullam ratione repellat iusto voluptatem animi consectetur
-      architecto molestias impedit quisquam, praesentium odit corporis
-      esse quibusdam at earum? Minima consequuntur architecto provident
-      culpa repellat cum error totam mollitia perferendis eligendi sequi
-      eveniet adipisci eum suscipit qui, natus exercitationem tenetur
-      nostrum veritatis in. Ipsum animi, nobis incidunt quis tempore
-      asperiores tempora voluptates consequuntur minima eius sit? Ducimus,
-      placeat asperiores. Totam nisi, laboriosam est nihil molestias
-      sapiente placeat quas maiores tenetur ducimus molestiae quisquam
-      repellendus rem harum minima exercitationem doloribus? Nulla tempora
-      facilis et expedita eligendi quaerat cupiditate? Sed ipsum labore
-      ullam?`,
+    isi: `Bootcamp online adalah program pelatihan yang dapat diakses
+     secara daring melalui platform pembelajaran digital. Dalam bootcamp
+      online, peserta memiliki fleksibilitas untuk mengikuti pelatihan sesuai
+      dengan jadwal dan waktu yang mereka pilih. Dalam bootcamp online, peserta
+       akan mendapatkan akses ke berbagai materi pembelajaran, seperti video kuliah,
+        modul pembelajaran, tugas, dan proyek. Materi ini dapat diakses melalui
+         platform pembelajaran yang interaktif, yang memungkinkan peserta untuk belajar
+          dengan kecepatan mereka sendiri dan mengulang materi sesuai kebutuhan.`,
     label: "Bird",
-    imgPath: "../../../public/Bimoli.jpg",
+    gambar: gambar2,
   },
   {
-    judul: "Bootcamp Coorporat",
-    isi: `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga
-      doloribus ullam ratione repellat iusto voluptatem animi consectetur
-      architecto molestias impedit quisquam, praesentium odit corporis
-      esse quibusdam at earum? Minima consequuntur architecto provident
-      culpa repellat cum error totam mollitia perferendis eligendi sequi
-      eveniet adipisci eum suscipit qui, natus exercitationem tenetur
-      nostrum veritatis in. Ipsum animi, nobis incidunt quis tempore
-      asperiores tempora voluptates consequuntur minima eius sit? Ducimus,
-      placeat asperiores. Totam nisi, laboriosam est nihil molestias
-      sapiente placeat quas maiores tenetur ducimus molestiae quisquam
-      repellendus rem harum minima exercitationem doloribus? Nulla tempora
-      facilis et expedita eligendi quaerat cupiditate? Sed ipsum labore
-      ullam?`,
+    judul: "Bootcamp Corporate",
+    isi: `Bootcamp corporate adalah program pelatihan khusus yang dirancang untuk
+     memenuhi kebutuhan dan tujuan perusahaan dalam meningkatkan keterampilan dan
+      pengetahuan karyawan mereka. Bootcamp ini disesuaikan dengan konteks dan
+       lingkungan kerja perusahaan, dengan fokus pada pengembangan keterampilan yang
+        relevan untuk kemajuan karir dan kesuksesan organisasi. Dalam bootcamp corporate,
+         program pelatihan dikustomisasi sesuai dengan kebutuhan dan keinginan perusahaan.
+          Ini dapat meliputi topik seperti pengembangan kepemimpinan, keterampilan komunikasi,
+           manajemen proyek, pemecahan masalah, pengembangan produk, dan banyak lagi.
+            Bootcamp ini dirancang untuk meningkatkan keterampilan karyawan dalam area
+             yang spesifik dan relevan dengan tanggung jawab dan tuntutan pekerjaan mereka.`,
     label: "Bali, Indonesia",
-    imgPath: "../../../public/Bimoli.jpg",
+    gambar: gambar2,
   },
 ];
 
 export const Card = [
   {
-    gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    gambar: "https://www.vectorlogo.zone/logos/nodejs/nodejs-horizontal.svg",
     judul: "NodeJs Full Stack",
     tugas: "Build Rest API With NodeJs",
     durasi: "3 Bulan",
     Pembelian: "Online / Offline",
   },
   {
-    gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    gambar: "https://static.javatpoint.com/core/images/java-logo3.png",
     judul: "Java Developer",
     tugas: "Build Rest API With Java",
     durasi: "3 Bulan",
@@ -122,7 +166,7 @@ export const Card = [
   },
   {
     gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/512px-.NET_Core_Logo.svg.png?20210328084203",
     judul: ".NET Core",
     tugas: "Build Rest API With .NET",
     durasi: "3 Bulan",
@@ -130,7 +174,7 @@ export const Card = [
   },
   {
     gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+      "https://storage.googleapis.com/cms-storage-bucket/847ae81f5430402216fd.svg",
     judul: "Flutter",
     tugas: "Build Rest API With Flutter",
     durasi: "3 Bulan",
@@ -138,15 +182,14 @@ export const Card = [
   },
   {
     gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+      "https://seeklogo.com/images/A/android-logo-9E4539A7DE-seeklogo.com.png",
     judul: "Android Developer",
     tugas: "Build Rest API With Android",
     durasi: "3 Bulan",
     Pembelian: "Online / Offline",
   },
   {
-    gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    gambar: "https://go.dev/blog/go-brand/Go-Logo/PNG/Go-Logo_Aqua.png",
     judul: "Golang ",
     tugas: "Build Rest API With Golang",
     durasi: "3 Bulan",
@@ -311,52 +354,46 @@ export const partnerShip = [
 
 export const alumniTestimoni = [
   {
-    gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
-    nama: "Aji",
-    batch: "BATCH#1",
-    review:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
-  },
-  {
-    gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
-    nama: "Oji",
-    batch: "BATCH#1",
-    review:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
-  },
-  {
-    gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
-    nama: "Ojan",
-    batch: "BATCH#1",
-    review:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
-  },
-  {
-    gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    gambar: "https://i.pravatar.cc/150?img=10",
     nama: "Dian",
+    batch: "BATCH#1",
+    review:
+      "Saya sangat senang dengan pengalaman bootcamp ini! Instruktur hebat dan materi yang terstruktur dengan baik. Bootcamp ini mempersiapkan saya dengan keterampilan yang diperlukan di dunia nyata. Sangat direkomendasikan!",
+  },
+  {
+    gambar: "https://i.pravatar.cc/150?img=9",
+    nama: "Dewi",
+    batch: "BATCH#1",
+    review:
+      "Pengalaman bootcamp ini luar biasa! Instruktur hebat, materi terstruktur dengan baik, dan wawasan baru yang dapat saya terapkan dalam bisnis saya. Sangat berharga!",
+  },
+  {
+    gambar: "https://i.pravatar.cc/150?img=5",
+    nama: "Putri",
+    batch: "BATCH#1",
+    review:
+      "Bootcamp ini mengubah karir saya sebagai programmer. Materi yang disampaikan secara komprehensif, instruktur yang ahli, dan latihan proyek yang nyata membuat saya siap menghadapi tuntutan industri.",
+  },
+  {
+    gambar: "https://i.pravatar.cc/150?img=11",
+    nama: "Aji",
     batch: "BATCH#2",
     review:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
+      "Bootcamp ini mengubah hidup saya sebagai seorang programmer. Instruktur yang luar biasa dan materi yang terstruktur dengan baik membuat saya memiliki keterampilan yang dibutuhkan di dunia nyata.",
   },
   {
-    gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    gambar: "https://i.pravatar.cc/150?img=7",
     nama: "Dafa",
     batch: "BATCH#1",
     review:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
+      "Bootcamp ini benar-benar mengubah perjalanan karir saya sebagai programmer. Materi yang relevan, instruktur yang berpengalaman, dan lingkungan belajar yang mendukung telah membantu saya meningkatkan keterampilan dan kepercayaan diri saya.",
   },
   {
-    gambar:
-      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
+    gambar: "https://i.pravatar.cc/150?img=8",
     nama: "Efen",
     batch: "BATCH#1",
     review:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, nulla. Quaerat nulla eos est? Magni pariatur vitae vero tempore labore voluptatem culpa esse, harum neque. Ratione sit quaerat et quod.",
+      "Bootcamp ini luar biasa! Saya mendapatkan pengetahuan dan keterampilan yang diperlukan untuk menjadi seorang programmer yang sukses. Instruktur yang kompeten dan suasana belajar yang mendukung membuat pengalaman saya sangat berharga.",
   },
 ];
 

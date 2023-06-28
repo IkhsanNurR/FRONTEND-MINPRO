@@ -68,7 +68,7 @@ const EditClient: MyPage = () => {
 
   const handleRegistration = async (data: any) => {
     dispatch(doRequestUpdateClient(data));
-    router.push("/client");
+    router.push("/app/client");
     console.log(data);
   };
 

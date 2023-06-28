@@ -13,11 +13,11 @@ function bootcampReducer(state = initialState, action: any) {
   let { type, payload } = action;
   // console.log("reducermatap", payload);
 
-  if (payload?.status === 201) {
-    alert.notifySuccess(payload.result, payload.message);
-  } else if ([400, 403, 413].includes(payload?.status)) {
-    alert.notifyFailed(payload.status, payload.message);
-  }
+  // if (payload?.status === 201) {
+  //   alert.notifySuccess(payload.result, payload.message);
+  // } else if ([400, 403, 413].includes(payload?.status)) {
+  //   alert.notifyFailed(payload.status, payload.message);
+  // }
   switch (type) {
     case ActionType.RES_GET_BOOTCAMP:
       return {
@@ -90,6 +90,14 @@ function bootcampReducer(state = initialState, action: any) {
         status: payload.status,
         message: payload.message,
         refresh: false,
+      };
+    case ActionType.RES_GET_USER_APPLY_PROGRESS:
+      return {
+        state,
+        bootcamp: payload.result,
+        status: payload.status,
+        message: payload.message,
+        refresh: true,
       };
     case ActionType.RESET_STATE:
       return initialState;

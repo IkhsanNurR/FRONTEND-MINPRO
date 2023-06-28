@@ -23,6 +23,7 @@ import logo from "../../../../../public/laga.jpg";
 import Image from "next/image";
 // import Materi from "../materi";
 import { useDispatch, useSelector } from "react-redux";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useForm } from "react-hook-form";
 import {
   getEmployee,
@@ -35,17 +36,19 @@ import {
 import { reqGetMaster } from "@/redux/CurriculumSchema/MasterSchema/action/actionReducer";
 import { Select as SelectAntd } from "antd";
 import { MyPage } from "@/components/types";
-// import Accordion from '@mui/material/Accordion';
-// import AccordionDetails from '@mui/material/AccordionDetails';
-// import AccordionSummary from '@mui/material/AccordionSummary';
-// import Typography from '@mui/material/Typography';
-// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// // import ReactFileViewer from 'react-file-viewer';
-// import AddIcon from '@mui/icons-material/Add';
+import { AddOutlined } from "@mui/icons-material";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+// import ReactFileViewer from 'react-file-viewer';
+import AddIcon from "@mui/icons-material/Add";
 // import SectionDialog from '../dialog/sectionDialog';
 // import SubSectionDialog from '../dialog/subsectionDialog';
-// import ModalSection from "../materi/section";
-// import dynamic from 'next/dynamic';
+import ModalSection from "../materi/section";
+import ModalSectionDetail from "../materi/sectiondetail";
+import dynamic from "next/dynamic";
 
 // const ReactFileViewer = dynamic(() => import('react-file-viewer'), {
 //     ssr: false
@@ -75,7 +78,6 @@ const curriculum: MyPage = () => {
     (state: any) => state.curriculumReducer
   );
 
-  console.log("Aji Ganteng", userEmployee);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<number>();
 
@@ -109,7 +111,6 @@ const curriculum: MyPage = () => {
     headline: string;
     title: string;
     prog_type: string;
-    // prog_rating : number,
     learning_type: string;
     total_trainee: number;
     image: any;
@@ -118,18 +119,14 @@ const curriculum: MyPage = () => {
     duration: number;
     duration_type: string;
     tag_skill: string;
-    // prog_city_entity_id: number,
     category: number;
     create_by: number;
     status: string;
     type_payment: string;
     batch_total: number;
     item_learning: string;
-    // pred_item_include: string,
-    // pred_requirement: string,
     description: string;
     min_score: number;
-    // pred_target_level: string
     curr_number: string;
   };
   const handleDuration = () => {
@@ -145,6 +142,7 @@ const curriculum: MyPage = () => {
   const [openedSectionIndex, setOpenedSectionIndex] = useState<number | null>(
     null
   );
+  const [expanded, setExpanded] = useState<string | false>("1");
   const [open, setOpen] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showModals, setShowModals] = useState(false);
@@ -153,9 +151,10 @@ const curriculum: MyPage = () => {
   const [opens, setOpens] = useState(false);
   const [data, setData] = useState("");
   const [selectedFile, setSelectedFile] = useState<any>(null);
-
-  console.log("halo", navbarTitle);
-
+  const [sections, setSections] = useState(false);
+  const handleGetSelect = () => {
+    setSections(true);
+  };
   const handleOpens = (items: any) => {
     setSelectedFile(items);
     setShowModals(!showModals);
@@ -170,7 +169,7 @@ const curriculum: MyPage = () => {
   };
 
   const handleAddSection = () => {
-    setNavbarTitle((prevNavbarTitle) => [...prevNavbarTitle, sectionTitle]);
+    setNavbarTitle([...navbarTitle, sectionTitle]);
     // setShowModal(false);
     setSectionTitle("");
   };
@@ -236,7 +235,7 @@ const curriculum: MyPage = () => {
     formData.append("prog_type", data.prog_type);
 
     // Dispatch the form data to the appropriate action
-    // dispatch(reqCreateCurriculum(formData));
+    dispatch(reqCreateCurriculum(formData));
     setMateri(true);
     // console.log('form dataa', formData);
   };
@@ -246,11 +245,11 @@ const curriculum: MyPage = () => {
     dispatch(reqGetMaster());
     dispatch(reqGetCurrNum());
     // dispatch(reqCreateSection())
-    // dispatch(reqGetSectionMerge());
+    dispatch(reqGetSectionMerge());
     // dispatch(reqCreateCurriculum(FormData))
     // console.log("useEffect", currnum);
     // }, [refresh, lala, bebas]);
-  }, []);
+  }, [lili]);
 
   const {
     register,
@@ -258,8 +257,6 @@ const curriculum: MyPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-
-  console.log(section, "hai");
 
   const propsData = {
     option: curriculum,
@@ -428,11 +425,11 @@ const curriculum: MyPage = () => {
                           {...register("price")}
                           variant="outlined"
                           className="w-full"
-                          defaultValue={"Rp. "}
                         />
                       </div>
                     </div>
                     <div className="pad-input my-4">
+                      <h1 className="text-format">Tag Skill</h1>
                       <TextField
                         id="outlined-basic"
                         placeholder="Tag Skill"
@@ -591,6 +588,7 @@ const curriculum: MyPage = () => {
                 type="submit"
                 className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200
                         focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                onClick={handleGetSelect}
               >
                 Save
               </button>
@@ -605,95 +603,99 @@ const curriculum: MyPage = () => {
           </section>
         </form>
       </div>
-      {/* <div className="lg:grid lg:grid-cols-2">
-                <section className="my-8">
-                    <div>
-                        <h1 className="text-format text-left">
-                            Materi (Add Section & Sub Section Materi)
-                        </h1>
-                        <div className="text-right">
-                            <IconButton onClick={() => setShowModal(true)}>
-                                <AddIcon />
-                            </IconButton>
-                        </div>
+      {sections && (
+        <div className="lg:grid lg:grid-cols2">
+          <section className="my-8">
+            <div>
+              <h1 className="text-format text-left">
+                Materi (Add Section & Sub Section Materi)
+              </h1>
+              <div className="text-right">
+                <IconButton onClick={() => setShowModal(true)}>
+                  <AddOutlined />
+                </IconButton>
+              </div>
+            </div>
+            {showModal && (
+              <ModalSection
+                setShowModal={setShowModal}
+                handleNavbarTitle={handleNavbarTitle}
+                handleAddSection={handleAddSection}
+              />
+            )}
+            {/* <div className="flex flex-col"> */}
+            {section?.map((item: any, index: any) => (
+              <Accordion
+                key={item.sect_prog_entity_id}
+                expanded={expanded === index}
+                onChange={() => handleOpen(index)}
+                className="text-right"
+              >
+                <AccordionSummary
+                  expandIcon={<KeyboardArrowDownIcon />}
+                  onClick={() => handleOpen(index)}
+                >
+                  <div className="flex justify-between">
+                    <div>{item.sect_title}</div>
+                    <div className="absolute top-4 right-20 text-lg">
+                      {!item.sect_total_minute
+                        ? "0 Minutes"
+                        : item.sect_total_minute >= 60
+                        ? `${Math.floor(item.sect_total_minute / 60)} Jam`
+                        : `${item.sect_total_minute} Minutes`}
                     </div>
-                    {showModal && (
-                        <ModalSection
-                            setShowModal={setShowModal}
-                            handleNavbarTitle={handleNavbarTitle}
-                            handleAddSection={handleAddSection}
-                        />
-                    )}
-                    {section?.map((item: any, index: any) => (
-                        <Accordion
-                            key={item.sect_prog_entity_id.toString()}
-                            expanded={openedSectionIndex === index}
-                            onChange={() => handleOpen(index)}
-                            className="text-right"
-                        >
-
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                onClick={() => handleOpen(index)}
-                            >
-                                <div>{item.sect_title}</div>
-                                <div className="absolute top-4 right-20 text-lg">
-                                    {item.sect_total_minute >= 60
-                                        ? `${Math.floor(item.sect_total_minute / 60)} Jam`
-                                        : `${item.sect_total_minute} Minutes`}
-                                </div>
-                            </AccordionSummary>
-                            <div className="absolute top-5 right-10 text-lg cursor-pointer">
-                                <AddIcon
-                                    onClick={() => {
-                                        handleOpen(null);
-                                        setShowModals(true);
-                                        setData(item);
-                                    }}
-                                />
-                            </div>
-                            {item.sectionDetail.map((detailItem: any) => (
-                                <AccordionDetails key={detailItem.secd_id}>
-                                    <Card className="bg-gray-100  shadow-none text-start flex justify-between flex-row">
-                                        <button
-                                            onClick={() => handleOpens(detailItem)}
-                                            className="text-blue-800 underline cursor-pointer"
-                                        >
-                                            {detailItem.secd_title}
-                                        </button>
-                                        <div>{detailItem.secd_minute}</div>
-                                    </Card>
-                                    <Dialog maxWidth="xl" open={showModals} onClose={() => handleOpens(null)}>
-                                        <DialogTitle>{detailItem.secd_title}</DialogTitle>
-                                        <DialogContent>
-                                            {selectedFile?.sedm_filetype === 'image' && (
-                                                <img
-                                                    src={`http://localhost:3001/image/${selectedFile?.sedm_filelink}`}
-                                                    alt={selectedFile?.filename}
-                                                    className="w-64 h-64"
-                                                />
-                                            )}
-                                            {selectedFile?.sedm_filetype === 'text' && (
-                                                <ReactFileViewer
-                                                    fileType={selectedFile.filetype}
-                                                    filePath={`http://localhost:3001/files/${selectedFile?.sedm_filelink}`}
-                                                />
-                                            )}
-                                        </DialogContent>
-                                    </Dialog>
-                                </AccordionDetails>
-                            ))}
-                        </Accordion>
-                    ))}
-                    {showModals && (
-                        <ModalSection
-                            setShowModals={setShowModals}
-                            data={data}
-                        />
-                    )}
-                </section>
-            </div> */}
-      {/* {materi ? <Materi /> : ''} */}
+                  </div>
+                </AccordionSummary>
+                <div className="absolute top-5 right-10 text-lg cursor-pointer">
+                  <AddOutlined
+                    onClick={() => {
+                      handleOpen(null);
+                      setShowModals(true);
+                      setData(item);
+                    }}
+                  />
+                </div>
+                {item.sectionDetail.map((detailItem: any) => (
+                  <AccordionDetails
+                  // key={index}
+                  // onClick={() => handleOpens(detailItem)}
+                  >
+                    <Card className="bg-gray-100  shadow-none text-start flex justify-between flex-row">
+                      <button
+                        onClick={() => handleOpens(detailItem)}
+                        className="text-blue-800 underline cursor-pointer"
+                      >
+                        {detailItem.secd_title}
+                      </button>
+                      <div>{detailItem.secd_minute}</div>
+                    </Card>
+                    <Dialog maxWidth="xl" open={opens} onClose={handleOpens}>
+                      <DialogTitle>{detailItem.secd_title}</DialogTitle>
+                      <DialogContent>
+                        {selectedFile?.sedm_filetype === "image" && (
+                          // {selectedFile?.sedm_filelink}
+                          <img
+                            src={`http://localhost:3001/image/${selectedFile?.sedm_filelink}`}
+                            // src="http://localhost:7300/image/Lyx6jYltNKNEaSG9ehYuJg==_signature_c8pes0jimgc75c4dvk.png"
+                            alt={selectedFile?.filename}
+                            className="w-64 h-64"
+                          />
+                        )}
+                      </DialogContent>
+                    </Dialog>
+                  </AccordionDetails>
+                ))}
+              </Accordion>
+            ))}
+            {showModals && (
+              <ModalSectionDetail
+                setShowModals={setShowModals}
+                data={data}
+              ></ModalSectionDetail>
+            )}
+          </section>
+        </div>
+      )}
     </Content1>
   );
 };

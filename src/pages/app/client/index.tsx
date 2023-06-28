@@ -72,7 +72,7 @@ const Jobs: MyPage = () => {
         title="list client"
         // fungsi1={router.push("/app/client/new")}
         fungsi1={() => router.push("/app/client/new")}
-        namafungsi1="tambah client"
+        namafungsi1="Tambah Client"
       >
         <div>
           <form onSubmit={handleSubmit(handleRegistration)}>

@@ -118,6 +118,11 @@ const getTalentBootcamp = () => {
   return axios.get(`bootcamp/talentbootcamp`);
 };
 
+const getUserApplyProgress = (id: any) => {
+  console.log("idnya", id);
+  return axios.get(`bootcamp/usersapplyprogress/${id}`);
+};
+
 export default {
   //bootcamp
   getBootcamp,
@@ -158,4 +163,6 @@ export default {
   getCandidatNotResponding,
   updateCandidatNotResponding,
   getTalentBootcamp,
+
+  getUserApplyProgress,
 };

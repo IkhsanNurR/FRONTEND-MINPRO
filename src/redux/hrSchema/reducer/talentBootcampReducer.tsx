@@ -1,4 +1,5 @@
 import ActionTypes from "../action/actionType";
+import alert from "@/alert";
 
 const initialState = {
   talent: [],
@@ -13,7 +14,12 @@ const initialState = {
 function TalentBootcampReducer(state = initialState, action: any) {
   const { type, payload } = action;
   console.log("kok kesini", payload);
-  console.log("kok kesana", type);
+  // console.log("kok kesana", type);
+  if (payload?.status === 201) {
+    alert.notifySuccess(payload.result, payload.message);
+  } else if ([400, 403, 413].includes(payload?.status)) {
+    alert.notifyFailed(payload.status, payload.message);
+  }
   switch (type) {
     case ActionTypes.RES_TALENT:
       return { ...state, talent: payload, refresh: true };
@@ -24,7 +30,9 @@ function TalentBootcampReducer(state = initialState, action: any) {
     case ActionTypes.RES_GET_FILTER_DEPARTMENT:
       return { ...state, department: payload, refresh: true };
     case ActionTypes.RES_CREATE_BOOTCAMP:
-      return { ...state, message: payload.message, refresh: true };
+      return { message: payload.message, refresh: false };
+    // case ActionTypes.RES_CREATE_BOOTCAMP:
+    //   return { ...state, message: payload.message, refresh: true };
     case ActionTypes.RES_JOBTYPE:
       return { ...state, jobtype: payload, refresh: true };
 

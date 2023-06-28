@@ -48,7 +48,7 @@ const Index: MyPage = () => {
 
   useEffect(() => {
     signupSuccessOrFail();
-  }, [status]);
+  }, [status, message]);
 
   useEffect(() => {
     const token = getCookie("token");

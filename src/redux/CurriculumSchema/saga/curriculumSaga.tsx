@@ -69,7 +69,7 @@ export function* handleGetCurrNum(): any {
 
 export function* handleGetUserEmployee(): any {
   try {
-    const res = yield call(apiMethod.getUserEmployee);
+    const res = yield call(apiMethod.getEmployee);
     yield put(getEmployeeResponse(res.data.data));
   } catch (error) {
     yield put(

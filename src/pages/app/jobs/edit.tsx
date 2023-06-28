@@ -54,6 +54,8 @@ const JobEdit: MyPage = () => {
     (state: any) => state.JobPostReducers
   );
 
+  console.log("JOB POST ID ", job_post_id);
+
   let { education, refreshEdu } = useSelector(
     (state: any) => state.EducationReducers
   );
@@ -239,7 +241,7 @@ const JobEdit: MyPage = () => {
     formData.append("jopo_clit_id", data.client.clit_id);
     formData.append("jopo_addr_id", data.client.addr_id);
     formData.append("jopo_description", data.description);
-    formData.append("image", data.image[0]);
+    formData.append("image", data.image[0].originFileObj);
     let type = data.image[0]?.type;
     let imageType = type?.split("/")[1];
     formData.append("image_type", imageType);
@@ -251,7 +253,7 @@ const JobEdit: MyPage = () => {
     dispatch(doRequestUpdateJobPost(formData));
     router.push("/app/jobs");
     console.log("aa", ...formData);
-    console.log(data);
+    console.log("DATA", data);
   };
 
   const registerOptions = {
@@ -275,7 +277,11 @@ const JobEdit: MyPage = () => {
 
   if (loadedData) {
     return (
-      <Content1 title="Posting Job" path="/app/jobs" button="Back">
+      <Content1
+        title="Edit Jobs"
+        namafungsi1="Back"
+        fungsi1={() => router.push("/app/jobs")}
+      >
         <div>
           <form onSubmit={handleSubmit(handleRegistration)}>
             <div className="lg:grid lg:grid-cols-2">
@@ -416,7 +422,7 @@ const JobEdit: MyPage = () => {
                               shrink: true,
                             }}
                             inputProps={{
-                              min: 1,
+                              min: 0,
                             }}
                           />
                           {/* <p className="px-2 text-red-800">

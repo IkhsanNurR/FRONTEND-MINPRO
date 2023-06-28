@@ -48,6 +48,7 @@ import {
   handleGetBootcamp,
   handleGetBootcampById,
   handleGetBootcampIndex,
+  handleGetUserApplyProgress,
   handlePendingBootcamp,
   handleSetToRunningBootcamp,
 } from "../bootcampSchema/saga/bootcampSaga";
@@ -92,7 +93,11 @@ import {
 import { handleGetEmprange } from "../jobhireSchema/jobHireSchema/saga/empRangeSaga";
 import { handleGetPhoto } from "../jobhireSchema/jobHireSchema/saga/photoSaga";
 import {
-  handleGetProCandidate,
+  handleAddCandidate,
+  handleGetProCandidateApply,
+  handleGetProCandidateContract,
+  handleGetProCandidateFailed,
+  handleGetProCandidateInterview,
   handleUpdateCandidate,
 } from "../jobhireSchema/jobHireSchema/saga/talentSaga";
 import { handleGetEducationJobHire } from "../jobhireSchema/master-jobhireSchema/saga/educationSaga";
@@ -163,6 +168,7 @@ import {
   getJobtype,
   handleCreateEmployeeBootcamp,
   handleCreateEmployeeInternal,
+  handleCreateSalary,
   handleDepartmentHistory,
   handleEmployee,
   handleFilterDepartment,
@@ -212,6 +218,22 @@ import {
   handleUpdateCurriculum,
 } from "../CurriculumSchema/saga/curriculumSaga";
 import { handleGetMaster } from "../CurriculumSchema/MasterSchema/saga/masterSaga";
+import ActionSalesTypes from "../salesSchema/action/actionType";
+import {
+  handleAddCartItem,
+  handleDeleteCartItem,
+  handleGetAllCartItem,
+} from "../salesSchema/saga/cartItemsSaga";
+import { handleGetAllPayment } from "../salesSchema/saga/paymentSaga";
+import {
+  handleAddSpecialOffer,
+  handleGetAllSpecialOffer,
+} from "../salesSchema/saga/specialOfferSaga";
+import {
+  handleAddSalesOrder,
+  handleDeleteSalesOrder,
+  handleGetAllSalesOrder,
+} from "../salesSchema/saga/salesOrderSaga";
 
 function* watchAll() {
   yield all([
@@ -266,8 +288,27 @@ function* watchAll() {
     takeEvery(jobhireActionType.REQ_GET_EMPRANGE, handleGetEmprange),
     takeEvery(jobhireActionType.REQ_GET_JOBPHOTO, handleGetPhoto),
 
-    takeEvery(jobhireActionType.REQ_GET_CANDIDATE, handleGetProCandidate),
-    takeEvery(jobhireActionType.REQ_UPDATE_CANDIDATE, handleUpdateCandidate),
+    takeEvery(
+      jobhireActionType.REQ_GET_CANDIDATE_APPLY_JOB,
+      handleGetProCandidateApply
+    ),
+    takeEvery(
+      jobhireActionType.REQ_GET_CANDIDATE_INTERVIEW_JOB,
+      handleGetProCandidateInterview
+    ),
+    takeEvery(
+      jobhireActionType.REQ_GET_CANDIDATE_CONTRACT_JOB,
+      handleGetProCandidateContract
+    ),
+    takeEvery(
+      jobhireActionType.REQ_GET_CANDIDATE_FAILED_JOB,
+      handleGetProCandidateFailed
+    ),
+    takeEvery(
+      jobhireActionType.REQ_UPDATE_CANDIDATE_JOB,
+      handleUpdateCandidate
+    ),
+    takeEvery(jobhireActionType.REQ_ADD_CANDIDATE_JOB, handleAddCandidate),
 
     takeEvery(jobhireActionType.REQ_GET_CLIENT, handleGetAllClient),
     takeEvery(jobhireActionType.REQ_GET_CLIENT_BY_ID, handleGetClientById),
@@ -371,6 +412,10 @@ function* watchAll() {
     //talent
     takeEvery(ActionTypeBootcamp.REQ_GET_TALENT, handleGetTalent),
 
+    takeEvery(
+      ActionTypeBootcamp.REQ_GET_USER_APPLY_PROGRESS,
+      handleGetUserApplyProgress
+    ),
     //===================================================
 
     //master
@@ -454,6 +499,7 @@ function* watchAll() {
       handleDepartmentHistory
     ),
     takeEvery(ActionTypesEmployee.REQ_PAY_HISTORY, handlePayHistory),
+    takeEvery(ActionTypesEmployee.REQ_CREATE_SALARY, handleCreateSalary),
 
     //payment
     takeEvery(ActionTypePayment.REQ_GET_BANK, handlegetAllBank),
@@ -498,8 +544,22 @@ function* watchAll() {
       handleCreateSectionDetail
     ),
     takeEvery(CurriculumActionType.REQ_GET_MERGE, handleGetSectionMerge),
-    takeEvery(CurriculumActionType.GETEMPLOYEE, handleGetUserEmployee),
+    takeEvery(CurriculumActionType.REQ_EMPLOYEE, handleGetUserEmployee),
     takeEvery(MasterActionType.REQ_GET_MASTER, handleGetMaster),
+
+    //sales
+    takeEvery(ActionSalesTypes.GET_CART_ITEM, handleGetAllCartItem),
+    takeEvery(ActionSalesTypes.DELETE_CART_ITEM, handleDeleteCartItem),
+    takeEvery(ActionSalesTypes.ADD_CART_ITEM, handleAddCartItem),
+
+    takeEvery(ActionSalesTypes.GET_PAYMENT_REQUEST, handleGetAllPayment),
+    takeEvery(ActionSalesTypes.GET_SPECIAL_OFFER, handleGetAllSpecialOffer),
+    takeEvery(ActionSalesTypes.ADD_SPECIAL_OFFER, handleAddSpecialOffer),
+    takeEvery(ActionSalesTypes.DELETE_SPECIAL_OFFER, handleDeleteSalesOrder),
+
+    takeEvery(ActionSalesTypes.GET_SALES_ORDER, handleGetAllSalesOrder),
+    takeEvery(ActionSalesTypes.ADD_SALES_ORDER, handleAddSalesOrder),
+    takeEvery(ActionSalesTypes.DELETE_CART_ITEM, handleDeleteCartItem),
   ]);
 }
 

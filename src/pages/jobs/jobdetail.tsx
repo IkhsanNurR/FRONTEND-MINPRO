@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  doRequestAddCandidate,
   doRequestGetJobPost,
   doRequestGetJobPostById,
 } from "@/redux/jobhireSchema/jobHireSchema/action/actionReducer";
@@ -20,7 +21,10 @@ import CardJob from "@/components/jobHireSchema/cardjob";
 import { MyPage } from "@/components/types";
 import { CookieValueTypes, getCookie } from "cookies-next";
 import decodeTokenName from "@/helper/decodedTokenName";
-import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
+import {
+  GetByNameOrEmail,
+  applyJob,
+} from "@/redux/usersSchema/profile/action/actionReducer";
 import { Progress, notification } from "antd";
 
 const JobDetail: MyPage = () => {
@@ -117,12 +121,10 @@ const JobDetail: MyPage = () => {
 
     switch (type) {
       case "success":
-        message = "Success Notification";
-        description = "This is a success notification.";
+        message = msg;
         break;
       case "info":
-        message = "Info Notification";
-        description = "This is an info notification.";
+        message = msg;
         break;
       case "warning":
         message = msg;
@@ -168,13 +170,23 @@ const JobDetail: MyPage = () => {
         completeness
       );
     } else {
-      const dataUserJob = {
-        taap_user_entity_id: users.user_entity_id,
-        taap_entity_id: job_post_id.jopo_entity_id,
+      // dispatch(
+      //   applyJob({
+      //     id: users.user_entity_id,
+      //     idPost: job_post_id.jopo_entity_id,
+      //   })
+      // );
+      const buatAdd = {
+        user_entity_id: users.user_entity_id,
+        entity_id: job_post_id.jopo_entity_id,
       };
-      // router.push("/bootcamp/apply");
+      console.log("DISPATCH", buatAdd);
+      dispatch(doRequestAddCandidate(buatAdd));
+      openNotificationWithIcon(
+        "success",
+        "Terima kasih sudah apply job ,silahkan cek email untuk step berikutnya"
+      );
       setIsPressed(true);
-      alert(users);
     }
 
     // Lakukan tindakan atau fungsi lain yang diinginkan saat tombol ditekan
@@ -403,7 +415,7 @@ const JobDetail: MyPage = () => {
                   </h1>
                   <div className="pb-3 md:pb-4 lg:pb-12">
                     <img
-                      src={`http://localhost:3003/images/${loadedData.jopho_filename}`}
+                      src={`http://localhost:3001/public/jobhire/${loadedData.jopho_filename}`}
                       alt="gambar"
                       height={80}
                       width={80}

@@ -21,6 +21,7 @@ import next from "../../public/next.png";
 import { useDispatch, useSelector } from "react-redux";
 import { reqGetProgName } from "@/redux/bootcampSchema/action/actionReducer";
 import Footer from "./../landingpagehelper/footer";
+import { Typography } from "@mui/material";
 
 const LandingPage: MyPage = () => {
   let { progname, refresh } = useSelector(
@@ -73,9 +74,9 @@ const LandingPage: MyPage = () => {
                   className="w-full h-28 mb-2 bg-white "
                 />
                 <div className="text-center text-base">
-                  <h1>Ryan</h1>
-                  <p className="mt-1">BATCH#3 Java</p>
-                  <p>Software Engineer at </p>
+                  <Typography variant="h6">Ryan</Typography>
+                  <Typography className="mt-1">BATCH#3 Java</Typography>
+                  <Typography>Software Engineer at </Typography>
                 </div>
                 <Image alt="astra" src={astra} className="w-full h-28 mb-2 " />
               </div>
@@ -87,9 +88,11 @@ const LandingPage: MyPage = () => {
                   className="w-full h-28 mb-2 bg-white "
                 />
                 <div className="text-center text-base">
-                  <h1>Bagus</h1>
-                  <p className="mt-1">BATCH#1 NodeJs Fullstack</p>
-                  <p>Software Engineer at </p>
+                  <Typography variant="h6">Bagus</Typography>
+                  <Typography className="mt-1">
+                    BATCH#1 NodeJs Fullstack
+                  </Typography>
+                  <Typography>Software Engineer at </Typography>
                 </div>
                 <Image
                   alt="mahaka"
@@ -105,9 +108,9 @@ const LandingPage: MyPage = () => {
                   className="w-full h-28 mb-2 bg-white "
                 />
                 <div className="text-center text-base">
-                  <h1>Ade</h1>
-                  <p className="mt-1">BATCH#3 Golang</p>
-                  <p>Software Engineer at </p>
+                  <Typography variant="h6">Ade</Typography>
+                  <Typography className="mt-1">BATCH#3 Golang</Typography>
+                  <Typography>Software Engineer at </Typography>
                 </div>
                 <Image alt="bumn" src={bumn} className="w-full h-28 mb-2 " />
               </div>
@@ -148,29 +151,18 @@ const LandingPage: MyPage = () => {
                     width="100%"
                     height="auto"
                   />
-                  <p className="text-center text-gray-800 mt-2">John Doe</p>
+                  <Typography
+                    className="text-center text-gray-800 mt-2"
+                    variant="h6"
+                  >
+                    Ade Kurniawan
+                  </Typography>
                   <p className="text-center text-gray-600">
-                    Software Engineer at ABC Company
+                    Software Engineer at Bank BSI
                   </p>
                   <p className="text-center text-gray-600">
-                    John Doe mengikuti bootcamp kami dan saat ini bekerja
-                    sebagai software engineer di ABC Company.
-                  </p>
-                </div>
-                <div style={{ margin: "0 10px" }}>
-                  <ReactPlayer
-                    url="https://youtu.be/o8oLQVYlpqw"
-                    controls={true}
-                    width="100%"
-                    height="auto"
-                  />
-                  <p className="text-center text-gray-800 mt-2">John Doe</p>
-                  <p className="text-center text-gray-600">
-                    Software Engineer at ABC Company
-                  </p>
-                  <p className="text-center text-gray-600">
-                    John Doe mengikuti bootcamp kami dan saat ini bekerja
-                    sebagai software engineer di ABC Company.
+                    Ade Kurniawan mengikuti bootcamp kami dan saat ini bekerja
+                    sebagai software engineer di Bank BSI.
                   </p>
                 </div>
                 <div style={{ margin: "0 10px" }}>
@@ -180,13 +172,39 @@ const LandingPage: MyPage = () => {
                     width="100%"
                     height="auto"
                   />
-                  <p className="text-center text-gray-800 mt-2">John Doe</p>
+                  <Typography
+                    className="text-center text-gray-800 mt-2"
+                    variant="h6"
+                  >
+                    Ikhsan Nur Rahmaan
+                  </Typography>
                   <p className="text-center text-gray-600">
-                    Software Engineer at ABC Company
+                    Backend Developer at Astra International
                   </p>
                   <p className="text-center text-gray-600">
-                    John Doe mengikuti bootcamp kami dan saat ini bekerja
-                    sebagai software engineer di ABC Company.
+                    Ikhsan mengikuti bootcamp kami dan saat ini bekerja sebagai
+                    Backend Developer di Astra International.
+                  </p>
+                </div>
+                <div style={{ margin: "0 10px" }}>
+                  <ReactPlayer
+                    url="https://youtu.be/o8oLQVYlpqw"
+                    controls={true}
+                    width="100%"
+                    height="auto"
+                  />
+                  <Typography
+                    className="text-center text-gray-800 mt-2"
+                    variant="h6"
+                  >
+                    Muhamad Aji
+                  </Typography>
+                  <p className="text-center text-gray-600">
+                    Frontend Developer at Bank Mandiri
+                  </p>
+                  <p className="text-center text-gray-600">
+                    Muhamad Aji mengikuti bootcamp kami dan saat ini bekerja
+                    sebagai Frontend Developer di Bank Mandiri.
                   </p>
                 </div>
               </>
@@ -302,9 +320,12 @@ const LandingPage: MyPage = () => {
           </div>
 
           <div className="flex flex-col items-center mt-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <Typography
+              className="text-2xl font-bold text-gray-800 mb-4"
+              variant="h5"
+            >
               Alumni Testimony
-            </h2>
+            </Typography>
           </div>
 
           <div className="flex justify-center">
@@ -348,51 +369,60 @@ const LandingPage: MyPage = () => {
                   />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold mb-2">
+                  <Typography className="text-xl font-bold mb-2" variant="h6">
                     Kenapa pilih Code X Academy?
-                  </h2>
-                  <p className="text-sm">
+                  </Typography>
+                  <Typography className="text-sm">
                     CodeId Academy telah berdiri tahun 2017 dan sekarang telah
                     mencapai 20 batch, dan telah menyalurkan lebih dari 250
                     lulusan bootcamp ke 33 perusahaan ternama. Kamu tidak usah
                     bayar, semua gratis
-                  </p>
+                  </Typography>
                 </div>
               </div>
               <div className="flex justify-between pl-4 gap-2 h-40">
                 <div className="w-1/3 border rounded-md shadow-md hover:shadow-lg transition duration-300 bg-white">
-                  <h1 className="text-xl font-bold text-center">Trainer</h1>
-                  <p className="text-xs text-justify px-4 py-2">
+                  <Typography className="text-xl font-bold text-center">
+                    Trainer
+                  </Typography>
+                  <Typography className="text-xs text-justify px-4 py-2">
                     Trainer kami merupakan tenaga profesional yang berpengalaman
                     lebih dari 5 tahun dan tahu kebutuhan industri baik legacy
                     ataupun latest technology. Jadi kamu akan diguide bagaimana
                     menguasai coding mulai dari fundamental sampai advance
-                  </p>
+                  </Typography>
                 </div>
                 <div className="w-1/3 border rounded-md shadow-md hover:shadow-lg transition duration-300 bg-white">
-                  <h1 className="text-xl font-bold text-center">Materi</h1>
-                  <p className="text-xs text-justify px-4 py-2">
+                  <Typography className="text-xl font-bold text-center">
+                    Materi
+                  </Typography>
+                  <Typography className="text-xs text-justify px-4 py-2">
                     Materi di CodeId Academy telah settle dengan roadmap
                     terstruktur dan dinamis mengikuti kebutuhan industri, kamu
                     bisa belajar langsung dari trainer, kami sediakan juga
                     materi berupa video
-                  </p>
+                  </Typography>
                 </div>
                 <div className="w-1/3 border rounded-md shadow-md hover:shadow-lg transition duration-300 bg-white">
-                  <h1 className="text-xl font-bold text-center">Placement</h1>
-                  <p className="text-xs text-justify px-4 py-2">
+                  <Typography className="text-xl font-bold text-center">
+                    Placement
+                  </Typography>
+                  <Typography className="text-xs text-justify px-4 py-2">
                     Kami akan salurkan ke client kami ketika kamu telah selesai
                     bootcamp
-                  </p>
+                  </Typography>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div className="flex flex-col items-center mt-20">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          <Typography
+            className="text-2xl font-bold text-gray-800 mb-4"
+            variant="h6"
+          >
             Online Course
-          </h2>
+          </Typography>
           <p className="text-center text-xl text-gray-600">
             Bagi kamu yang tidak punya waktu untuk mengikuti full bootcamp, kami
             menyediakan online course, dimana kamu bisa belajar kapan saja dan
@@ -463,9 +493,12 @@ const LandingPage: MyPage = () => {
           </div>
         </div>
         <div className="flex flex-col items-center mt-20">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
-            Frequently Askes Question
-          </h2>
+          <Typography
+            className="text-2xl font-bold text-gray-800 mb-4"
+            variant="h6"
+          >
+            Frequently Asked Question
+          </Typography>
         </div>
         {/* <FAQ /> */}
         <AccordionLandingPage />

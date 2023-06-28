@@ -5,13 +5,14 @@ const initialState = {
   currnum: [],
   userEmployee: [],
   entity_id: [],
+  sections: [],
   message: "",
   status: "",
   refresh: "",
 };
 
 function curriculumReducer(state = initialState, action: any) {
-  let { type, payload, currnumber }: any = action;
+  let { type, payload, currnumber, sections }: any = action;
   // console.log("curriculumReducer",payload);
   switch (type) {
     case ActionType.RES_GET_CURRICULUM:
@@ -60,8 +61,31 @@ function curriculumReducer(state = initialState, action: any) {
         message: payload.message,
         refresh: false,
       };
+    case ActionType.RES_CREATE_SECTION:
+      return {
+        state,
+        status: payload.status,
+        message: payload.message,
+        refresh: false,
+      };
 
-    case ActionType.GETEMPLOYEE_RESPONSE:
+    case ActionType.RES_CREATE_SECTION_DETAIL:
+      return {
+        state,
+        status: payload.status,
+        message: payload.message,
+        refresh: false,
+      };
+
+    case ActionType.RES_GET_MERGE:
+      return {
+        state,
+        section: sections,
+        message: sections.message,
+        status: sections.status,
+        refresh: true,
+      };
+    case ActionType.RES_EMPLOYEE:
       return { ...state, userEmployee: payload, refresh: true };
     default:
       return state;

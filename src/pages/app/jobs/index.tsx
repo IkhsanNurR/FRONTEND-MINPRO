@@ -17,6 +17,7 @@ import {
   doRequestUpdateStatus,
 } from "@/redux/jobhireSchema/jobHireSchema/action/actionReducer";
 import { MyPage } from "@/components/types";
+import { format } from "date-fns";
 
 const Jobs: MyPage = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,11 @@ const Jobs: MyPage = () => {
   }, [refresh]);
 
   /* DISPATCH END */
+
+  const formatSalary = (salary: any) => {
+    const formatter = new Intl.NumberFormat("id-ID");
+    return formatter.format(salary);
+  };
 
   /* FILTER START */
 
@@ -194,11 +200,13 @@ const Jobs: MyPage = () => {
                       {dt.jopo_title}
                     </th>
                     <td className="px-6 py-4">
-                      {dt.jopo_start_date}
+                      {format(new Date(dt.jopo_start_date), "dd MMMM yyyy")}
                       <br></br>
-                      {dt.jopo_end_date}
+                      {format(new Date(dt.jopo_end_date), "dd MMMM yyyy")}
                     </td>
-                    <td className="px-6 py-4">IDR {dt.jopo_max_salary}</td>
+                    <td className="px-6 py-4">
+                      IDR {formatSalary(dt.jopo_max_salary)}
+                    </td>
                     <td className="px-6 py-4">
                       {dt.jopo_min_experience} - {dt.jopo_max_experience} Tahun
                     </td>

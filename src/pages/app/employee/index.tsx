@@ -143,7 +143,7 @@ const Placement: MyPage = (props: any) => {
     dispatch(doRequestGetEmployee());
     console.log(employee);
     // setDataEmployee(employee)
-  }, [refresh]);
+  }, [refresh, employee]);
 
   //currentItems, itemsPerPage,
   return (
@@ -283,7 +283,13 @@ const Placement: MyPage = (props: any) => {
                             </Menu.Item>
                             <Menu.Item>
                               {({ active }) => (
-                                <button
+                                <Link
+                                  href={{
+                                    pathname: "employee/salary",
+                                    query: {
+                                      id: dt.user_entity_id,
+                                    },
+                                  }}
                                   // onClick={() => { getIdDelete(dt.id_product) }}
                                   className={`${
                                     active
@@ -303,7 +309,7 @@ const Placement: MyPage = (props: any) => {
                                     />
                                   )}
                                   Salary
-                                </button>
+                                </Link>
                               )}
                             </Menu.Item>
                           </div>

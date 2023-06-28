@@ -5,6 +5,10 @@ const getCurriculum = () => {
   return axios.get(`curriculum/lala`);
 };
 
+const getEmployee = () => {
+  return axios.get(`curriculum`);
+};
+
 const getCurriculumById = (id: any) => {
   return axios.get(`curriculum/lele/${id}`);
 };
@@ -14,29 +18,22 @@ const createCurriculum = (data: any) => {
   });
 };
 const updateCurriculum = (data: any) => {
-  console.log("kontol", data);
   let id = data.get("prog_entity_id");
-  console.log("IDDDD", typeof id);
-  console.log("IDDDD", id);
   return axios.patch(`curriculum/koko/${+id}`, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
 
 const getMaster = () => {
-  return axios.get(`master/category`);
+  return axios.get(`curriculum/category`);
 };
 
 const getCurrNum = () => {
   return axios.get(`curriculum/curr`);
 };
 
-const getUserEmployee = () => {
-  return axios.get(`/users`);
-};
-
-const createSectionDetail = (sect_id: any, data: any) => {
-  return axios.post(`curriculum/section_detail/${sect_id}`, data, {
+const createSectionDetail = (id: any, data: any) => {
+  return axios.post(`curriculum/section_detail/${id}`, data, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -82,10 +79,10 @@ export default {
   createCurriculum,
   getMaster,
   getCurrNum,
-  getUserEmployee,
   updateCurriculum,
   createSection,
   createSectionDetail,
   sectionMerge,
   sectionMergeUp,
+  getEmployee,
 };

@@ -58,6 +58,10 @@ const getPayHistory = (data: any) => {
   return axios.get(`/hr/pay-history/${data}`);
 };
 
+const createSalary = (data: any) => {
+  return axios.post("/hr/create-salary", data);
+};
+
 export default {
   findAll,
   findForEmployee,
@@ -74,4 +78,5 @@ export default {
   updateEmployee,
   findDepartmentHistory,
   getPayHistory,
+  createSalary,
 };

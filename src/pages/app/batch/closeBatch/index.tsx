@@ -43,6 +43,7 @@ const CloseBatch = ({ open, handleClose, data }: any) => {
     const batch_id = formData.batch_id;
     const batch_status = "closed";
     const batch_name = data.batch_name;
+    const batch_entity_id = data.batch_entity_id;
 
     let members = data.members;
     console.log("members", members);
@@ -60,13 +61,14 @@ const CloseBatch = ({ open, handleClose, data }: any) => {
           talent_start_date: data.batch_start_date,
           talent_end_date: data.batch_end_date,
           talent_trainer: data.trainer,
-          talent_skill: data.skills,
+          talent_skill: "Pemrograman",
         };
         batchTrainees.push(member);
       });
     }
     const datakirim = {
       batch_id,
+      batch_entity_id,
       batch_status,
       batchTrainees,
       batch_name,

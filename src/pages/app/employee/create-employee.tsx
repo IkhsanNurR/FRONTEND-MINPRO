@@ -90,16 +90,18 @@ const CreateEmployee = (props: any) => {
     const employee: any = [...users, ...employeeJobPost];
     setDataEmployee(employee);
     console.log("isiDataEmployee", dataEmployee);
-  }, [users]);
+  }, [employeeJobPost, users]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
 
   const buttonSearch = () => {
-    const filteredEmployees = dataEmployee.filter((data: any) => {
+    const filteredEmployees = users.filter((data: any) => {
       if (data.user_name === inputText) {
         // emp_entity_id
+
+        console.log("isiData", data);
 
         register("emp_entity_id");
         setValue("emp_entity_id", data.user_entity_id);
@@ -174,6 +176,7 @@ const CreateEmployee = (props: any) => {
     console.log("isiii", data);
 
     dispatch(doRequestCreateEmployeeInternal(data));
+    props.closeModal();
   };
   return (
     <>
@@ -300,7 +303,7 @@ const CreateEmployee = (props: any) => {
                           />
                         </div>
                       </div>
-                      <div className="flex flex-wrap -mx-3 mb-2">
+                      {/* <div className="flex flex-wrap -mx-3 mb-2">
                         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Birthdate
@@ -314,8 +317,8 @@ const CreateEmployee = (props: any) => {
                             value={birthdate}
                             disabled
                           />
-                        </div>
-                        {/* <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        </div> */}
+                      {/* <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             City
                           </label>
@@ -327,7 +330,7 @@ const CreateEmployee = (props: any) => {
                             disabled
                           />
                         </div> */}
-                        {/* <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                      {/* <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Province
                           </label>
@@ -339,7 +342,7 @@ const CreateEmployee = (props: any) => {
                             disabled
                           />
                         </div> */}
-                      </div>
+                      {/* </div> */}
                       <div className="flex flex-wrap -mx-3 mb-6 mt-5">
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -442,21 +445,9 @@ const CreateEmployee = (props: any) => {
                           </select>
                         </div>
                       </div>
-                      <div className="flex flex-wrap -mx-3 mb-2 mt-9">
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                            User Role
-                          </label>
-                          {/* <select
-                                                        {...register('user_role')} name="user_role" className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                                        {(userrole || []).map((dt: any, index: any) => (
-                                                            <option key={dt.role_id} value={dt.role_id}>
-                                                                {dt.role_name}
-                                                            </option>
-                                                        ))}
-                                                    </select> */}
-                        </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+
+                      <div className="flex flex-wrap -mx-3 mb-6 mt-5">
+                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Vacation Hours
                           </label>
@@ -468,7 +459,7 @@ const CreateEmployee = (props: any) => {
                             placeholder="/Hours"
                           />
                         </div>
-                        <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <div className="w-full md:w-1/2 px-3">
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                             Sickleave Hours
                           </label>
@@ -481,6 +472,7 @@ const CreateEmployee = (props: any) => {
                           />
                         </div>
                       </div>
+
                       <div className="flex flex-wrap -mx-3 mb-6 mt-5">
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">

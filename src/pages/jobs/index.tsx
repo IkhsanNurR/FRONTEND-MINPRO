@@ -342,11 +342,11 @@ const JobPost: MyPage = () => {
   return (
     <div className="container">
       <div className=" pt-24">
-        <h1 className=" text-lg">Our Network</h1>
-        <div className="w-full bg-transparent">
-          <div className="lg:w-3/4 mx-auto py-2 w-11/12">
-            <ImgSlide />
-          </div>
+        {/* <h1 className=" text-lg">Our Network</h1> */}
+        <div className="grid grid-cols-1">
+          {/* <div className="lg:w-3/4 py-2 w-11/ 12 "> */}
+          {/* <ImgSlide /> */}
+          {/* </div> */}
         </div>
         <div className="border-2 b p-2.5">
           <SearchBar

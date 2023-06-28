@@ -13,6 +13,7 @@ import {
   doResponseGetForEmployee,
   doResponseJobType,
   doResponsePayHistory,
+  doResponseSalary,
   doResponseTalent,
   doResponseTalentJobPost,
   doResponseUpdate,
@@ -40,6 +41,7 @@ export function* handleGetTalentJobPost(): any {
 export function* handleForEmployee(): any {
   try {
     const result = yield call(apimethod.findForEmployee);
+
     yield put(doResponseGetForEmployee(result.data.result[0]));
   } catch (error) {
     yield put(doResponseGetForEmployee({ message: error, status: 400 }));
@@ -121,9 +123,11 @@ export function* handleTalentBootcamp(): any {
 }
 
 export function* handleCreateEmployeeBootcamp(action: any): any {
+  console.log("isiDatauntukApi", action.payload);
   try {
     const result = yield call(apimethod.createFromBootcamp, action.payload);
-    yield put(doResponseCreateEmployeeBootcamp(result.data.result[0]));
+    yield put(doResponseCreateEmployeeBootcamp(result.data));
+    // yield put(doResponseCreateEmployeeBootcamp(result.data.result[0]));
   } catch (error) {
     yield put(
       doResponseCreateEmployeeBootcamp({ message: error, status: 400 })
@@ -155,5 +159,16 @@ export function* handlePayHistory(action: any): any {
     yield put(doResponsePayHistory(result.data.result[0]));
   } catch (error) {
     yield put(doResponsePayHistory({ message: error, status: 400 }));
+  }
+}
+
+export function* handleCreateSalary(action: any): any {
+  console.log("isiActionPayload", action.payload);
+
+  try {
+    const result = yield call(apimethod.createSalary, action.payload);
+    yield put(doResponseSalary(result.data.result[0]));
+  } catch (error) {
+    yield put(doResponseSalary({ message: error, status: 400 }));
   }
 }

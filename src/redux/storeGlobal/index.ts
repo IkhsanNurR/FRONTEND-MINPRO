@@ -22,7 +22,6 @@ import ClientReducers from "../jobhireSchema/jobHireSchema/reducer/clientReducer
 import EmprangeReducers from "../jobhireSchema/jobHireSchema/reducer/empRangeReducer";
 import JobPhotoReducers from "../jobhireSchema/jobHireSchema/reducer/jobPhotoReducer";
 import JobPostReducers from "../jobhireSchema/jobHireSchema/reducer/jobPostReducer";
-import TalentReducers from "../jobhireSchema/jobHireSchema/reducer/talentReducer";
 import CityReducers from "../jobhireSchema/master-jobhireSchema/reducer/cityReducer";
 import EducationReducers from "../jobhireSchema/master-jobhireSchema/reducer/educationReducer";
 import IndustryReducers from "../jobhireSchema/master-jobhireSchema/reducer/industryReducer";
@@ -47,6 +46,11 @@ import transactionReducer from "../paymentSchema/reducer/TransactionReducer";
 import topupReducer from "../paymentSchema/reducer/TopupReducer";
 import curriculumReducer from "../CurriculumSchema/reducer/curriculumReducer";
 import masterReducer from "../CurriculumSchema/MasterSchema/reducer/masterReducer";
+import cartItemReducer from "../salesSchema/reducer/cartItemReducer";
+import paymentReducer from "../salesSchema/reducer/payment";
+import salesOrderReducer from "../salesSchema/reducer/salesOrderReducer";
+import specialOfferReducer from "../salesSchema/reducer/specialOfferReducer";
+import JobTalentReducers from "../jobhireSchema/jobHireSchema/reducer/talentReducer";
 
 const logger = createLogger();
 const saga = createSagaMiddleware();
@@ -75,14 +79,13 @@ const reducer = combineReducers({
   CityReducers,
   JobPostReducers,
   ClientReducers,
-  TalentReducers,
+  JobTalentReducers,
   EducationReducers,
   WorktypeReducers,
   JobroleReducers,
   IndustryReducers,
   EmprangeReducers,
   JobPhotoReducers,
-  RouteactionReducers,
 
   //masterade
   catReducer: CatReduce,
@@ -105,6 +108,12 @@ const reducer = combineReducers({
   AccountReducer,
   transactionReducer,
   topupReducer,
+
+  //sales
+  cartItemReducer,
+  paymentReducer,
+  salesOrderReducer,
+  specialOfferReducer,
 });
 
 const store = configureStore({

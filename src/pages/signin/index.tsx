@@ -60,7 +60,7 @@ const Index: MyPage = () => {
   }, [message]);
 
   return (
-    <div className="bg-white dark:bg-gray-900">
+    <div className="bg-white">
       <div className="flex justify-center h-screen">
         <div className="hidden bg-cover lg:block lg:w-2/3 bg-login" />
         <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">

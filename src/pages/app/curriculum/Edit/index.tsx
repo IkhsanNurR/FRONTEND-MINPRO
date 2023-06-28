@@ -29,6 +29,8 @@ import {
 } from "@/redux/CurriculumSchema/action/actionReducer";
 import { reqGetMaster } from "@/redux/CurriculumSchema/MasterSchema/action/actionReducer";
 import { Select as SelectAntd } from "antd";
+import { MyPage } from "@/components/types";
+import { EditCalendarTwoTone } from "@mui/icons-material";
 
 interface userEmployee {
   userEmployee: userEmployeeDetail[];
@@ -69,7 +71,7 @@ interface FormValues {
   prog_regis_id: string;
 }
 
-const Edit = () => {
+const Edit: MyPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
@@ -82,21 +84,30 @@ const Edit = () => {
   // let { currnum, refresh: lala} = useSelector((state: any)=> state.curriculumReducer);
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedInstructor, setSelectedInstructor] = useState<string | null>(
+    null
+  );
   const [selectedPhoto, setSelectedPhoto] = useState(logo.src);
+  // const [selectedId, setSelectedId] = useState<number>();
   const [curriculumSelected, setcurriculumSelected] = useState<any>(null);
+
   useEffect(() => {
-    const nameImage = userEmployee?.find((item) => item.emp_entity_id === id);
-    setSelectedImage(nameImage?.user_photo ?? null);
     const curriculumSelect = curriculum?.find(
-      (item: any) => item.prog_entity_id === parseInt(id as string)
+      (item: any) => item.prog_entity_id === Number(id)
     );
     setcurriculumSelected(curriculumSelect);
+
+    // const nameImage = userEmployee?.find(
+    //   (item) => item.emp_entity_id === curriculumSelect.prog_create_by
+    // );
+    // setSelectedImage(nameImage?.user_photo ?? null);
+    // setSelectedInstructor(nameImage?.user_name ?? null);
   }, [blok, id]);
 
   useEffect(() => {
     dispatch(getEmployee());
     dispatch(reqGetMaster());
-    //   dispatch(reqGetCurrNum())
+    dispatch(reqGetCurrNum());
     dispatch(reqGetIdCurriculum(id));
   }, [blok, id]);
 
@@ -158,6 +169,7 @@ const Edit = () => {
     //   formData.append('target_level', target_level);
     formData.append("prog_type", data.prog_type);
     dispatch(reqUpdateCurriculum(formData));
+    router.back();
   };
 
   if (curriculumSelected) {
@@ -359,7 +371,7 @@ const Edit = () => {
                       </div>
                       {/* tag skill */}
                       <div className="pad-input my-4">
-                        {/* <h1 className="text-format">Tag Skill</h1> */}
+                        <h1 className="text-format">Tag Skill</h1>
                         <TextField
                           id="outlined-basic"
                           placeholder="Tag Skill"
@@ -419,9 +431,9 @@ const Edit = () => {
                           showSearch
                           placeholder="Instructor"
                           optionFilterProp="children"
-                          defaultValue={curriculumSelected?.user_name}
+                          defaultValue={selectedInstructor}
                           options={userEmployee?.map((item) => ({
-                            value: item.user_photo,
+                            value: item.emp_entity_id,
                             label: item.user_name,
                           }))}
                           filterOption={(input, option) =>
@@ -432,7 +444,7 @@ const Edit = () => {
                           style={{ width: "200px" }}
                           onChange={(value) => {
                             // setSelectedId(value);
-                            setValue("create_by", value); // Menggunakan setValue untuk mengatur nilai create_by
+                            setValue("create_by", Number(value)); // Menggunakan setValue untuk mengatur nilai create_by
                           }}
                         />
                         <input
@@ -556,4 +568,5 @@ const Edit = () => {
   }
 };
 
+Edit.Layout = "Admin";
 export default Edit;

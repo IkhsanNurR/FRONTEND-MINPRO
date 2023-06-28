@@ -16,6 +16,7 @@ import {
   doRequestTalent,
 } from "@/redux/hrSchema/action/actionReducer";
 import JoinPlacement from "./join-placement";
+import { ToastContainer } from "react-toastify";
 
 const Placement: MyPage = (props: any) => {
   // const {employee,message,refresh} = useSelector((state:any)=>state.EmployeeReducer)
@@ -121,6 +122,7 @@ const Placement: MyPage = (props: any) => {
 
   return (
     <>
+      <ToastContainer />
       <Content1
         title="Placement"
         fungsi1={() => router.back()}

@@ -276,7 +276,11 @@ const JobCreate: MyPage = () => {
   };
 
   return (
-    <Content1 title="Posting Job" path="/app/jobs" button="Back">
+    <Content1
+      title="Posting Job"
+      namafungsi1="Back"
+      fungsi1={() => router.push("/app/jobs")}
+    >
       <div>
         <form onSubmit={handleSubmit(handleRegistration)}>
           <div className="lg:grid lg:grid-cols-2">

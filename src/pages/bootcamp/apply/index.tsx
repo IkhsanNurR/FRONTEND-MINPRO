@@ -30,11 +30,13 @@ import dayjs from "dayjs";
 import { format } from "date-fns";
 import { ToastContainer } from "react-toastify";
 import alert from "@/alert";
-import { getCookie } from "cookies-next";
+import { CookieValueTypes, getCookie } from "cookies-next";
 import * as jwt from "jsonwebtoken";
 import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
 import Image from "next/image";
 import loading from "../../../../public/loading-infinite.svg";
+import decodeTokenName from "@/helper/decodedTokenName";
+import { Progress, notification } from "antd";
 
 const Apply: MyPage = () => {
   const router = useRouter();
@@ -49,10 +51,89 @@ const Apply: MyPage = () => {
   const [fileIsValid, setFileIsValid] = useState(true);
   const [imageIsValid, setImageIsValid] = useState(true);
   const [birthDate, setBirthDate] = useState(null);
+  //check komplit ga profilenya
+  const [name, setName] = useState<string | null>(null);
+  const [haveToken, setHaveToken] = useState<CookieValueTypes>("");
   let { users, msg, status }: userProfile = useSelector(
     (state: any) => state.userProfileReducers
   );
+  function calculateDataCompleteness(user: Users): number {
+    const requiredAttributes: (keyof Users)[] = [
+      "user_first_name",
+      "user_last_name",
+      "user_birth_date",
+      "user_photo",
+      "phone",
+      "education",
+      "resume",
+    ];
+    const totalAttributes = requiredAttributes.length;
+    let completedAttributes = 0;
+
+    requiredAttributes.forEach((attribute) => {
+      if (user?.hasOwnProperty(attribute) && user[attribute]) {
+        completedAttributes++;
+      }
+    });
+
+    const completenessPercentage =
+      (completedAttributes / totalAttributes) * 100;
+    return Number(completenessPercentage.toFixed());
+  }
   const token = getCookie("token");
+  useEffect(() => {
+    const decode = decodeTokenName(token);
+    setName(decode);
+
+    if (name) dispatch(GetByNameOrEmail(name));
+    setHaveToken(token);
+  }, [token, refresh]);
+  const completeness = calculateDataCompleteness(users);
+  type NotificationType = "success" | "info" | "warning" | "error";
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotificationWithIcon = (
+    type: NotificationType,
+    msg: string,
+    completeness?: number
+  ) => {
+    let message = "";
+    let description = null;
+
+    switch (type) {
+      case "success":
+        message = "Success Notification";
+        description = "This is a success notification.";
+        break;
+      case "info":
+        message = "Info Notification";
+        description = "This is an info notification.";
+        break;
+      case "warning":
+        message = msg;
+        break;
+      case "error":
+        message = msg;
+        break;
+      default:
+        return null;
+    }
+
+    api[type]({
+      message,
+      description: (
+        <>
+          {description}
+          {completeness !== undefined && (
+            <Progress type="circle" percent={completeness} size={40} />
+          )}
+        </>
+      ),
+      duration: 2,
+    });
+  };
+
+  //==================================
 
   const {
     register,
@@ -64,7 +145,7 @@ const Apply: MyPage = () => {
 
     formState: { errors },
   } = useForm();
-
+  const [loadedData, setLoadedData]: any = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(reqGetProgName());
@@ -75,7 +156,35 @@ const Apply: MyPage = () => {
         dispatch(GetByNameOrEmail(decode.aud));
       }
     }
-  }, [refresh, token]);
+    if (!token) {
+      openNotificationWithIcon("error", "Silahkan Login");
+      setTimeout(() => {
+        router.push({
+          pathname: "/signin",
+        });
+      }, 2000);
+    } else if (token && completeness && completeness !== 100) {
+      console.log("masuk");
+      openNotificationWithIcon(
+        "warning",
+        "Silahkan Lengkapi Data Diri Anda",
+        completeness
+      );
+      setTimeout(() => {
+        router.push({
+          pathname: "/",
+        });
+      }, 2000);
+    } else {
+      router.push("/bootcamp/apply");
+    }
+  }, [token, completeness]);
+
+  useEffect(() => {
+    if (users) {
+      setLoadedData(users);
+    }
+  }, [users, refresh]);
 
   const handleApplyBootcamp = (formData: any) => {
     // console.log('data',formData);
@@ -180,14 +289,15 @@ const Apply: MyPage = () => {
       setFileIsValid(true);
     }
   };
-  console.log(users.user_entity_id);
-  if (!users) {
+
+  if (!loadedData) {
     return (
       <div className="mt-48 flex justify-center items-center">
         <Image src={loading} alt="loading" className="text-center" />
       </div>
     );
   } else {
+    console.log("ada nih", typeof loadedData.user_first_name);
     return (
       <>
         {/* <ContentUser> */}
@@ -197,13 +307,13 @@ const Apply: MyPage = () => {
             <h2 className=" font-bold uppercase text-2xl lg:text-2xl text-blue-800">
               Application Process Bootcamp
             </h2>
-
+            {contextHolder}
             <form onSubmit={handleSubmit(handleApplyBootcamp)}>
               <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <input
                     type="hidden"
-                    value={users.user_entity_id}
+                    value={loadedData.user_entity_id}
                     {...register("user_entity_id")}
                   />
                   <div className="flex">
@@ -213,6 +323,7 @@ const Apply: MyPage = () => {
                       className="w-7/12"
                       variant="outlined"
                       {...register("first_name")}
+                      defaultValue={loadedData?.user_first_name}
                     />
 
                     <TextField
@@ -221,17 +332,11 @@ const Apply: MyPage = () => {
                       className="w-7/12 ml-5"
                       variant="outlined"
                       {...register("last_name")}
+                      defaultValue={loadedData?.user_last_name}
                     />
                   </div>
                   <div className="mt-5">
                     <div className="flex items-center ">
-                      {/* <input
-                id="dateInput"
-                type="date"
-                value={selectedDate}
-                onChange={handleDateChange}
-                className="bg-white text-black focus:text-gray-500 focus:outline-none border-b-2"
-              /> */}
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                           slotProps={{
@@ -245,6 +350,11 @@ const Apply: MyPage = () => {
                           {...register("birth_date")}
                           onChange={handleDateChange}
                           value={dayjs(selectedDate)}
+                          // value={
+                          //   loadedData.user_birth_date
+                          //     ? dayjs(loadedData?.user_birth_date)
+                          //     : dayjs(selectedDate)
+                          // }
                         />
                       </LocalizationProvider>
                       {/* <input

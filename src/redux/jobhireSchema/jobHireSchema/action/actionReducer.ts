@@ -205,28 +205,82 @@ export const doResponseGetEmprange = (payload: any) => {
 
 /*------------ TALENT APPLY SECTION -------------*/
 
-export const doRequestGetCandidate = () => {
+export const doRequestAddCandidate = (payload: any) => {
   return {
-    type: ActionTypes.REQ_GET_CANDIDATE,
+    type: ActionTypes.REQ_ADD_CANDIDATE_JOB,
+    payload,
   };
 };
-export const doResponseGetCandidate = (payload: any) => {
+
+export const doResponseAddCadidate = (payload: any) => {
   return {
-    type: ActionTypes.RES_GET_CANDIDATE,
+    type: ActionTypes.RES_ADD_CANDIDATE_JOB,
+    payload,
+  };
+};
+
+//apply
+export const doRequestGetCandidateApply = () => {
+  return {
+    type: ActionTypes.REQ_GET_CANDIDATE_APPLY_JOB,
+  };
+};
+export const doResponseGetCandidateApply = (payload: any) => {
+  return {
+    type: ActionTypes.RES_GET_CANDIDATE_APPLY_JOB,
+    payload,
+  };
+};
+
+//interview
+export const doRequestGetCandidateInterview = () => {
+  return {
+    type: ActionTypes.REQ_GET_CANDIDATE_INTERVIEW_JOB,
+  };
+};
+export const doResponseGetCandidateInterview = (payload: any) => {
+  return {
+    type: ActionTypes.RES_GET_CANDIDATE_INTERVIEW_JOB,
+    payload,
+  };
+};
+
+//contract
+export const doRequestGetCandidateContract = () => {
+  return {
+    type: ActionTypes.REQ_GET_CANDIDATE_CONTRACT_JOB,
+  };
+};
+export const doResponseGetCandidateContract = (payload: any) => {
+  return {
+    type: ActionTypes.RES_GET_CANDIDATE_CONTRACT_JOB,
+    payload,
+  };
+};
+
+//failed
+export const doRequestGetCandidateFailed = () => {
+  return {
+    type: ActionTypes.REQ_GET_CANDIDATE_FAILED_JOB,
+  };
+};
+export const doResponseGetCandidateFailed = (payload: any) => {
+  return {
+    type: ActionTypes.RES_GET_CANDIDATE_FAILED_JOB,
     payload,
   };
 };
 
 export const doRequestUpdateCandidate = (payload: any) => {
   return {
-    type: ActionTypes.REQ_UPDATE_CANDIDATE,
+    type: ActionTypes.REQ_UPDATE_CANDIDATE_JOB,
     payload,
   };
 };
 
 export const doResponseUpdateCandidate = (payload: any) => {
   return {
-    type: ActionTypes.RES_UPDATE_CANDIDATE,
+    type: ActionTypes.RES_UPDATE_CANDIDATE_JOB,
     payload,
   };
 };

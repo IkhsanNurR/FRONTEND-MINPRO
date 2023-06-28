@@ -11,6 +11,7 @@ import {
   resGetBootcampById,
   resGetBootcampDaftarApply,
   resGetBootcampIndex,
+  resGetUserApplyProgress,
   resPendingBootcamp,
   resSetToRunningBootcamp,
 } from "../action/actionReducer";
@@ -113,5 +114,15 @@ export function* handleSetToRunningBootcamp(action: any): any {
     yield put(resSetToRunningBootcamp(result.data));
   } catch (error) {
     yield put(resSetToRunningBootcamp({ message: error, status: 404 }));
+  }
+}
+
+export function* handleGetUserApplyProgress(action: any): any {
+  try {
+    const result = yield call(apiMethod.getUserApplyProgress, action.payload);
+    // console.log('sagaget',result)
+    yield put(resGetUserApplyProgress(result.data));
+  } catch (error) {
+    yield put(resGetUserApplyProgress({ message: error, status: 404 }));
   }
 }

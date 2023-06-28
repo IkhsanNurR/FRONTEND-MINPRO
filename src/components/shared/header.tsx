@@ -51,9 +51,7 @@ export const ModalChangePassword: React.FC<ModalAdd> = ({
       dispatch(changePassword({ payload: values, id }));
       onSubmit();
       form.resetFields();
-    } catch (error: any) {
-      console.log(error.message);
-    }
+    } catch (error: any) {}
   };
 
   return (
@@ -338,8 +336,6 @@ const Header: React.FC = () => {
   const token = getCookie("token");
   const dispatch = useDispatch();
 
-  console.log("token", token);
-
   useEffect(() => {
     setHaveToken(token);
   }, []);
@@ -427,7 +423,10 @@ const Header: React.FC = () => {
       {
         label: (
           <>
-            <Button className="flex" type="link">
+            <Button
+              className="flex text-blue-500 border-none"
+              onClick={() => router.push("/bootcamp/dashboard")}
+            >
               <FileOutlined className="pt-1" />
               <span>My Apply</span>
             </Button>
@@ -557,7 +556,7 @@ const Header: React.FC = () => {
                               className="icon h-10 w-10"
                             />
                           </Dropdown>
-                          <label className="pl-3 lg:flex items-center">
+                          <label className="pl-3 lg:flex items-center text-white">
                             {name}
                           </label>
                           <ModalChangePassword

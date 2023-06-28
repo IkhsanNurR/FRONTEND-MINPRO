@@ -74,7 +74,7 @@ const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
     },
     {
       key: 7,
-      to: "/app/placement",
+      to: "/app/employee",
       path: "employee",
       icon: <Assignment />,
       name: "Employee",
@@ -128,6 +128,20 @@ const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
       icon: <MdLocationOn />,
       name: "Payment",
     },
+    {
+      key: 13,
+      to: "/app/sales",
+      path: "sales",
+      icon: <MdLocationOn />,
+      name: "Sales",
+    },
+    {
+      key: 13,
+      to: "/app/pro-candidate",
+      path: "pro-candidate",
+      icon: <MdLocationOn />,
+      name: "Pro Candidate",
+    },
   ];
 
   useEffect(() => {
@@ -161,7 +175,7 @@ const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
     }
     //filter admin
     if (
-      ["master", "payment", "skill", "modules", "locations"].includes(
+      ["master", "payment", "skill", "modules", "locations", "sales"].includes(
         menu.path
       ) &&
       role?.role !== "Admin"
@@ -177,9 +191,14 @@ const SideBar = forwardRef(({}, ref: LegacyRef<HTMLDivElement>) => {
       return false;
     }
     if (
-      ["jobs", "client", "assignment", "placement", "employee"].includes(
-        menu.path
-      ) &&
+      [
+        "jobs",
+        "client",
+        "assignment",
+        "placement",
+        "employee",
+        "pro-candidate",
+      ].includes(menu.path) &&
       role?.role !== "Recruiter" &&
       role?.role !== "Admin"
     ) {

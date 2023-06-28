@@ -41,6 +41,20 @@ export const doResponseTalentJobPost = (payload: any) => {
   };
 };
 
+export const doCreateSalary = (payload: any) => {
+  return {
+    type: ActionTypes.REQ_CREATE_SALARY,
+    payload,
+  };
+};
+
+export const doResponseSalary = (payload: any) => {
+  return {
+    type: ActionTypes.RES_CREATE_SALARY,
+    payload,
+  };
+};
+
 export const doRequestGetForEmployee = () => {
   return {
     type: ActionTypes.REQ_GET_FOR_EMPLOYEE,

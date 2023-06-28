@@ -256,9 +256,9 @@ const Curriculum: MyPage = () => {
                 <td className="px-6 py-3 text-sm text-gray-500 text-center">
                   <div>
                     {console.log("data", data.prog_entity_id)}
-                    {data.prog_total_trainee}Member
+                    {data.prog_total_trainee} Member
                   </div>
-                  <div> {data.total_batch}Batch </div>
+                  <div> {data.total_batch} Batch </div>
                 </td>
                 <td className="px-6 py-3 text-sm text-gray-500 text-center">
                   {data.prog_learning_type}

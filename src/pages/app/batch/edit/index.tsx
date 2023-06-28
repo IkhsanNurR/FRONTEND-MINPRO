@@ -358,17 +358,9 @@ const EditBatch: MyPage = () => {
   const lastIndex = currentPage * itemsPerPage;
   const currentData = filteredData?.slice(firstIndex, lastIndex);
 
-  // const paginatedData = useMemo(() => {
-  //   const firstIndex = (currentPage - 1) * itemsPerPage;
-  //   const lastIndex = firstIndex + itemsPerPage;
-  //   return filteredData?.slice(firstIndex, lastIndex);
-  // }, [currentPage, filteredData, itemsPerPage]);
-
   const handleChangePage = (event: any, page: any) => {
     setCurrentPage(page);
   };
-
-  // console.log('data',loadedData)
 
   const [daftarTech, setDaftarTech] = useState(daftarapply);
   useEffect(() => {
@@ -390,7 +382,6 @@ const EditBatch: MyPage = () => {
       </div>
     );
   } else {
-    console.log("trainernya", loadedData.members[0].trainer_id[0]);
     const trainernya1 = loadedData.members[0].trainer_id[0];
     const trainer1 = trainer.filter(
       (orang: any) => parseInt(orang.user_entity_id) === trainernya1
@@ -503,32 +494,6 @@ const EditBatch: MyPage = () => {
                   )}
                 </div>
               </div>
-              {/* <div className="w-full mt-10 mb-8 flex ">
-              <TextField
-                id="reason"
-                variant="outlined"
-                label="Reason"
-                autoComplete="off"
-                multiline
-                maxRows={4}
-                inputProps={{ maxLength: 120, "aria-valuemax": 120 }}
-                className="lg:w-[63.7%] md:w-[60%] sm:w-[60%] w-[61.7%] ml-4"
-                {...register("reason", registerOptions.reason)}
-                defaultValue={loadedData.batch_reason}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <div className="w-2/6 flex justify-center items-center">
-                <a
-                  className={`text-6xl ml-2 -mt-36 ${
-                    checked.length == 0 ? "hidden" : ""
-                  }`}
-                >
-                  {checked.length}
-                </a>
-              </div>
-            </div>  */}
               <div className="w-full mb-8 mt-8">
                 <FormControl
                   variant="outlined"

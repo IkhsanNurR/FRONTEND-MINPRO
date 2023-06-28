@@ -341,3 +341,16 @@ export const resUpdateCandidatNotResponding = (payload: any) => {
     payload,
   };
 };
+
+export const reqGetUserApplyProgress = (payload: any) => {
+  return {
+    type: ActionType.REQ_GET_USER_APPLY_PROGRESS,
+    payload,
+  };
+};
+export const resGetUserApplyProgress = (payload: any) => {
+  return {
+    type: ActionType.RES_GET_USER_APPLY_PROGRESS,
+    payload,
+  };
+};

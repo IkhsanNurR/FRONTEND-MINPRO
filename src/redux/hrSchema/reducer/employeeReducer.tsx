@@ -42,7 +42,8 @@ function EmployeeReducer(state = initialState, action: any) {
       return { ...state, departmentHistory: payload, refresh: true };
     case ActionTypes.RES_PAY_HISTORY:
       return { ...state, payHistory: payload, refresh: true };
-
+    case ActionTypes.RES_CREATE_SALARY:
+      return { ...state, message: payload.message, refresh: true };
     case ActionTypes.RESET_STATE:
       return { initialState };
 
