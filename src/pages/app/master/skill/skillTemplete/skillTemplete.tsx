@@ -49,7 +49,7 @@ const SkillTemplete = (props: any) => {
           <div className="overflow-hidden">
             <div className="border font-bold text-lg">Skill Templete</div>
             <table className="min-w-full text-left text-sm font-light">
-              <thead className="border-b bg-white-100 font-medium dark:border-neutral-500 dark:bg-neutral-600 bg-gray-400">
+              <thead className="border-b  bg-blue-500">
                 <tr>
                   <th scope="col" className="px-6 py-4">
                     Skill
@@ -72,7 +72,7 @@ const SkillTemplete = (props: any) => {
                   <th scope="col" className="px-6 py-4 text-right">
                     <div className="flex justify-end pr-7 ">
                       <button
-                        className="flex items-center shadow w-auto bg-blue-500 hover:bg-blue-700 focus:shadow-outline focus:outline-none text-white font-bold  px-4 py-2 rounded"
+                        className="flex items-center shadow w-auto bg-green-500 hover:bg-green-700 focus:shadow-outline focus:outline-none text-white font-bold  px-4 py-2 rounded"
                         onClick={() => setIsAdd(true)}
                       >
                         <GrAddCircle className="mr-1"></GrAddCircle>
@@ -89,8 +89,8 @@ const SkillTemplete = (props: any) => {
                       key={index}
                       className={
                         index % 2 === 0
-                          ? "bg-neutral-100 dark:bg-neutral-400"
-                          : "bg-white dark:bg-neutral-300"
+                          ? "bg-neutral-100 dark:bg-neutral-200"
+                          : "bg-white dark:bg-neutral-100"
                       }
                     >
                       <td className="whitespace-nowrap px-6 py-4">
