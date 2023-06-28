@@ -807,7 +807,7 @@ const EditBatch: MyPage = () => {
                     router.back();
                   }}
                   variant="contained"
-                  className="mt-4 ml-2 mb-4 mr-4 bg-blue-500 hover:bg-blue-600 rounded-md"
+                  className="mt-4 ml-2 mb-4 mr-4 bg-red-500 hover:bg-red-600 rounded-md"
                 >
                   Cancel
                 </Button>

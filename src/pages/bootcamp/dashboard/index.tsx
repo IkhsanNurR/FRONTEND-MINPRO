@@ -1,5 +1,5 @@
 import { MyPage } from "@/components/types";
-import logo from "../../../../public/Bimoli.jpg";
+import logo from "../../../../public/node.png";
 import Image from "next/image";
 import { Fullscreen } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,9 @@ import { reqGetUserApplyProgress } from "@/redux/bootcampSchema/action/actionRed
 import { CookieValueTypes, getCookie } from "cookies-next";
 import decodeTokenName from "@/helper/decodedTokenName";
 import { GetByNameOrEmail } from "@/redux/usersSchema/profile/action/actionReducer";
+import { format } from "date-fns";
+import { Typography } from "@mui/material";
+import Content from "@/components/shared/content";
 
 const BootcampDashboard: MyPage = () => {
   let { bootcamp, message, refresh, status } = useSelector(
@@ -31,33 +34,46 @@ const BootcampDashboard: MyPage = () => {
   useEffect(() => {
     console.log("users", users);
     if (users) {
-      dispatch(reqGetUserApplyProgress(35));
+      dispatch(reqGetUserApplyProgress(19));
     }
   }, [users]);
   console.log("ea", bootcamp);
   if (users) {
     return (
-      <div className="mt-32 flex">
-        {(bootcamp || []).map((data: any, index: any) => (
-          <div className="bg-green-300 w-1/3 mr-5 p-3 rounded-2xl">
-            <div key={data.prap_user_entity_id}>
-              <Image
-                src={logo}
-                alt="logo"
-                className="w-full h-56 rounded-2xl"
-              />
+      <>
+        <Content title="Apply Progress" />
+        {/* <Typography className="text-4xl font-sans mt-10 uppercase">
+          Apply Progress
+        </Typography> */}
+        <div className="mt-10  flex">
+          {(bootcamp || []).map((data: any, index: any) => (
+            <div className="bg-white w-1/3 mr-5 p-3 rounded-2xl shadow-xl">
+              <div key={data.prap_user_entity_id}>
+                <Image
+                  src={logo}
+                  alt="logo"
+                  className="w-full h-56 rounded-2xl"
+                />
+              </div>
+              <div className="mt-2">
+                <Typography className="font-semibold" variant="h6">
+                  {data.prog_title}
+                </Typography>
+              </div>
+              <div className="mt-1 text-sm">
+                <Typography>
+                  Applied Date :{" "}
+                  {format(new Date(data.parog_action_date), "dd-MMMM-yyyy")}
+                </Typography>
+                <Typography>Status : {data.prap_status}</Typography>
+                <Typography>
+                  Last Progress : {data.parog_progress_name}
+                </Typography>
+              </div>
             </div>
-            <div className="mt-2">
-              <h1 className="font-semibold">{data.prog_title}</h1>
-            </div>
-            <div className="mt-1 text-sm">
-              <h3>Applied Date : {data.parog_action_date}</h3>
-              <h3>Status : {data.prap_status}</h3>
-              <h3>Last Progress : {data.parog_progress_name}</h3>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </>
     );
   } else {
     return <div>Tidak ada data</div>;

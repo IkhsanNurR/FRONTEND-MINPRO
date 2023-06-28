@@ -193,7 +193,7 @@ const DetailCurriculum: MyPage = (props: any) => {
 
   return (
     <div className="flex flex-col">
-      <div className="mt-4 bg-gray-50 shadow-md rounded-md w-full  p-4 text-center">
+      <div className="mt-4 bg-white shadow-md rounded-md w-full  p-4 text-center">
         <label htmlFor="search" className="mr-2">
           Search
         </label>
